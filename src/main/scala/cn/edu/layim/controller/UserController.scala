@@ -126,10 +126,10 @@ class UserController @Autowired()(private val userService: UserService) {
       */
     @ResponseBody
     @GetMapping(Array("/findAddInfo"))
-    def findAddInfo(@RequestParam("uid") uid: Integer, @RequestParam("page") page: Int): String = {
+    def findAddInfo(@RequestParam("uid") uid: Int, @RequestParam("page") page: Int): String = {
         PageHelper.startPage(page, SystemConstant.ADD_MESSAGE_PAGE)
         val list = userService.findAddInfo(uid)
-        val count = userService.countUnHandMessage(uid, null).toInt
+        val count = userService.countUnHandMessage(uid, null)
         val pages = if (count < SystemConstant.ADD_MESSAGE_PAGE) 1 else count / SystemConstant.ADD_MESSAGE_PAGE + 1
         gson.toJson(new ResultPageSet(list, pages)).replaceAll("Type", "type")
     }

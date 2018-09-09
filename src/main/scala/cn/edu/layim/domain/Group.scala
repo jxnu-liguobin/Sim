@@ -9,4 +9,4 @@ import scala.beans.BeanProperty
   * @param groupName 群组名
   *
   */
-class Group(@BeanProperty var id: Int, @BeanProperty var groupName: String)
+class Group(@BeanProperty var id: Integer, @BeanProperty var groupName: String)

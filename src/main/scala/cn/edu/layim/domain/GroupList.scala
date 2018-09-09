@@ -8,7 +8,7 @@ import scala.beans.BeanProperty
   * @param id        分组id
   * @param groupName 分组名称
   */
-class GroupList(id: Int, groupName: String) extends Group(id, groupName) {
+class GroupList(id: Integer, groupName: String) extends Group(id, groupName) {
 
     //群头像地址
     @BeanProperty
@@ -18,7 +18,7 @@ class GroupList(id: Int, groupName: String) extends Group(id, groupName) {
     @BeanProperty
     var createId: Int = _
 
-    def this(id: Int, groupName: String, avatar: String) = {
+    def this(id: Integer, groupName: String, avatar: String) = {
         this(id, groupName)
         this.avatar = avatar
     }

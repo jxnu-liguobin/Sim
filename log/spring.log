@@ -14431,3 +14431,792 @@ Verify the connector's configuration, identify and stop any process that's liste
 2018-09-09 11:51:30.600  INFO 8844 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
 2018-09-09 11:51:30.601  INFO 8844 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
 2018-09-09 11:51:30.605  INFO 8844 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2018-09-09 13:50:32.537  INFO 4424 --- [main] cn.edu.layim.Application$                : Starting Application. on MRLI with PID 4424 (D:\git_project\LayIM\out\production\classes started by liguobin in D:\git_project\LayIM)
+2018-09-09 13:50:32.540  INFO 4424 --- [main] cn.edu.layim.Application$                : No active profile set, falling back to default profiles: default
+2018-09-09 13:50:32.644  INFO 4424 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@95d394: startup date [Sun Sep 09 13:50:32 CST 2018]; root of context hierarchy
+2018-09-09 13:50:34.017  INFO 4424 --- [main] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'managementServletContext' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.actuate.autoconfigure.EndpointWebMvcHypermediaManagementContextConfiguration; factoryMethodName=managementServletContext; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcHypermediaManagementContextConfiguration.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.actuate.autoconfigure.EndpointWebMvcAutoConfiguration; factoryMethodName=managementServletContext; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcAutoConfiguration.class]]
+2018-09-09 13:50:34.045  INFO 4424 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-09-09 13:50:34.672  INFO 4424 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$12940d6e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-09-09 13:50:34.820  INFO 4424 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'cacheConfig' of type [cn.edu.layim.config.CacheConfig$$EnhancerBySpringCGLIB$$5ed9734c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-09-09 13:50:34.824  INFO 4424 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cache.annotation.ProxyCachingConfiguration' of type [org.springframework.cache.annotation.ProxyCachingConfiguration$$EnhancerBySpringCGLIB$$5ba6438c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-09-09 13:50:35.642  INFO 4424 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2018-09-09 13:50:35.656  INFO 4424 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-09-09 13:50:35.657  INFO 4424 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2018-09-09 13:50:36.047  INFO 4424 --- [localhost-startStop-1] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2018-09-09 13:50:36.059  INFO 4424 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2018-09-09 13:50:36.060  INFO 4424 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3418 ms
+2018-09-09 13:50:36.487  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'statViewServlet' to [/druid/*]
+2018-09-09 13:50:36.488  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-09-09 13:50:36.491  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'metricsFilter' to: [/*]
+2018-09-09 13:50:36.492  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-09-09 13:50:36.492  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-09-09 13:50:36.492  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-09-09 13:50:36.492  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-09-09 13:50:36.492  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2018-09-09 13:50:36.492  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'webStatFilter' to urls: [/*]
+2018-09-09 13:50:36.492  INFO 4424 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2018-09-09 13:50:36.729  INFO 4424 --- [main] cn.edu.layim.config.MybatisConfig        : 注册MyBatis分页插件PageHelper
+2018-09-09 13:50:36.922  INFO 4424 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2018-09-09 13:50:37.126  INFO 4424 --- [main] o.s.jdbc.datasource.init.ScriptUtils     : Executing SQL script from class path resource [schema.sql]
+2018-09-09 13:50:37.311  INFO 4424 --- [main] o.s.jdbc.datasource.init.ScriptUtils     : Executed SQL script from class path resource [schema.sql] in 185 ms.
+2018-09-09 13:50:37.314  INFO 4424 --- [main] o.s.jdbc.datasource.init.ScriptUtils     : Executing SQL script from class path resource [data.sql]
+2018-09-09 13:50:37.805  INFO 4424 --- [main] o.s.jdbc.datasource.init.ScriptUtils     : Executed SQL script from class path resource [data.sql] in 491 ms.
+2018-09-09 13:50:38.125  INFO 4424 --- [main] o.s.aop.framework.CglibAopProxy          : Final method [public final org.slf4j.Logger cn.edu.layim.service.UserService.cn$edu$layim$service$UserService$$LOGGER()] cannot get proxied via CGLIB: Calls to this method will NOT be routed to the target instance and might lead to NPEs against uninitialized fields in the proxy instance.
+2018-09-09 13:50:38.208  INFO 4424 --- [main] cn.edu.layim.config.RedisConfig          : Init the RedisPoolConfig Finished
+2018-09-09 13:50:38.253  INFO 4424 --- [main] cn.edu.layim.config.RedisConfig          : Init the Redis instance Finished
+2018-09-09 13:50:38.954  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/index],methods=[GET]}" onto public java.lang.String cn.edu.layim.controller.UserController.index(org.springframework.ui.Model,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.955  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/register],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.register(cn.edu.layim.entity.User,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.955  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/init/{userId}],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.init(int)
+2018-09-09 13:50:38.955  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/getMembers],methods=[GET]}" onto public java.lang.String cn.edu.layim.controller.UserController.getMembers(int)
+2018-09-09 13:50:38.955  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/login],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.login(cn.edu.layim.entity.User,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.956  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/existEmail],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.existEmail(java.lang.String)
+2018-09-09 13:50:38.956  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/updateAvatar],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.updateAvatar(org.springframework.web.multipart.MultipartFile,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.956  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/upload/file],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.uploadFile(org.springframework.web.multipart.MultipartFile,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.956  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/findUser],methods=[GET]}" onto public java.lang.String cn.edu.layim.controller.UserController.findUserById(java.lang.Integer)
+2018-09-09 13:50:38.956  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/chatLogIndex],methods=[GET]}" onto public java.lang.String cn.edu.layim.controller.UserController.chatLogIndex(java.lang.Integer,java.lang.String,org.springframework.ui.Model,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.956  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/updateSign],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.updateSign(javax.servlet.http.HttpServletRequest,java.lang.String)
+2018-09-09 13:50:38.957  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/active/{activeCode}],methods=[GET]}" onto public java.lang.String cn.edu.layim.controller.UserController.activeUser(java.lang.String)
+2018-09-09 13:50:38.958  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/upload/image],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.uploadImage(org.springframework.web.multipart.MultipartFile,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.959  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/chatLog],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.chatLog(java.lang.Integer,java.lang.String,int,javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2018-09-09 13:50:38.959  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/getOffLineMessage],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.getOffLineMessage(javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.959  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/findUsers],methods=[GET]}" onto public java.lang.String cn.edu.layim.controller.UserController.findUsers(int,java.lang.String,java.lang.Integer)
+2018-09-09 13:50:38.959  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/refuseFriend],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.refuseFriend(java.lang.Integer,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.960  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/removeFriend],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.removeFriend(java.lang.Integer,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.960  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/leaveOutGroup],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.leaveOutGroup(java.lang.Integer,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.960  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/changeGroup],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.changeGroup(java.lang.Integer,java.lang.Integer,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.960  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/agreeFriend],methods=[POST]}" onto public java.lang.String cn.edu.layim.controller.UserController.agreeFriend(java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.960  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/findAddInfo],methods=[GET]}" onto public java.lang.String cn.edu.layim.controller.UserController.findAddInfo(int,int)
+2018-09-09 13:50:38.961  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/findGroups],methods=[GET]}" onto public java.lang.String cn.edu.layim.controller.UserController.findGroups(int,java.lang.String)
+2018-09-09 13:50:38.961  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v2/api-docs],methods=[GET]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String)
+2018-09-09 13:50:38.968  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2018-09-09 13:50:38.969  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2018-09-09 13:50:38.970  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2018-09-09 13:50:38.972  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-09-09 13:50:38.972  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-09-09 13:50:39.080  INFO 4424 --- [main] cn.edu.layim.config.CacheConfig          : 初始化Redis缓存管理器完成!
+2018-09-09 13:50:39.320  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2018-09-09 13:50:39.320  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env || /env.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.322  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/loggers/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.get(java.lang.String)
+2018-09-09 13:50:39.322  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/loggers/{name:.*}],methods=[POST],consumes=[application/vnd.spring-boot.actuator.v1+json || application/json],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.set(java.lang.String,java.util.Map<java.lang.String, java.lang.String>)
+2018-09-09 13:50:39.322  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/loggers || /loggers.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.323  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.323  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/logfile || /logfile.json],methods=[GET || HEAD]}" onto public void org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws javax.servlet.ServletException,java.io.IOException
+2018-09-09 13:50:39.323  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.324  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.324  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.327  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/auditevents || /auditevents.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public org.springframework.http.ResponseEntity<?> org.springframework.boot.actuate.endpoint.mvc.AuditEventsMvcEndpoint.findByPrincipalAndAfterAndType(java.lang.String,java.util.Date,java.lang.String)
+2018-09-09 13:50:39.333  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/actuator || /actuator.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public org.springframework.hateoas.ResourceSupport org.springframework.boot.actuate.endpoint.mvc.HalJsonMvcEndpoint.links()
+2018-09-09 13:50:39.334  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/heapdump || /heapdump.json],methods=[GET],produces=[application/octet-stream]}" onto public void org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke(boolean,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException,javax.servlet.ServletException
+2018-09-09 13:50:39.334  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/info || /info.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.335  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2018-09-09 13:50:39.335  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.335  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,java.security.Principal)
+2018-09-09 13:50:39.336  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.336  INFO 4424 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-09-09 13:50:39.878  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@95d394: startup date [Sun Sep 09 13:50:32 CST 2018]; root of context hierarchy
+2018-09-09 13:50:39.888  INFO 4424 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Detected ResponseBodyAdvice bean in org.springframework.boot.actuate.autoconfigure.EndpointWebMvcHypermediaManagementContextConfiguration$ActuatorEndpointLinksAdvice
+2018-09-09 13:50:39.928  INFO 4424 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Root mapping to handler of type [class org.springframework.web.servlet.mvc.ParameterizableViewController]
+2018-09-09 13:50:39.943  INFO 4424 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-09 13:50:39.944  INFO 4424 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-09 13:50:39.969  INFO 4424 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : Detected ResponseBodyAdvice implementation in org.springframework.boot.actuate.autoconfigure.EndpointWebMvcHypermediaManagementContextConfiguration$ActuatorEndpointLinksAdvice
+2018-09-09 13:50:39.992  INFO 4424 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-09 13:50:40.020  INFO 4424 --- [main] oConfiguration$WelcomePageHandlerMapping : Adding welcome page: ServletContext resource [/index.html]
+2018-09-09 13:50:40.556  INFO 4424 --- [main] o.s.w.s.s.s.ServerEndpointExporter       : Registering @ServerEndpoint class: class cn.edu.layim.websocket.WebSocket
+2018-09-09 13:50:40.571  INFO 4424 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-09-09 13:50:40.573  INFO 4424 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-09-09 13:50:40.581  INFO 4424 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2018-09-09 13:50:40.586  INFO 4424 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2018-09-09 13:50:40.658  INFO 4424 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2018-09-09 13:50:40.706  INFO 4424 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found {0} custom documentation plugin(s)
+2018-09-09 13:50:40.715  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2018-09-09 13:50:40.719  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method links was hal-json-mvc-endpoint
+2018-09-09 13:50:40.721  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: links belongs to groups: [[ResourceGroup{groupName='hal-json-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.HalJsonMvcEndpoint}]] 
+2018-09-09 13:50:40.723  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findByPrincipalAndAfterAndType was audit-events-mvc-endpoint
+2018-09-09 13:50:40.723  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: findByPrincipalAndAfterAndType belongs to groups: [[ResourceGroup{groupName='audit-events-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.AuditEventsMvcEndpoint}]] 
+2018-09-09 13:50:40.724  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.724  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='endpoint-mvc-adapter', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter}]] 
+2018-09-09 13:50:40.724  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.724  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='endpoint-mvc-adapter', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter}]] 
+2018-09-09 13:50:40.724  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.724  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='endpoint-mvc-adapter', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter}]] 
+2018-09-09 13:50:40.725  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.725  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='endpoint-mvc-adapter', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter}]] 
+2018-09-09 13:50:40.725  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was environment-mvc-endpoint
+2018-09-09 13:50:40.725  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='environment-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint}]] 
+2018-09-09 13:50:40.725  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method value was environment-mvc-endpoint
+2018-09-09 13:50:40.725  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: value belongs to groups: [[ResourceGroup{groupName='environment-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint}]] 
+2018-09-09 13:50:40.726  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.726  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: error belongs to groups: [[ResourceGroup{groupName='basic-error-controller', position=0, controller=org.springframework.boot.autoconfigure.web.BasicErrorController}]] 
+2018-09-09 13:50:40.726  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.726  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: errorHtml belongs to groups: [[ResourceGroup{groupName='basic-error-controller', position=0, controller=org.springframework.boot.autoconfigure.web.BasicErrorController}]] 
+2018-09-09 13:50:40.727  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was health-mvc-endpoint
+2018-09-09 13:50:40.727  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='health-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint}]] 
+2018-09-09 13:50:40.727  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was heapdump-mvc-endpoint
+2018-09-09 13:50:40.727  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='heapdump-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint}]] 
+2018-09-09 13:50:40.727  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.727  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='endpoint-mvc-adapter', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter}]] 
+2018-09-09 13:50:40.728  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was log-file-mvc-endpoint
+2018-09-09 13:50:40.728  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='log-file-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint}]] 
+2018-09-09 13:50:40.728  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was loggers-mvc-endpoint
+2018-09-09 13:50:40.728  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='loggers-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint}]] 
+2018-09-09 13:50:40.728  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method get was loggers-mvc-endpoint
+2018-09-09 13:50:40.728  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: get belongs to groups: [[ResourceGroup{groupName='loggers-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint}]] 
+2018-09-09 13:50:40.729  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method set was loggers-mvc-endpoint
+2018-09-09 13:50:40.729  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: set belongs to groups: [[ResourceGroup{groupName='loggers-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint}]] 
+2018-09-09 13:50:40.729  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.729  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='endpoint-mvc-adapter', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter}]] 
+2018-09-09 13:50:40.729  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was metrics-mvc-endpoint
+2018-09-09 13:50:40.729  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='metrics-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint}]] 
+2018-09-09 13:50:40.730  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method value was metrics-mvc-endpoint
+2018-09-09 13:50:40.730  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: value belongs to groups: [[ResourceGroup{groupName='metrics-mvc-endpoint', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint}]] 
+2018-09-09 13:50:40.730  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.730  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: invoke belongs to groups: [[ResourceGroup{groupName='endpoint-mvc-adapter', position=0, controller=org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter}]] 
+2018-09-09 13:50:40.732  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method activeUser was 用户相关操作
+2018-09-09 13:50:40.732  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: activeUser belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.732  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method agreeFriend was 用户相关操作
+2018-09-09 13:50:40.732  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: agreeFriend belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.733  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method changeGroup was 用户相关操作
+2018-09-09 13:50:40.733  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: changeGroup belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.733  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method chatLogIndex was 用户相关操作
+2018-09-09 13:50:40.733  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: chatLogIndex belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.733  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method chatLog was 用户相关操作
+2018-09-09 13:50:40.733  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: chatLog belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.733  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method existEmail was 用户相关操作
+2018-09-09 13:50:40.733  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: existEmail belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.734  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findAddInfo was 用户相关操作
+2018-09-09 13:50:40.734  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: findAddInfo belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.734  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findGroups was 用户相关操作
+2018-09-09 13:50:40.738  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: findGroups belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.738  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findUserById was 用户相关操作
+2018-09-09 13:50:40.739  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: findUserById belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.739  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findUsers was 用户相关操作
+2018-09-09 13:50:40.739  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: findUsers belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.739  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method getMembers was 用户相关操作
+2018-09-09 13:50:40.739  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: getMembers belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.740  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method getOffLineMessage was 用户相关操作
+2018-09-09 13:50:40.740  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: getOffLineMessage belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.740  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method index was 用户相关操作
+2018-09-09 13:50:40.740  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: index belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.740  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method init was 用户相关操作
+2018-09-09 13:50:40.740  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: init belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.740  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method leaveOutGroup was 用户相关操作
+2018-09-09 13:50:40.740  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: leaveOutGroup belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.741  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method login was 用户相关操作
+2018-09-09 13:50:40.741  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: login belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.741  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method refuseFriend was 用户相关操作
+2018-09-09 13:50:40.741  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: refuseFriend belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.741  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method register was 用户相关操作
+2018-09-09 13:50:40.741  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: register belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.742  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method removeFriend was 用户相关操作
+2018-09-09 13:50:40.742  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: removeFriend belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.742  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method updateAvatar was 用户相关操作
+2018-09-09 13:50:40.742  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: updateAvatar belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.742  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method updateSign was 用户相关操作
+2018-09-09 13:50:40.742  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: updateSign belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.742  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method uploadFile was 用户相关操作
+2018-09-09 13:50:40.742  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: uploadFile belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.743  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method uploadImage was 用户相关操作
+2018-09-09 13:50:40.743  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Request mapping: uploadImage belongs to groups: [[ResourceGroup{groupName='用户相关操作', position=0, controller=cn.edu.layim.controller.UserController}]] 
+2018-09-09 13:50:40.748  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/audit-events-mvc-endpoint Description: audit-events-mvc-endpoint Position: 0
+2018-09-09 13:50:40.748  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/log-file-mvc-endpoint Description: log-file-mvc-endpoint Position: 0
+2018-09-09 13:50:40.748  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/loggers-mvc-endpoint Description: loggers-mvc-endpoint Position: 0
+2018-09-09 13:50:40.749  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/endpoint-mvc-adapter Description: endpoint-mvc-adapter Position: 0
+2018-09-09 13:50:40.749  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/environment-mvc-endpoint Description: environment-mvc-endpoint Position: 0
+2018-09-09 13:50:40.749  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/用户相关操作 Description: 用户相关操作 Position: 0
+2018-09-09 13:50:40.749  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/health-mvc-endpoint Description: health-mvc-endpoint Position: 0
+2018-09-09 13:50:40.749  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/heapdump-mvc-endpoint Description: heapdump-mvc-endpoint Position: 0
+2018-09-09 13:50:40.750  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/metrics-mvc-endpoint Description: metrics-mvc-endpoint Position: 0
+2018-09-09 13:50:40.750  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/basic-error-controller Description: basic-error-controller Position: 0
+2018-09-09 13:50:40.750  INFO 4424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Created resource listing Path: /default/hal-json-mvc-endpoint Description: hal-json-mvc-endpoint Position: 0
+2018-09-09 13:50:40.777  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.778  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.788  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.788  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.794  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /auditevents.org.springframework.boot.actuate.endpoint.mvc.AuditEventsMvcEndpoint.findByPrincipalAndAfterAndType.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.794  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /auditevents.org.springframework.boot.actuate.endpoint.mvc.AuditEventsMvcEndpoint.findByPrincipalAndAfterAndType.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.817  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findByPrincipalAndAfterAndType was audit-events-mvc-endpoint
+2018-09-09 13:50:40.820  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findByPrincipalAndAfterAndType was audit-events-mvc-endpoint
+2018-09-09 13:50:40.826  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /auditevents.json.org.springframework.boot.actuate.endpoint.mvc.AuditEventsMvcEndpoint.findByPrincipalAndAfterAndType.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.826  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /auditevents.json.org.springframework.boot.actuate.endpoint.mvc.AuditEventsMvcEndpoint.findByPrincipalAndAfterAndType.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.829  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findByPrincipalAndAfterAndType was audit-events-mvc-endpoint
+2018-09-09 13:50:40.830  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findByPrincipalAndAfterAndType was audit-events-mvc-endpoint
+2018-09-09 13:50:40.831  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findByPrincipalAndAfterAndTypeUsingGET_1
+2018-09-09 13:50:40.855  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.util.Map<java.lang.String,java.lang.Object>(true)
+2018-09-09 13:50:40.855  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.util.Map<java.lang.String,java.lang.Object>(true)
+2018-09-09 13:50:40.855  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.util.Map<java.lang.String,java.lang.Object>(true)
+2018-09-09 13:50:40.855  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.util.Map<java.lang.String,java.lang.Object>(true)
+2018-09-09 13:50:40.855  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /error.org.springframework.boot.autoconfigure.web.BasicErrorController.error.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.855  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /error.org.springframework.boot.autoconfigure.web.BasicErrorController.error.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.858  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.859  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.860  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.861  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.863  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.864  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.865  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.866  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.867  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.868  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.869  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.870  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.870  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.871  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.872  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.873  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method error was basic-error-controller
+2018-09-09 13:50:40.874  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: org.springframework.web.servlet.ModelAndView(true)
+2018-09-09 13:50:40.874  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key org.springframework.web.servlet.ModelAndView(true)
+2018-09-09 13:50:40.874  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: org.springframework.web.servlet.ModelAndView(true)
+2018-09-09 13:50:40.875  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key org.springframework.web.servlet.ModelAndView(true)
+2018-09-09 13:50:40.907  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: org.springframework.web.servlet.ModelAndView(true)
+2018-09-09 13:50:40.907  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key org.springframework.web.servlet.ModelAndView(true)
+2018-09-09 13:50:40.907  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: org.springframework.web.servlet.ModelAndView(true)
+2018-09-09 13:50:40.907  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key org.springframework.web.servlet.ModelAndView(true)
+2018-09-09 13:50:40.908  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: org.springframework.web.servlet.View(true)
+2018-09-09 13:50:40.908  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key org.springframework.web.servlet.View(true)
+2018-09-09 13:50:40.908  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: org.springframework.web.servlet.View(true)
+2018-09-09 13:50:40.908  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key org.springframework.web.servlet.View(true)
+2018-09-09 13:50:40.909  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /error.org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.909  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /error.org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.909  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.910  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.910  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.911  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.912  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.912  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.913  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.913  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.914  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.914  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.915  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.916  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.916  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.917  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.917  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.918  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method errorHtml was basic-error-controller
+2018-09-09 13:50:40.919  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.919  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.919  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.919  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.919  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /autoconfig.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.920  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /autoconfig.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.920  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.920  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.921  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /autoconfig.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.921  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /autoconfig.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.921  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.921  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.922  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_1
+2018-09-09 13:50:40.922  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.922  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.922  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.922  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.922  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /beans.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.922  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /beans.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.923  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.923  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.923  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_2
+2018-09-09 13:50:40.924  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /beans.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.924  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /beans.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.924  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.924  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.925  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_3
+2018-09-09 13:50:40.925  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.925  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.926  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.926  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.926  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /configprops.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.926  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /configprops.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.926  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.927  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.927  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_4
+2018-09-09 13:50:40.927  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /configprops.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.927  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /configprops.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.927  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.928  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.928  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_5
+2018-09-09 13:50:40.928  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.928  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.929  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.929  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.929  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /dump.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.929  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /dump.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.929  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.930  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.930  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_6
+2018-09-09 13:50:40.930  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /dump.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.930  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /dump.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.931  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.931  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.931  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_7
+2018-09-09 13:50:40.932  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.932  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.932  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.932  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.932  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /info.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.932  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /info.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.933  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.933  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.933  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_8
+2018-09-09 13:50:40.934  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /info.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.934  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /info.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.934  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.934  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.934  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_9
+2018-09-09 13:50:40.935  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.935  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.935  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.935  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.935  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /mappings.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.935  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /mappings.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.936  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.936  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.936  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_10
+2018-09-09 13:50:40.936  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /mappings.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.936  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /mappings.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.936  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.937  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.937  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_11
+2018-09-09 13:50:40.937  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.937  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.938  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.938  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.938  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /trace.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.938  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /trace.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.938  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.939  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.939  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_12
+2018-09-09 13:50:40.940  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /trace.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.940  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /trace.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.940  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.941  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was endpoint-mvc-adapter
+2018-09-09 13:50:40.941  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_13
+2018-09-09 13:50:40.944  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.944  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.944  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.944  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.944  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /env.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.944  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /env.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.944  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was environment-mvc-endpoint
+2018-09-09 13:50:40.945  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was environment-mvc-endpoint
+2018-09-09 13:50:40.945  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_14
+2018-09-09 13:50:40.945  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /env.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.945  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /env.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.945  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was environment-mvc-endpoint
+2018-09-09 13:50:40.945  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was environment-mvc-endpoint
+2018-09-09 13:50:40.946  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_15
+2018-09-09 13:50:40.947  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.947  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.947  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.947  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.947  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /env/{name:.*}.org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.947  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /env/{name:.*}.org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.949  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method value was environment-mvc-endpoint
+2018-09-09 13:50:40.950  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method value was environment-mvc-endpoint
+2018-09-09 13:50:40.951  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: org.springframework.hateoas.ResourceSupport(true)
+2018-09-09 13:50:40.951  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key org.springframework.hateoas.ResourceSupport(true)
+2018-09-09 13:50:40.951  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: org.springframework.hateoas.ResourceSupport(true)
+2018-09-09 13:50:40.951  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key org.springframework.hateoas.ResourceSupport(true)
+2018-09-09 13:50:40.957  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: org.springframework.hateoas.ResourceSupport(true)
+2018-09-09 13:50:40.957  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key org.springframework.hateoas.ResourceSupport(true)
+2018-09-09 13:50:40.957  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: org.springframework.hateoas.ResourceSupport(true)
+2018-09-09 13:50:40.957  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key org.springframework.hateoas.ResourceSupport(true)
+2018-09-09 13:50:40.957  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: org.springframework.hateoas.Link(true)
+2018-09-09 13:50:40.957  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key org.springframework.hateoas.Link(true)
+2018-09-09 13:50:40.960  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: org.springframework.hateoas.Link(true)
+2018-09-09 13:50:40.960  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key org.springframework.hateoas.Link(true)
+2018-09-09 13:50:40.960  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /actuator.org.springframework.boot.actuate.endpoint.mvc.HalJsonMvcEndpoint.links.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.960  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /actuator.org.springframework.boot.actuate.endpoint.mvc.HalJsonMvcEndpoint.links.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.961  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method links was hal-json-mvc-endpoint
+2018-09-09 13:50:40.962  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method links was hal-json-mvc-endpoint
+2018-09-09 13:50:40.962  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /actuator.json.org.springframework.boot.actuate.endpoint.mvc.HalJsonMvcEndpoint.links.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.962  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /actuator.json.org.springframework.boot.actuate.endpoint.mvc.HalJsonMvcEndpoint.links.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.963  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method links was hal-json-mvc-endpoint
+2018-09-09 13:50:40.963  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method links was hal-json-mvc-endpoint
+2018-09-09 13:50:40.963  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: linksUsingGET_1
+2018-09-09 13:50:40.965  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.966  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.966  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.966  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.966  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /health.org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.966  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /health.org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.967  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was health-mvc-endpoint
+2018-09-09 13:50:40.968  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was health-mvc-endpoint
+2018-09-09 13:50:40.968  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_16
+2018-09-09 13:50:40.969  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /health.json.org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.969  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /health.json.org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.970  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was health-mvc-endpoint
+2018-09-09 13:50:40.970  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was health-mvc-endpoint
+2018-09-09 13:50:40.971  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_17
+2018-09-09 13:50:40.972  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Void(true)
+2018-09-09 13:50:40.972  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Void(true)
+2018-09-09 13:50:40.972  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Void(true)
+2018-09-09 13:50:40.972  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Void(true)
+2018-09-09 13:50:40.972  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /heapdump.org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.972  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /heapdump.org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.973  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was heapdump-mvc-endpoint
+2018-09-09 13:50:40.974  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was heapdump-mvc-endpoint
+2018-09-09 13:50:40.974  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_18
+2018-09-09 13:50:40.975  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /heapdump.json.org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.975  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /heapdump.json.org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.976  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was heapdump-mvc-endpoint
+2018-09-09 13:50:40.977  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was heapdump-mvc-endpoint
+2018-09-09 13:50:40.977  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_19
+2018-09-09 13:50:40.978  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Void(true)
+2018-09-09 13:50:40.978  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Void(true)
+2018-09-09 13:50:40.978  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Void(true)
+2018-09-09 13:50:40.978  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Void(true)
+2018-09-09 13:50:40.978  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /logfile.org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.978  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /logfile.org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.979  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was log-file-mvc-endpoint
+2018-09-09 13:50:40.979  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was log-file-mvc-endpoint
+2018-09-09 13:50:40.980  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_20
+2018-09-09 13:50:40.980  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was log-file-mvc-endpoint
+2018-09-09 13:50:40.981  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was log-file-mvc-endpoint
+2018-09-09 13:50:40.981  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /logfile.json.org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.981  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /logfile.json.org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.982  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was log-file-mvc-endpoint
+2018-09-09 13:50:40.982  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was log-file-mvc-endpoint
+2018-09-09 13:50:40.982  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_21
+2018-09-09 13:50:40.983  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was log-file-mvc-endpoint
+2018-09-09 13:50:40.983  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was log-file-mvc-endpoint
+2018-09-09 13:50:40.984  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingHEAD_1
+2018-09-09 13:50:40.985  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.985  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.985  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.985  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.986  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /loggers/{name:.*}.org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.get.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.986  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /loggers/{name:.*}.org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.get.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.987  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method get was loggers-mvc-endpoint
+2018-09-09 13:50:40.987  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method get was loggers-mvc-endpoint
+2018-09-09 13:50:40.988  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.988  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.988  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.988  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.989  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /loggers.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.989  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /loggers.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.989  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was loggers-mvc-endpoint
+2018-09-09 13:50:40.990  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was loggers-mvc-endpoint
+2018-09-09 13:50:40.991  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_22
+2018-09-09 13:50:40.993  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /loggers.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.993  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /loggers.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.993  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was loggers-mvc-endpoint
+2018-09-09 13:50:40.994  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was loggers-mvc-endpoint
+2018-09-09 13:50:40.994  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_23
+2018-09-09 13:50:40.995  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.util.Map<java.lang.String,java.lang.String>(false)
+2018-09-09 13:50:40.995  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.util.Map<java.lang.String,java.lang.String>(false)
+2018-09-09 13:50:40.995  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.util.Map<java.lang.String,java.lang.String>(false)
+2018-09-09 13:50:40.995  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.util.Map<java.lang.String,java.lang.String>(false)
+2018-09-09 13:50:40.996  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: java.util.Map<java.lang.String,java.lang.String>(false)
+2018-09-09 13:50:40.996  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key java.util.Map<java.lang.String,java.lang.String>(false)
+2018-09-09 13:50:40.996  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.996  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:40.996  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:40.996  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:40.996  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /loggers/{name:.*}.org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.set.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.996  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /loggers/{name:.*}.org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.set.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:40.999  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method set was loggers-mvc-endpoint
+2018-09-09 13:50:41.001  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method set was loggers-mvc-endpoint
+2018-09-09 13:50:41.002  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:41.003  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:41.003  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:41.003  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:41.003  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /metrics.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.004  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /metrics.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.005  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was metrics-mvc-endpoint
+2018-09-09 13:50:41.006  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was metrics-mvc-endpoint
+2018-09-09 13:50:41.007  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_24
+2018-09-09 13:50:41.007  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /metrics.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.007  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /metrics.json.org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.008  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was metrics-mvc-endpoint
+2018-09-09 13:50:41.008  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method invoke was metrics-mvc-endpoint
+2018-09-09 13:50:41.009  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: invokeUsingGET_25
+2018-09-09 13:50:41.010  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:41.010  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.Object(true)
+2018-09-09 13:50:41.010  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.Object(true)
+2018-09-09 13:50:41.010  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.Object(true)
+2018-09-09 13:50:41.010  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /metrics/{name:.*}.org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.010  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /metrics/{name:.*}.org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.011  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method value was metrics-mvc-endpoint
+2018-09-09 13:50:41.012  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method value was metrics-mvc-endpoint
+2018-09-09 13:50:41.013  INFO 4424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: valueUsingGET_1
+2018-09-09 13:50:41.017  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.017  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.017  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.017  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.017  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/active/{activeCode}.cn.edu.layim.controller.UserController.activeUser.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.017  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/active/{activeCode}.cn.edu.layim.controller.UserController.activeUser.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.022  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method activeUser was 用户相关操作
+2018-09-09 13:50:41.023  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method activeUser was 用户相关操作
+2018-09-09 13:50:41.025  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.026  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.026  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.026  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.026  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/agreeFriend.cn.edu.layim.controller.UserController.agreeFriend.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.026  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/agreeFriend.cn.edu.layim.controller.UserController.agreeFriend.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.031  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method agreeFriend was 用户相关操作
+2018-09-09 13:50:41.032  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method agreeFriend was 用户相关操作
+2018-09-09 13:50:41.034  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.034  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.034  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.034  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.035  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/changeGroup.cn.edu.layim.controller.UserController.changeGroup.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.035  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/changeGroup.cn.edu.layim.controller.UserController.changeGroup.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.039  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method changeGroup was 用户相关操作
+2018-09-09 13:50:41.040  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method changeGroup was 用户相关操作
+2018-09-09 13:50:41.049  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.049  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.050  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.050  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.050  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/chatLog.cn.edu.layim.controller.UserController.chatLog.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.050  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/chatLog.cn.edu.layim.controller.UserController.chatLog.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.055  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method chatLog was 用户相关操作
+2018-09-09 13:50:41.056  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method chatLog was 用户相关操作
+2018-09-09 13:50:41.058  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.058  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.058  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.058  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.058  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/chatLogIndex.cn.edu.layim.controller.UserController.chatLogIndex.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.058  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/chatLogIndex.cn.edu.layim.controller.UserController.chatLogIndex.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.062  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method chatLogIndex was 用户相关操作
+2018-09-09 13:50:41.065  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method chatLogIndex was 用户相关操作
+2018-09-09 13:50:41.071  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.071  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.071  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.071  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.071  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/existEmail.cn.edu.layim.controller.UserController.existEmail.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.071  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/existEmail.cn.edu.layim.controller.UserController.existEmail.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.075  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method existEmail was 用户相关操作
+2018-09-09 13:50:41.078  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method existEmail was 用户相关操作
+2018-09-09 13:50:41.082  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.082  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.083  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.083  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.083  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/findAddInfo.cn.edu.layim.controller.UserController.findAddInfo.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.083  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/findAddInfo.cn.edu.layim.controller.UserController.findAddInfo.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.088  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findAddInfo was 用户相关操作
+2018-09-09 13:50:41.089  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findAddInfo was 用户相关操作
+2018-09-09 13:50:41.091  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.091  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.091  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.091  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.091  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/findGroups.cn.edu.layim.controller.UserController.findGroups.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.091  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/findGroups.cn.edu.layim.controller.UserController.findGroups.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.094  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findGroups was 用户相关操作
+2018-09-09 13:50:41.095  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findGroups was 用户相关操作
+2018-09-09 13:50:41.099  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.099  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.099  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.099  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.099  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/findUser.cn.edu.layim.controller.UserController.findUserById.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.099  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/findUser.cn.edu.layim.controller.UserController.findUserById.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.101  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findUserById was 用户相关操作
+2018-09-09 13:50:41.102  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findUserById was 用户相关操作
+2018-09-09 13:50:41.104  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.104  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.104  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.104  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.104  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/findUsers.cn.edu.layim.controller.UserController.findUsers.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.104  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/findUsers.cn.edu.layim.controller.UserController.findUsers.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.108  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findUsers was 用户相关操作
+2018-09-09 13:50:41.109  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method findUsers was 用户相关操作
+2018-09-09 13:50:41.111  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.111  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.111  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.111  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.111  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/getMembers.cn.edu.layim.controller.UserController.getMembers.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.112  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/getMembers.cn.edu.layim.controller.UserController.getMembers.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.114  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method getMembers was 用户相关操作
+2018-09-09 13:50:41.116  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method getMembers was 用户相关操作
+2018-09-09 13:50:41.117  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.117  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.117  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.117  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.118  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/getOffLineMessage.cn.edu.layim.controller.UserController.getOffLineMessage.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.118  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/getOffLineMessage.cn.edu.layim.controller.UserController.getOffLineMessage.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.119  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method getOffLineMessage was 用户相关操作
+2018-09-09 13:50:41.120  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method getOffLineMessage was 用户相关操作
+2018-09-09 13:50:41.123  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.123  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.123  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.123  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.123  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/index.cn.edu.layim.controller.UserController.index.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.123  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/index.cn.edu.layim.controller.UserController.index.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.125  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method index was 用户相关操作
+2018-09-09 13:50:41.126  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method index was 用户相关操作
+2018-09-09 13:50:41.130  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.130  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.130  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.131  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.131  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/init/{userId}.cn.edu.layim.controller.UserController.init.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.131  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/init/{userId}.cn.edu.layim.controller.UserController.init.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.133  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method init was 用户相关操作
+2018-09-09 13:50:41.134  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method init was 用户相关操作
+2018-09-09 13:50:41.138  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.138  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.138  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.138  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.139  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/leaveOutGroup.cn.edu.layim.controller.UserController.leaveOutGroup.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.139  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/leaveOutGroup.cn.edu.layim.controller.UserController.leaveOutGroup.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.141  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method leaveOutGroup was 用户相关操作
+2018-09-09 13:50:41.142  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method leaveOutGroup was 用户相关操作
+2018-09-09 13:50:41.143  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.144  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.144  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.144  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.144  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.144  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.144  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.144  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.152  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.152  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.152  INFO 4424 --- [main] s.d.s.p.ModelPropertiesKeyGenerator      : Cache key generated: cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.152  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.153  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/login.cn.edu.layim.controller.UserController.login.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.153  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/login.cn.edu.layim.controller.UserController.login.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.155  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method login was 用户相关操作
+2018-09-09 13:50:41.156  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method login was 用户相关操作
+2018-09-09 13:50:41.157  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.157  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.158  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.158  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.158  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/refuseFriend.cn.edu.layim.controller.UserController.refuseFriend.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.158  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/refuseFriend.cn.edu.layim.controller.UserController.refuseFriend.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.160  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method refuseFriend was 用户相关操作
+2018-09-09 13:50:41.165  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method refuseFriend was 用户相关操作
+2018-09-09 13:50:41.167  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.167  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.168  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.168  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.168  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.168  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.168  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.168  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key cn.edu.layim.entity.User(false)
+2018-09-09 13:50:41.168  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/register.cn.edu.layim.controller.UserController.register.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.168  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/register.cn.edu.layim.controller.UserController.register.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.170  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method register was 用户相关操作
+2018-09-09 13:50:41.171  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method register was 用户相关操作
+2018-09-09 13:50:41.173  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.173  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.173  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.174  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.174  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/removeFriend.cn.edu.layim.controller.UserController.removeFriend.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.174  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/removeFriend.cn.edu.layim.controller.UserController.removeFriend.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.176  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method removeFriend was 用户相关操作
+2018-09-09 13:50:41.177  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method removeFriend was 用户相关操作
+2018-09-09 13:50:41.179  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.179  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.179  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.179  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.179  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/updateAvatar.cn.edu.layim.controller.UserController.updateAvatar.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.179  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/updateAvatar.cn.edu.layim.controller.UserController.updateAvatar.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.181  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method updateAvatar was 用户相关操作
+2018-09-09 13:50:41.182  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method updateAvatar was 用户相关操作
+2018-09-09 13:50:41.184  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.184  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.184  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.184  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.184  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/updateSign.cn.edu.layim.controller.UserController.updateSign.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.184  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/updateSign.cn.edu.layim.controller.UserController.updateSign.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.187  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method updateSign was 用户相关操作
+2018-09-09 13:50:41.188  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method updateSign was 用户相关操作
+2018-09-09 13:50:41.190  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.195  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.195  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.195  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.195  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/upload/file.cn.edu.layim.controller.UserController.uploadFile.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.195  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/upload/file.cn.edu.layim.controller.UserController.uploadFile.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.198  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method uploadFile was 用户相关操作
+2018-09-09 13:50:41.199  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method uploadFile was 用户相关操作
+2018-09-09 13:50:41.201  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.201  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache models with key java.lang.String(true)
+2018-09-09 13:50:41.201  INFO 4424 --- [main] s.d.schema.ModelContextKeyGenerator      : Cache Key Generated: java.lang.String(true)
+2018-09-09 13:50:41.201  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelDependencies with key java.lang.String(true)
+2018-09-09 13:50:41.201  INFO 4424 --- [main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /user/upload/image.cn.edu.layim.controller.UserController.uploadImage.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.201  INFO 4424 --- [main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /user/upload/image.cn.edu.layim.controller.UserController.uploadImage.DefaultGenericTypeNamingStrategy
+2018-09-09 13:50:41.204  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method uploadImage was 用户相关操作
+2018-09-09 13:50:41.205  INFO 4424 --- [main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method uploadImage was 用户相关操作
+2018-09-09 13:50:41.258 ERROR 4424 --- [main] o.a.coyote.http11.Http11NioProtocol      : Failed to start end point associated with ProtocolHandler ["http-nio-80"]
+
+java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[na:1.8.0_102]
+	at sun.nio.ch.Net.bind(Net.java:433) ~[na:1.8.0_102]
+	at sun.nio.ch.Net.bind(Net.java:425) ~[na:1.8.0_102]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223) ~[na:1.8.0_102]
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74) ~[na:1.8.0_102]
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:990) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:635) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225) [tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546) [spring-context-4.3.13.RELEASE.jar:4.3.13.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at cn.edu.layim.Application$.main(Application.scala:27) [classes/:na]
+	at cn.edu.layim.Application.main(Application.scala) [classes/:na]
+
+2018-09-09 13:50:41.263 ERROR 4424 --- [main] o.apache.catalina.core.StandardService   : Failed to start connector [Connector[HTTP/1.1-80]]
+
+org.apache.catalina.LifecycleException: Failed to start component [Connector[HTTP/1.1-80]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:167) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:225) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.addPreviouslyRemovedConnectors(TomcatEmbeddedServletContainer.java:250) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer.start(TomcatEmbeddedServletContainer.java:193) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.startEmbeddedServletContainer(EmbeddedWebApplicationContext.java:297) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.finishRefresh(EmbeddedWebApplicationContext.java:145) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:546) [spring-context-4.3.13.RELEASE.jar:4.3.13.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.9.RELEASE.jar:1.5.9.RELEASE]
+	at cn.edu.layim.Application$.main(Application.scala:27) [classes/:na]
+	at cn.edu.layim.Application.main(Application.scala) [classes/:na]
+Caused by: org.apache.catalina.LifecycleException: service.getName(): "Tomcat";  Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1031) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	... 14 common frames omitted
+Caused by: java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method) ~[na:1.8.0_102]
+	at sun.nio.ch.Net.bind(Net.java:433) ~[na:1.8.0_102]
+	at sun.nio.ch.Net.bind(Net.java:425) ~[na:1.8.0_102]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223) ~[na:1.8.0_102]
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74) ~[na:1.8.0_102]
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:210) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:990) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:635) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1022) ~[tomcat-embed-core-8.5.23.jar:8.5.23]
+	... 15 common frames omitted
+
+2018-09-09 13:50:41.311  INFO 4424 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2018-09-09 13:50:41.327  INFO 4424 --- [main] utoConfigurationReportLoggingInitializer : 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2018-09-09 13:50:41.332 ERROR 4424 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 80 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 80, or configure this application to listen on another port.
+
+2018-09-09 13:50:41.333  INFO 4424 --- [main] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@95d394: startup date [Sun Sep 09 13:50:32 CST 2018]; root of context hierarchy
+2018-09-09 13:50:41.338  INFO 4424 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 0
+2018-09-09 13:50:41.341  INFO 4424 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2018-09-09 13:50:41.341  INFO 4424 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2018-09-09 13:50:41.345  INFO 4424 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed

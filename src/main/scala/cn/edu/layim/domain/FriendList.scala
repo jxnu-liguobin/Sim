@@ -12,14 +12,12 @@ import scala.beans.BeanProperty
   * @param id        好友列表分组
   * @param groupName 列表名称
   */
-class FriendList(id: Int, groupName: String) extends Group(id, groupName) {
+class FriendList(id: Integer, groupName: String) extends Group(id, groupName) {
 
     @BeanProperty
     var list: List[User] = _
 
-    def this() = this(null)
-
-    def this(id: Int, groupName: String, list: List[User]) = {
+    def this(id: Integer, groupName: String, list: List[User]) = {
         this(id, groupName)
         this.list = list
     }

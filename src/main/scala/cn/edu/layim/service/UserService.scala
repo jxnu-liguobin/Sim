@@ -144,7 +144,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param uid
       * @param agree
       */
-    def countUnHandMessage(uid: Int, agree: Int): Int = userMapper.countUnHandMessage(uid, agree)
+    def countUnHandMessage(uid: Int, agree: Integer): Int = userMapper.countUnHandMessage(uid, agree)
 
     /**
       * 查询添加好友、群组信息

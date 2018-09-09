@@ -1,0 +1,106 @@
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+
+eclipse {
+	classpath {
+		downloadSources = true
+    	downloadJavadoc = false
+	}
+}
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.9.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		//spring boot hot deploy plugin
+        classpath("org.springframework:springloaded:1.2.5.RELEASE")
+    }
+}
+
+ext {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+jar {
+    baseName = 'spring-boot-scala'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+}
+
+dependencies {
+	//spring boot
+    compile("org.springframework.boot:spring-boot-starter-web"){
+    	transitive = false
+    }
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.springframework.boot:spring-boot-starter-data-redis")
+   	compile("org.springframework.boot:spring-boot-starter-mail")
+
+    //apache
+    compile("commons-fileupload:commons-fileupload:1.3.2")
+
+    //scala
+    compile "org.scala-lang:scala-library:2.11.8"
+    compile "org.scala-lang:scala-compiler:2.11.8"
+    compile "org.scala-lang:scala-reflect:2.11.8"
+
+    //mysql driver
+    compile ("mysql:mysql-connector-java:5.1.38")
+
+    //alibaba druid
+    compile 'com.alibaba:druid:1.0.26'
+
+    //mybatis
+    compile ("org.mybatis.spring.boot:mybatis-spring-boot-starter:1.1.1")
+    compile ("com.github.pagehelper:pagehelper:4.1.0")
+
+    //alibaba fastjson
+    compile 'com.alibaba:fastjson:1.2.12'
+    
+    //Gson
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+
+    //spring security
+    compile ("org.springframework.security:spring-security-core:4.1.3.RELEASE")
+
+    //swagger
+    compile ("io.springfox:springfox-swagger2:2.2.2")
+    compile ("io.springfox:springfox-swagger-ui:2.2.2")
+
+    //Tomcat
+    compile ("org.apache.tomcat.embed:tomcat-embed-jasper:+")
+    compile ("javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1")
+    compile ("org.apache.taglibs:taglibs-standard-impl:1.2.5")
+
+    //shiro
+    compile ("org.apache.shiro:shiro-core:1.2.5")
+    compile ("org.apache.shiro:shiro-web:1.2.5")
+    compile ("org.apache.shiro:shiro-ehcache:1.2.5")
+    compile ("org.apache.shiro:shiro-spring:1.2.5")
+
+    //test
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("junit:junit:4.12")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.9'
+}
+
+bootRepackage.enabled = false
+run {
+	main='com.silence.Application'
+}

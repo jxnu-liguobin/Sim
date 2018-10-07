@@ -15220,3 +15220,7 @@ Verify the connector's configuration, identify and stop any process that's liste
 2018-09-09 13:50:41.341  INFO 4424 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
 2018-09-09 13:50:41.341  INFO 4424 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
 2018-09-09 13:50:41.345  INFO 4424 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2018-09-09 16:06:20.306  INFO 5180 --- [http-nio-80-exec-1] c.s.c.SystemHandlerInterceptorConfig     : 前置处理器，在请求处理之前调用
+2018-09-09 16:27:06.044  INFO 5180 --- [http-nio-80-exec-6] c.s.c.SystemHandlerInterceptorConfig     : 前置处理器，在请求处理之前调用
+2018-09-09 16:27:56.959  INFO 5180 --- [http-nio-80-exec-7] c.s.c.SystemHandlerInterceptorConfig     : 前置处理器，在请求处理之前调用
+2018-09-09 16:30:59.400  INFO 5180 --- [http-nio-80-exec-5] c.s.c.SystemHandlerInterceptorConfig     : 前置处理器，在请求处理之前调用

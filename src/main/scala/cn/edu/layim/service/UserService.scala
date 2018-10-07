@@ -28,14 +28,16 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
 
     private final val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserService])
 
-    //电子邮件相关服务
-    @Autowired private var mailService: MailService = _
+    //邮件服务
+    @Autowired
+    private var mailService: MailService = _
 
     /**
       * 退出群
       *
-      * @param gid
-      * @param uid
+      * @param gid 群组id
+      * @param uid 用户
+      * @return Boolean
       */
     @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)
     def leaveOutGroup(gid: Int, uid: Int): Boolean = userMapper.leaveOutGroup(new GroupMember(gid, uid)) == 1
@@ -43,9 +45,10 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 添加群成员
       *
-      * @param gid          群编号
-      * @param uid          用户编号
+      * @param gid          群组id
+      * @param uid          用户id
       * @param messageBoxId 消息盒子Id
+      * @return Boolean
       */
     @Transactional
     def addGroupMember(gid: Int, uid: Int, messageBoxId: Int): Boolean = {
@@ -60,32 +63,36 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 删除好友
       *
-      * @param friendId 好友Id
-      * @param uId      个人Id
+      * @param friendId 好友id
+      * @param uId      个人/用户id
       * @return Boolean
       */
     @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)
     def removeFriend(friendId: Int, uId: Int): Boolean = {
-        if (friendId == null || uId == null)
+        if (friendId == null || uId == null) {
             return false
-        else
+        }
+        else {
             userMapper.removeFriend(friendId, uId) == 1
+        }
     }
 
     /**
       * 更新用户头像
       *
-      * @param userId
-      * @param avatar
-      * @return
+      * @param userId 个人id
+      * @param avatar 头像
+      * @return Boolean
       */
     @CacheEvict(value = Array("findUserById"), allEntries = true)
     @Transactional
     def updateAvatar(userId: Int, avatar: String): Boolean = {
-        if (userId == null | avatar == null)
+        if (userId == null | avatar == null) {
             return false
-        else
+        }
+        else {
             userMapper.updateAvatar(userId, avatar) == 1
+        }
     }
 
     /**
@@ -94,16 +101,18 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param groupId 新的分组id
       * @param uId     被移动的好友id
       * @param mId     我的id
-      * @return
+      * @return Boolean
       */
     //清除缓存
     @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)
     @Transactional
     def changeGroup(groupId: Int, uId: Int, mId: Int): Boolean = {
-        if (groupId == null || uId == null || mId == null)
+        if (groupId == null || uId == null || mId == null) {
             return false
-        else
+        }
+        else {
             userMapper.changeGroup(groupId, uId, mId) == 1
+        }
     }
 
     /**
@@ -114,13 +123,14 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param tid          对方的id
       * @param tgid         对方设定的分组
       * @param messageBoxId 消息盒子的消息id
+      * @return Boolean
       */
     @Transactional
     @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)
     def addFriend(mid: Int, mgid: Int, tid: Int, tgid: Int, messageBoxId: Int): Boolean = {
         val add = new AddFriends(mid, mgid, tid, tgid)
         if (userMapper.addFriend(add) != 0) {
-            updateAddMessage(messageBoxId, 1)
+            return updateAddMessage(messageBoxId, 1)
         }
         false
     }
@@ -128,28 +138,32 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 创建好友分组列表
       *
-      * @param uid
-      * @param groupName
+      * @param uid       个人id
+      * @param groupName 群组id
+      * @return Boolean
       */
     def createFriendGroup(groupName: String, uid: Int): Boolean = {
-        if (uid == null || groupName == null || "".equals(uid) || "".equals(groupName))
+        if (uid == null || groupName == null || "".equals(uid) || "".equals(groupName)) {
             return false
-        else
+        }
+        else {
             userMapper.createFriendGroup(new FriendGroup(uid, groupName)) == 1
+        }
     }
 
     /**
       * 统计消息
       *
-      * @param uid
-      * @param agree
+      * @param uid   个人id
+      * @param agree 0未处理，1同意，2拒绝
+      * @return Int
       */
     def countUnHandMessage(uid: Int, agree: Integer): Int = userMapper.countUnHandMessage(uid, agree)
 
     /**
       * 查询添加好友、群组信息
       *
-      * @param uid
+      * @param uid 个人id
       * @return List[AddInfo]
       */
     def findAddInfo(uid: Int): List[AddInfo] = {
@@ -172,13 +186,13 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 更新好友、群组信息请求
       *
-      * @param messageBoxId
-      * @param agree
-      * @return
+      * @param messageBoxId 消息盒子id
+      * @param agree        0未处理，1同意，2拒绝
+      * @return Boolean
       */
     @Transactional
     def updateAddMessage(messageBoxId: Int, agree: Int): Boolean = {
-        var addMessage = new AddMessage
+        val addMessage = new AddMessage
         addMessage.setAgree(agree)
         addMessage.setId(messageBoxId)
         userMapper.updateAddMessage(addMessage) == 1
@@ -188,40 +202,43 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 添加好友、群组信息请求
       *
-      * @param addMessage
-      * @return
+      * @param addMessage 添加好友、群组信息对象
+      * @see AddMessage.scala
+      * @return Int
       */
     def saveAddMessage(addMessage: AddMessage): Int = userMapper.saveAddMessage(addMessage)
 
     /**
       * 根据群名模糊统计
       *
-      * @param groupName
-      * @return
+      * @param groupName 群组名称
+      * @return Int
       */
     def countGroup(groupName: String): Int = userMapper.countGroup(groupName)
 
     /**
       * 根据群名模糊查询群
       *
-      * @param groupName
-      * @return
+      * @param groupName 群组名称
+      * @return List[GroupList]
       */
     def findGroup(groupName: String): List[GroupList] = userMapper.findGroup(groupName)
 
     /**
       * 根据用户名和性别统计用户
       *
-      * @param username
-      * @param sex
+      * @param username 用户名
+      * @param sex      性别
+      * @return Int
       */
     def countUsers(username: String, sex: Int): Int = userMapper.countUser(username, sex)
 
     /**
       * 根据用户名和性别查询用户
       *
-      * @param username
-      * @param sex
+      * @param username 用户名
+      * @param sex      性别
+      * @return List[User]
       */
     def findUsers(username: String, sex: Int): List[User] = userMapper.findUsers(username, sex)
 
@@ -229,9 +246,10 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 统计查询消息
       *
-      * @param uid  消息所属用户
+      * @param uid  消息所属用户id、用户个人id
       * @param mid  来自哪个用户
       * @param Type 消息类型，可能来自friend或者group
+      * @return Int
       */
     def countHistoryMessage(uid: Int, mid: Int, Type: String): Int = {
         Type match {
@@ -243,9 +261,11 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 查询历史消息
       *
-      * @param user
-      * @param mid
-      * @param Type
+      * @param user 所属用户、用户个人
+      * @param mid  来自哪个用户
+      * @param Type 消息类型，可能来自friend或者group
+      * @see User.scala
+      * @return List[ChatHistory]
       */
     def findHistoryMessage(user: User, mid: Int, Type: String): List[ChatHistory] = {
         val list = new ArrayList[ChatHistory]()
@@ -287,8 +307,9 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 查询离线消息
       *
-      * @param uid
+      * @param uid    消息所属用户id、用户个人id
       * @param status 历史消息还是离线消息 0代表离线 1表示已读
+      * @return List[Receive]
       */
     def findOffLineMessage(uid: Int, status: Int): List[Receive] = userMapper.findOffLineMessage(uid, status)
 
@@ -297,6 +318,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * 保存用户聊天记录
       *
       * @param receive 聊天记录信息
+      * @see Receive.scala
       * @return Int
       */
     def saveMessage(receive: Receive): Int = userMapper.saveMessage(receive)
@@ -304,7 +326,8 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 用户更新签名
       *
-      * @param user
+      * @param user 消息所属用户、用户个人
+      * @see User.scala
       * @return Boolean
       */
     def updateSing(user: User): Boolean = {
@@ -318,7 +341,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 激活码激活用户
       *
-      * @param activeCode
+      * @param activeCode 激活码
       * @return Int
       */
     def activeUser(activeCode: String): Int = {
@@ -331,20 +354,23 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 判断邮件是否存在
       *
-      * @param email
-      * @return
+      * @param email 邮箱
+      * @return Boolean
       */
     def existEmail(email: String): Boolean = {
-        if (email == null || "".equals(email))
+        if (email == null || "".equals(email)) {
             return false
-        else
+        }
+        else {
             userMapper.matchUser(email) != null
+        }
     }
 
     /**
       * 用户邮件和密码是否匹配
       *
-      * @param user
+      * @param user 用户
+      * @see User.scala
       * @return User
       */
     def matchUser(user: User): User = {
@@ -362,21 +388,23 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 根据群组ID查询群里用户的信息
       *
-      * @param gid
+      * @param gid 群组id
       * @return List[User]
       */
     @Cacheable(value = Array("findUserByGroupId"), keyGenerator = "wiselyKeyGenerator")
     def findUserByGroupId(gid: Int): List[User] = userMapper.findUserByGroupId(gid)
 
     /**
-      * 根据ID查询用户好友分组列表信息
+      * 根据ID查询用户的好友分组的列表信息
+      *
+      * FriendList表示一个好友列表，一个用户可以有多个FriendList
       *
       * @param uid 用户ID
       * @return List[FriendList]
       */
     @Cacheable(value = Array("findFriendGroupsById"), keyGenerator = "wiselyKeyGenerator")
     def findFriendGroupsById(uid: Int): List[FriendList] = {
-        var friends = userMapper.findFriendGroupsById(uid)
+        val friends = userMapper.findFriendGroupsById(uid)
         //封装分组列表下的好友信息
         JavaConversions.collectionAsScalaIterable(friends).foreach {
             friend: FriendList => {
@@ -389,19 +417,23 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 根据ID查询用户信息
       *
-      * @param id
+      * @param id 用户id
       * @return User
       */
     @Cacheable(value = Array("findUserById"), keyGenerator = "wiselyKeyGenerator")
     def findUserById(id: Int): User = {
-        if (id != null) userMapper.findUserById(id) else null
+        if (id != null) {
+            return userMapper.findUserById(id)
+        } else {
+            null
+        }
     }
 
     /**
-      * 根据ID查询用户群组信息
+      * 根据ID查询群组列表
       *
-      * @param id
-      * @return List[Group]
+      * @param id 群组id
+      * @return List[GroupList]
       */
     @Cacheable(value = Array("findGroupsById"), keyGenerator = "wiselyKeyGenerator")
     def findGroupsById(id: Int): List[GroupList] = {
@@ -411,8 +443,9 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     /**
       * 保存用户信息
       *
-      * @param user
-      * @return Int
+      * @param user 用户
+      * @see User.scala
+      * @return Boolean
       */
     //清除缓存
     @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)

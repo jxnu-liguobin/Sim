@@ -3,7 +3,7 @@ package cn.edu.layim.repository
 import java.util.List
 
 import cn.edu.layim.domain.{AddInfo, FriendList, GroupList, GroupMember}
-import cn.edu.layim.entity._
+import cn.edu.layim.entity.{FriendGroup, _}
 import org.apache.ibatis.annotations._
 
 /**
@@ -18,7 +18,9 @@ trait UserMapper {
     /**
       * 退出群
       *
-      * @param groupMember
+      * @param groupMember 群成员对象
+      * @see GroupMember.scala
+      * @return Int
       */
     @Delete(Array("delete from t_group_members where gid=#{gid} and uid=#{uid}"))
     def leaveOutGroup(groupMember: GroupMember): Int
@@ -26,8 +28,9 @@ trait UserMapper {
     /**
       * 添加群成员
       *
-      * @param gid 群编号
-      * @param uid 用户编号
+      * @param groupMember 群成员对象
+      * @see GroupMember.scala
+      * @return Int
       */
     @Insert(Array("insert into t_group_members(gid,uid) values(#{gid},#{uid})"))
     def addGroupMember(groupMember: GroupMember): Int
@@ -45,9 +48,9 @@ trait UserMapper {
     /**
       * 更新用户头像
       *
-      * @param userId
-      * @param avatar
-      * @return
+      * @param userId 用户id
+      * @param avatar 用户头像
+      * @return Int
       */
     @Update(Array("update t_user set avatar=#{avatar} where id=#{userId}"))
     def updateAvatar(@Param("userId") userId: Int, @Param("avatar") avatar: String): Int
@@ -58,7 +61,7 @@ trait UserMapper {
       * @param groupId 新的分组id
       * @param uId     被移动的好友id
       * @param mId     我的id
-      * @return
+      * @return Int
       */
     @Update(Array("update t_friend_group_friends set fgid = #{groupId} where id =(select t.id from ((select id from t_friend_group_friends where fgid in (select id from t_friend_group where uid = #{mId}) and uid = #{uId}) t))"))
     def changeGroup(@Param("groupId") groupId: Int, @Param("uId") uId: Int, @Param("mId") mId: Int): Int
@@ -66,10 +69,9 @@ trait UserMapper {
     /**
       * 添加好友操作
       *
-      * @param mgid 分组id
-      * @param tid  对方用户id
-      * @param mid  自己的id
-      * @param tgid 对方分组id
+      * @param addFriends 添加朋友对象
+      * @see AddFriends.scala
+      * @return Int
       */
     @Insert(Array("insert into t_friend_group_friends(fgid,uid) values(#{mgid},#{tid}),(#{tgid},#{mid})"))
     def addFriend(addFriends: AddFriends): Int
@@ -79,6 +81,7 @@ trait UserMapper {
       *
       * @param uid
       * @param agree
+      * @return Int
       */
     @Select(Array("<script> select count(*) from t_add_message where to_uid=#{uid} <if test='agree!=null'> and agree=#{agree} </if> </script>"))
     def countUnHandMessage(@Param("uid") uid: Int, @Param("agree") agree: Int): Int
@@ -100,17 +103,20 @@ trait UserMapper {
     /**
       * 更新好友、群组信息请求
       *
-      * @param addMessage
-      * @return
+      * @param addMessage 添加好友、群组信息对象
+      * @see AddMessage.scala
+      * @return Int
       */
     @Update(Array("update t_add_message set agree = #{agree} where id = #{id}"))
     def updateAddMessage(addMessage: AddMessage): Int
 
     /**
       * 添加好友、群组信息请求
+      * ON DUPLICATE KEY UPDATE 首先这个语法的目的是为了解决重复性，当数据库中存在某个记录时，执行这条语句会更新它，而不存在这条记录时，会插入它。
       *
-      * @param addMessage
-      * @return
+      * @param addMessage 添加好友、群组信息对象
+      * @see AddMessage.scala
+      * @return Int
       */
     @Insert(Array("insert into t_add_message(from_uid,to_uid,group_id,remark,agree,type,time) values (#{fromUid},#{toUid},#{groupId},#{remark},#{agree},#{Type},#{time}) ON DUPLICATE KEY UPDATE remark=#{remark},time=#{time},agree=#{agree};"))
     def saveAddMessage(addMessage: AddMessage): Int
@@ -118,8 +124,8 @@ trait UserMapper {
     /**
       * 根据群名模糊统计
       *
-      * @param groupName
-      * @return
+      * @param groupName 群组名
+      * @return Int
       */
     @Select(Array("<script> select count(*) from t_group where 1 = 1 <if test='groupName != null'> and group_name like '%${groupName}%'</if></script>"))
     def countGroup(@Param("groupName") groupName: String): Int
@@ -127,17 +133,17 @@ trait UserMapper {
     /**
       * 根据群名模糊查询群
       *
-      * @param groupName
-      * @return
+      * @param groupName 群组名
+      * @return Int
       */
-    @Select(Array("<script> select id,group_name,avatar,create_id from t_group where 1=1 <if test='groupName != null'> and group_name like '%${groupName}%'</if></script>"))
+    @Select(Array("<script> select id,group_name,avatar,create_id from t_group where 1 = 1 <if test='groupName != null'> and group_name like '%${groupName}%'</if></script>"))
     def findGroup(@Param("groupName") groupName: String): List[GroupList]
 
     /**
       * 根据群id查询群信息
       *
-      * @param gid
-      * @return
+      * @param gid 群组id
+      * @return GroupList
       */
     @Select(Array("select id,group_name,avatar,create_id from t_group where id = #{gid}"))
     def findGroupById(@Param("gid") gid: Int): GroupList
@@ -145,8 +151,9 @@ trait UserMapper {
     /**
       * 根据用户名和性别统计用户
       *
-      * @param username
-      * @param sex
+      * @param username 用户名
+      * @param sex      性别
+      * @return Int
       */
     @Select(Array("<script> select count(*) from t_user where 1 = 1 <if test='username != null'> and username like '%${username}%'</if><if test='sex != null'> and sex=#{sex}</if></script>"))
     def countUser(@Param("username") username: String, @Param("sex") sex: Int): Int
@@ -154,8 +161,9 @@ trait UserMapper {
     /**
       * 根据用户名和性别查询用户
       *
-      * @param username
-      * @param sex
+      * @param username 用户名
+      * @param sex      性别
+      * @return List[User]
       */
     @Select(Array("<script> select id,username,status,sign,avatar,email from t_user where 1=1 <if test='username != null'> and username like '%${username}%'</if><if test='sex != null'> and sex=#{sex}</if></script>"))
     def findUsers(@Param("username") username: String, @Param("sex") sex: Int): List[User]
@@ -166,6 +174,7 @@ trait UserMapper {
       * @param uid  消息所属用户
       * @param mid  来自哪个用户
       * @param Type 消息类型，可能来自friend或者group
+      * @return Int
       */
     @Select(Array("<script> select count(*) from t_message where type = #{Type} and " +
       "<choose><when test='uid!=null and mid !=null'>(toid = #{uid} and mid = #{mid}) or (toid = #{mid} and mid = #{uid}) </when><when test='mid != null'> mid = #{mid} </when></choose> order by timestamp </script>"))
@@ -177,6 +186,7 @@ trait UserMapper {
       * @param uid  消息所属用户
       * @param mid  来自哪个用户
       * @param Type 消息类型，可能来自friend或者group
+      * @return List[Receive]
       */
     @Results(value = Array(new Result(property = "id", column = "mid")))
     @Select(Array("<script> select toid,fromid,mid,content,type,timestamp,status from t_message where type = #{Type} and " +
@@ -188,6 +198,7 @@ trait UserMapper {
       *
       * @param uid
       * @param status 历史消息还是离线消息 0代表离线 1表示已读
+      * @return List[Receive]
       */
     @Results(value = Array(new Result(property = "id", column = "mid")))
     @Select(Array("select toid,fromid,mid,content,type,timestamp,status from t_message where toid = #{uid} and status = #{status}"))
@@ -197,6 +208,7 @@ trait UserMapper {
       * 保存用户聊天记录
       *
       * @param receive 聊天记录信息
+      * @see Receive.scala
       * @return Int
       */
     @Insert(Array("insert into t_message(mid,toid,fromid,content,type,timestamp,status) values(#{id},#{toid},#{fromid},#{content},#{type},#{timestamp},#{status})"))
@@ -204,6 +216,10 @@ trait UserMapper {
 
     /**
       * 更新签名
+      *
+      * @param sign 签名
+      * @param uid  用户id
+      * @return Int
       */
     @Update(Array("update t_user set sign = #{sign} where id = #{uid}"))
     def updateSign(@Param("sign") sign: String, @Param("uid") uid: Int): Int
@@ -211,7 +227,7 @@ trait UserMapper {
     /**
       * 激活用户账号
       *
-      * @param activeCode
+      * @param activeCode 激活码
       * @return List[User]
       */
     @Update(Array("update t_user set status = 'offline' where active = #{activeCode}"))
@@ -220,7 +236,7 @@ trait UserMapper {
     /**
       * 根据群组ID查询群里用户的信息
       *
-      * @param gid
+      * @param gid 群组id
       * @return List[User]
       */
     @Select(Array("select id,username,status,sign,avatar,email from t_user where id in(select uid from t_group_members where gid = #{gid})"))
@@ -229,24 +245,24 @@ trait UserMapper {
     /**
       * 根据ID查询用户信息
       *
-      * @param id
+      * @param id 用户id
       * @return User
       */
     @Select(Array("select id,username,status,sign,avatar,email,sex,create_date from t_user where id = #{id}"))
     def findUserById(id: Int): User
 
     /**
-      * 根据ID查询用户群组列表,不管是自己创建的还是别人创建的
+      * 根据ID查询用户群组列表，不管是自己创建的还是别人创建的
       *
       * @param uid 用户ID
-      * @return List[Group]
+      * @return List[GroupList]
       */
     @Results(value = Array(new Result(property = "createId", column = "create_id")))
     @Select(Array("select id,group_name,avatar,create_id from t_group where id in(select distinct gid from t_group_members where uid = #{uid})"))
     def findGroupsById(uid: Int): List[GroupList]
 
     /**
-      * 根据ID查询用户好友分组列表
+      * 根据ID查询该用户的好友分组的列表
       *
       * @param uid 用户ID
       * @return List[FriendList]
@@ -255,9 +271,9 @@ trait UserMapper {
     def findFriendGroupsById(uid: Int): List[FriendList]
 
     /**
-      * 根据好友列表ID查询用户信息
+      * 根据好友列表ID查询用户信息列表
       *
-      * @param fgid
+      * @param fgid 好友分组id
       * @return List[User]
       */
     @Select(Array("select id,username,avatar,sign,status,email,sex from t_user where id in(select uid from t_friend_group_friends where fgid = #{fgid})"))
@@ -266,26 +282,28 @@ trait UserMapper {
     /**
       * 保存用户信息
       *
-      * @param user
-      * @return Int
+      * @param user 用户对象
+      * @see User.scala
+      * @return Int 新增用户id
       */
     @Insert(Array("insert into t_user(username,password,email,create_date,active) values(#{username},#{password},#{email},#{createDate},#{active})"))
     @Options(useGeneratedKeys = true, keyProperty = "id")
     def saveUser(user: User): Int = user.getId
 
     /**
+      * 根据邮箱匹配用户
       *
-      * @param email
+      * @param email 邮箱
       * @return User
       */
     @Select(Array("select id,username,email,avatar,sex,sign,password,status,active from t_user where email = #{email}"))
     def matchUser(email: String): User
 
     /**
-      * 创建好友分组列表
+      * 创建好友分组记录
       *
-      * @param uid
-      * @param groupName
+      * @param friendGroup 好友分组
+      * @return Int
       */
     @Insert(Array("insert into t_friend_group(group_name,uid) values(#{groupName},#{uid})"))
     def createFriendGroup(friendGroup: FriendGroup): Int

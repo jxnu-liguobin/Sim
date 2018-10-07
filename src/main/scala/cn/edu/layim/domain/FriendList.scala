@@ -9,7 +9,7 @@ import scala.beans.BeanProperty
 /**
   * 好友列表
   *
-  * @param id        好友列表分组
+  * @param id        好友列表id
   * @param groupName 列表名称
   */
 class FriendList(id: Integer, groupName: String) extends Group(id, groupName) {

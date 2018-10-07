@@ -20,7 +20,8 @@ class RedisService {
 
     private val LOGGER: Logger = LoggerFactory.getLogger(classOf[RedisService])
 
-    @Autowired private var redisTemplate: RedisTemplate[String, String] = _
+    @Autowired
+    private var redisTemplate: RedisTemplate[String, String] = _
 
     /**
       * 获取Set集合数据

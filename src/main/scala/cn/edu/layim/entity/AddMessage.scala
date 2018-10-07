@@ -14,8 +14,8 @@ class AddMessage {
 
     @BeanProperty
     var id: Int = _
-    //谁发起的请求
 
+    //谁发起的请求
     @BeanProperty
     var fromUid: Int = _
 

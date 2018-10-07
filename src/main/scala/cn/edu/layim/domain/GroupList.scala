@@ -3,7 +3,7 @@ package cn.edu.layim.domain
 import scala.beans.BeanProperty
 
 /**
-  * 好友分组列表
+  * 群组
   *
   * @param id        分组id
   * @param groupName 分组名称

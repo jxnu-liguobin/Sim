@@ -1,7 +1,5 @@
 package cn.edu.layim.entity
 
-import java.lang.Long
-
 import scala.beans.BeanProperty
 
 /**

@@ -31,16 +31,16 @@ class RedisConfig {
     //数据库索引数量
     @Value("${spring.redis.database}")
     private var database: Int = _
-
+    //连接池中的最大空闲连接
     @Value("${spring.redis.pool.max-idle}")
     private var maxIdle: Int = _
-
+    //连接池中的最小空闲连接
     @Value("${spring.redis.pool.min-idle}")
     private var minIdle: Int = _
-
+    //连接池最大连接数（使用负值表示没有限制）
     @Value("${spring.redis.pool.max-active}")
     private var maxActive: Int = _
-
+    //连接池最大阻塞等待时间（使用负值表示没有限制）
     @Value("${spring.redis.pool.max-wait}")
     private var maxWait: Int = _
 
@@ -60,7 +60,7 @@ class RedisConfig {
     }
 
     /**
-      * Jedis数据连接工场
+      * Jedis数据连接工厂
       *
       * @return JedisConnectionFactory
       */

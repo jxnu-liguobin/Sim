@@ -3,10 +3,12 @@ package cn.edu.layim.domain
 import scala.beans.BeanProperty
 
 /**
-  * 群组
+  * 群组列表
   *
   * @param id        分组id
   * @param groupName 分组名称
+  * @date 2018年9月8日
+  * @author 梦境迷离
   */
 class GroupList(id: Integer, groupName: String) extends Group(id, groupName) {
 

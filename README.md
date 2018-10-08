@@ -12,6 +12,7 @@
     Java Mail
     Mybatis And PageHelper
     Spring Security
+    Swagger
 
 ### 环境 ###
 

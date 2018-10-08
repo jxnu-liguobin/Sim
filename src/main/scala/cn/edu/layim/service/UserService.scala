@@ -3,7 +3,7 @@ package cn.edu.layim.service
 import java.util.{ArrayList, List}
 
 import cn.edu.layim.common.SystemConstant
-import cn.edu.layim.domain.{AddInfo, FriendList, GroupList, GroupMember}
+import cn.edu.layim.domain._
 import cn.edu.layim.entity._
 import cn.edu.layim.repository.UserMapper
 import cn.edu.layim.util.{DateUtil, SecurityUtil, UUIDUtil, WebUtil}

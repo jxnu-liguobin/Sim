@@ -1,7 +1,13 @@
-package cn.edu.layim.entity
+package cn.edu.layim.domain
 
 import scala.beans.BeanProperty
 
+/**
+  * 添加好友
+  *
+  * @date 2018年9月8日
+  * @author 梦境迷离
+  */
 class AddFriends {
 
     //自己的id

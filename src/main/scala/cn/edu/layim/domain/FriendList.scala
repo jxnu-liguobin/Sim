@@ -2,7 +2,7 @@ package cn.edu.layim.domain
 
 import java.util.List
 
-import cn.edu.layim.entity.User
+import cn.edu.layim.entity.{Group, User}
 
 import scala.beans.BeanProperty
 
@@ -10,6 +10,8 @@ import scala.beans.BeanProperty
   * 好友列表
   *
   * 好友列表也是一种group
+  *
+  * 一个好友列表有多个用户
   *
   * @param id        好友列表id
   * @param groupName 列表名称

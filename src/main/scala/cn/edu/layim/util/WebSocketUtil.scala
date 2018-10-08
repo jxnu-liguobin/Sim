@@ -4,6 +4,7 @@ import java.util.{Collections, HashMap, List}
 
 import cn.edu.layim.Application
 import cn.edu.layim.common.SystemConstant
+import cn.edu.layim.domain.{Add, Receive}
 import cn.edu.layim.entity._
 import cn.edu.layim.service.{RedisService, UserService}
 import cn.edu.layim.websocket.domain.Domain
@@ -28,7 +29,8 @@ object WebSocketUtil {
 
     private final lazy val application = Application.getApplicationContext
 
-    @BeanProperty final var sessions = Collections.synchronizedMap(new HashMap[Integer, Session]())
+    @BeanProperty
+    final var sessions = Collections.synchronizedMap(new HashMap[Integer, Session]())
 
     private lazy val redisService: RedisService = application.getBean(classOf[RedisService])
 
@@ -44,7 +46,7 @@ object WebSocketUtil {
     def sendMessage(message: Message): Unit = synchronized {
         LOGGER.info("发送好友消息和群消息!");
         //封装返回消息格式
-        var gid = message.getTo.getId
+        val gid = message.getTo.getId
         val receive = WebSocketUtil.getReceiveType(message)
         val key: Integer = message.getTo.getId
         //聊天类型，可能来自朋友或群组
@@ -107,7 +109,7 @@ object WebSocketUtil {
       */
     def removeFriend(uId: Integer, friendId: Integer) = synchronized {
         //对方是否在线，在线则处理，不在线则不处理
-        var result = new HashMap[String, String]
+        val result = new HashMap[String, String]
         if (sessions.get(friendId) != null) {
             result.put("type", "delFriend");
             result.put("uId", uId + "");
@@ -133,7 +135,7 @@ object WebSocketUtil {
         addMessage.setRemark(t.getRemark)
         addMessage.setType(1)
         userService.saveAddMessage(addMessage)
-        var result = new HashMap[String, String]
+        val result = new HashMap[String, String]
         if (sessions.get(to.getId) != null) {
             result.put("type", "addGroup");
             sendMessage(gson.toJson(result), sessions.get(to.getId))
@@ -157,7 +159,7 @@ object WebSocketUtil {
         addMessage.setType(add.getType)
         addMessage.setGroupId(add.getGroupId)
         userService.saveAddMessage(addMessage)
-        var result = new HashMap[String, String]
+        val result = new HashMap[String, String]
         //如果对方在线，则推送给对方
         if (sessions.get(message.getTo.getId) != null) {
             result.put("type", "addFriend")
@@ -169,11 +171,12 @@ object WebSocketUtil {
       * 统计离线消息数量
       *
       * @param uid
+      * @return HashMap[String, String]
       */
     def countUnHandMessage(uid: Integer): HashMap[String, String] = synchronized {
         val count = userService.countUnHandMessage(uid, 0)
         LOGGER.info("count = " + count)
-        var result = new HashMap[String, String]
+        val result = new HashMap[String, String]
         result.put("type", "unHandMessage")
         result.put("count", count + "")
         result
@@ -183,11 +186,12 @@ object WebSocketUtil {
       * 监测某个用户的离线或者在线
       *
       * @param message
+      * @return HashMap[String, String]
       */
     def checkOnline(message: Message, session: Session): HashMap[String, String] = synchronized {
         LOGGER.info("监测在线状态" + message.getTo.toString)
         val uids = redisService.getSets(SystemConstant.ONLINE_USER)
-        var result = new HashMap[String, String]
+        val result = new HashMap[String, String]
         result.put("type", "checkOnline")
         if (uids.contains(message.getTo.getId.toString))
             result.put("status", "在线")
@@ -215,7 +219,7 @@ object WebSocketUtil {
     def getReceiveType(message: Message): Receive = {
         val mine = message.getMine
         val to = message.getTo
-        var receive = new Receive
+        val receive = new Receive
         receive.setId(mine.getId)
         receive.setFromid(mine.getId)
         receive.setToid(to.getId)

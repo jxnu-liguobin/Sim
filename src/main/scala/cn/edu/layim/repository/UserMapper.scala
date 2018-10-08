@@ -2,7 +2,7 @@ package cn.edu.layim.repository
 
 import java.util.List
 
-import cn.edu.layim.domain.{AddInfo, FriendList, GroupList, GroupMember}
+import cn.edu.layim.domain._
 import cn.edu.layim.entity.{FriendGroup, _}
 import org.apache.ibatis.annotations._
 

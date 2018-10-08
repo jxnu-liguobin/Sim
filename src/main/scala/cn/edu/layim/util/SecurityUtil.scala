@@ -29,7 +29,7 @@ object SecurityUtil {
       *
       * @param rawPassword 明文密码
       * @param password    加密后的密码
-      * @return
+      * @return Boolean
       */
     def matchs(rawPassword: String, password: String): Boolean = {
         if (rawPassword == null && password == null) {

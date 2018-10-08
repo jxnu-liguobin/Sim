@@ -3,8 +3,9 @@ package cn.edu.layim.entity
 import scala.beans.BeanProperty
 
 /**
-  * 服务器用于接收消息
+  * 消息
   *
+  * @see table:t_message
   * @date 2018年9月8日
   * @author 梦境迷离
   */

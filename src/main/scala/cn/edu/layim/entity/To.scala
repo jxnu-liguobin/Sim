@@ -3,7 +3,7 @@ package cn.edu.layim.entity
 import scala.beans.BeanProperty
 
 /**
-  * 对方的信息
+  * 发送给...的信息
   *
   * @date 2018年9月8日
   * @author 梦境迷离

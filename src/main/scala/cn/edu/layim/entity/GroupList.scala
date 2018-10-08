@@ -1,12 +1,13 @@
-package cn.edu.layim.domain
+package cn.edu.layim.entity
 
 import scala.beans.BeanProperty
 
 /**
-  * 群组列表
+  * 群组信息
   *
-  * @param id        分组id
-  * @param groupName 分组名称
+  * @see table:t_group
+  * @param id        群组id
+  * @param groupName 群组名称
   * @date 2018年9月8日
   * @author 梦境迷离
   */

@@ -14,14 +14,14 @@ object WebUtil {
       * 获取服务器IP
       *
       * @param request
-      * @return
+      * @return String
       */
     def getServerIpAdder(request: HttpServletRequest): String = {
-        var addr: String = request.getScheme + "://" + request.getServerName
+        val addr: String = request.getScheme + "://" + request.getServerName
         if (request.getServerPort == 80) {
             return addr
         } else {
-            return addr + ":" + request.getServerPort
+            addr + ":" + request.getServerPort
         }
     }
 
@@ -29,7 +29,7 @@ object WebUtil {
       * 获取客户端真实IP
       *
       * @param request
-      * @return
+      * @return String
       */
     def getClientIpAddr(request: HttpServletRequest): String = {
         if (request == null) {

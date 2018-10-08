@@ -5,8 +5,9 @@ import java.util.Date
 import scala.beans.BeanProperty
 
 /**
-  * 添加好友、群组信息
+  * 添加消息
   *
+  * @see table:t_add_message
   * @date 2018年9月8日
   * @author 梦境迷离
   */

@@ -3,14 +3,15 @@ package cn.edu.layim.entity
 import scala.beans.BeanProperty
 
 /**
-  * 好友分组对象
+  * 用户创建的好友列表
   *
+  * @see table:t_friend_group
   * @date 2018年9月8日
   * @author 梦境迷离
   */
 class FriendGroup {
 
-    //用户id
+    //用户id，该分组所属的用户ID
     @BeanProperty
     var uid: Int = _
 

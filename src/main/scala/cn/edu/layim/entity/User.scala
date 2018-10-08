@@ -8,15 +8,17 @@ import org.springframework.format.annotation.DateTimeFormat
 import scala.beans.BeanProperty
 
 /**
-  * 用户属性
+  * 用户
   *
+  * @see table:t_user
   * @date 2018年9月8日
   * @author 梦境迷离
   *
   */
 class User extends Serializable {
 
-    @BeanProperty var id: Int = _
+    @BeanProperty
+    var id: Int = _
 
     //用户名
     @BeanProperty

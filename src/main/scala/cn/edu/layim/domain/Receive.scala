@@ -1,9 +1,9 @@
-package cn.edu.layim.entity
+package cn.edu.layim.domain
 
 import scala.beans.BeanProperty
 
 /**
-  * 客户端接收消息类型
+  * 收到的消息
   *
   * @date 2018年9月8日
   * @author 梦境迷离

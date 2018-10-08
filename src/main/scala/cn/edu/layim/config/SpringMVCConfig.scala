@@ -1,7 +1,7 @@
 package cn.edu.layim.config
 
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.config.annotation.{InterceptorRegistry, ViewControllerRegistry, WebMvcConfigurerAdapter}
+import org.springframework.web.servlet.config.annotation.{InterceptorRegistry, ResourceHandlerRegistry, ViewControllerRegistry, WebMvcConfigurerAdapter}
 
 /**
   * SpringMVC配置
@@ -34,9 +34,25 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
           .addPathPatterns("/**")
           .excludePathPatterns("/")
           .excludePathPatterns("/*.html")
+          .excludePathPatterns("/user/active/*") //别拦截激活URL
           .excludePathPatterns("/user/login")
           .excludePathPatterns("/user/register")
           .excludePathPatterns("/user/existEmail")
-        super.addInterceptors(registry);
+          .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**")
+        super.addInterceptors(registry)
+    }
+
+    /**
+      * addResourceLocations是必须的，否则swagger被拦截
+      *
+      * @param registry
+      */
+    override def addResourceHandlers(registry: ResourceHandlerRegistry) {
+        registry.addResourceHandler("swagger-ui.html")
+          .addResourceLocations("classpath:/META-INF/resources/")
+        registry.addResourceHandler("/webjars/**")
+          .addResourceLocations("classpath:/META-INF/resources/webjars/")
+        super.addResourceHandlers(registry)
+
     }
 }

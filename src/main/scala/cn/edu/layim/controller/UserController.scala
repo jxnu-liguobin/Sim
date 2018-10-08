@@ -266,6 +266,7 @@ class UserController @Autowired()(private val userService: UserService) {
         if (userService.activeUser(activeCode) == 1) {
             return "redirect:/#tologin?status=1"
         }
+        //http://localhost/user/active/1ade893a1b1940a5bb8dc8447538a6a6a18ad80bcf84437a8cfb67213337202d
         "redirect:/#toregister?status=0"
     }
 
@@ -367,7 +368,7 @@ class UserController @Autowired()(private val userService: UserService) {
     }
 
     /**
-      * 客户端上传图片
+      * 上传群组头像
       *
       * @param file
       * @param request

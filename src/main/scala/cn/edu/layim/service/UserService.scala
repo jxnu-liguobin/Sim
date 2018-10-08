@@ -173,7 +173,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
                 info.setContent("申请添加你为好友")
             } else {
                 val group: GroupList = userMapper.findGroupById(info.getFrom_group)
-                info.setContent("申请加入 '" + group.getGroupName + "' 群聊中!")
+                info.setContent("申请加入 '" + group.getGroupname + "' 群聊中!")
             }
             info.setHref(null)
             info.setUser(findUserById(info.getFrom))

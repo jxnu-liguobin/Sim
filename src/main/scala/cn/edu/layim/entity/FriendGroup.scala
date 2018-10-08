@@ -17,14 +17,14 @@ class FriendGroup {
 
     //群组名称
     @BeanProperty
-    var groupName: String = _
+    var groupname: String = _
 
-    def this(uid: Int, groupName: String) = {
+    def this(uid: Int, groupname: String) = {
         this
         this.uid = uid
-        this.groupName = groupName
+        this.groupname = groupname
     }
 
-    override def toString = "uid = " + uid + ",groupName = " + groupName
+    override def toString = "uid = " + uid + ",groupname = " + groupname
 
 }

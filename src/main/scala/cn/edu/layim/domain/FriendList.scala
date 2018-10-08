@@ -14,17 +14,17 @@ import scala.beans.BeanProperty
   * 一个好友列表有多个用户
   *
   * @param id        好友列表id
-  * @param groupName 列表名称
+  * @param groupname 列表名称
   * @date 2018年9月8日
   * @author 梦境迷离
   */
-class FriendList(id: Integer, groupName: String) extends Group(id, groupName) {
+class FriendList(id: Integer, groupname: String) extends Group(id, groupname) {
 
     @BeanProperty
     var list: List[User] = _
 
-    def this(id: Integer, groupName: String, list: List[User]) = {
-        this(id, groupName)
+    def this(id: Integer, groupname: String, list: List[User]) = {
+        this(id, groupname)
         this.list = list
     }
 

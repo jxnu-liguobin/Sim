@@ -84,7 +84,7 @@ trait UserMapper {
       * @return Int
       */
     @Select(Array("<script> select count(*) from t_add_message where to_uid=#{uid} <if test='agree!=null'> and agree=#{agree} </if> </script>"))
-    def countUnHandMessage(@Param("uid") uid: Int, @Param("agree") agree: Int): Int
+    def countUnHandMessage(@Param("uid") uid: Int, @Param("agree") agree: Integer): Int
 
     /**
       * 查询添加好友、群组信息
@@ -156,7 +156,7 @@ trait UserMapper {
       * @return Int
       */
     @Select(Array("<script> select count(*) from t_user where 1 = 1 <if test='username != null'> and username like '%${username}%'</if><if test='sex != null'> and sex=#{sex}</if></script>"))
-    def countUser(@Param("username") username: String, @Param("sex") sex: Int): Int
+    def countUser(@Param("username") username: String, @Param("sex") sex: Integer): Int
 
     /**
       * 根据用户名和性别查询用户
@@ -166,7 +166,7 @@ trait UserMapper {
       * @return List[User]
       */
     @Select(Array("<script> select id,username,status,sign,avatar,email from t_user where 1=1 <if test='username != null'> and username like '%${username}%'</if><if test='sex != null'> and sex=#{sex}</if></script>"))
-    def findUsers(@Param("username") username: String, @Param("sex") sex: Int): List[User]
+    def findUsers(@Param("username") username: String, @Param("sex") sex: Integer): List[User]
 
     /**
       * 统计查询消息

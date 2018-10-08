@@ -140,7 +140,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       *
       * @param uid       个人id
       * @param groupName 群组id
-      * @return Boolean
+      * @return BooleanFriendGroup
       */
     def createFriendGroup(groupName: String, uid: Int): Boolean = {
         if (uid == null || groupName == null || "".equals(uid) || "".equals(groupName)) {
@@ -231,7 +231,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param sex      性别
       * @return Int
       */
-    def countUsers(username: String, sex: Int): Int = userMapper.countUser(username, sex)
+    def countUsers(username: String, sex: Integer): Int = userMapper.countUser(username, sex)
 
     /**
       * 根据用户名和性别查询用户
@@ -240,7 +240,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param sex      性别
       * @return List[User]
       */
-    def findUsers(username: String, sex: Int): List[User] = userMapper.findUsers(username, sex)
+    def findUsers(username: String, sex: Integer): List[User] = userMapper.findUsers(username, sex)
 
 
     /**

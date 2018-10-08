@@ -3,8 +3,8 @@ package cn.edu.layim.controller
 import java.util.{HashMap, List}
 
 import cn.edu.layim.common.SystemConstant
-import cn.edu.layim.domain.{FriendAndGroupInfo, FriendList, ResultPageSet, ResultSet}
-import cn.edu.layim.entity.{ChatHistory, Receive, User}
+import cn.edu.layim.domain._
+import cn.edu.layim.entity.User
 import cn.edu.layim.service.UserService
 import cn.edu.layim.util.FileUtil
 import com.github.pagehelper.PageHelper
@@ -40,7 +40,7 @@ class UserController @Autowired()(private val userService: UserService) {
       *
       * @param groupId 群编号
       * @param request
-      * @return
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/leaveOutGroup"))
@@ -54,7 +54,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 删除好友
       *
       * @param friendId
-      * @return
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/removeFriend"))
@@ -70,7 +70,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * @param groupId 新的分组id
       * @param userId  被移动的好友id
       * @param request
-      * @return
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/changeGroup"))
@@ -90,7 +90,7 @@ class UserController @Autowired()(private val userService: UserService) {
       *
       * @param request
       * @param messageBoxId 消息盒子的消息id
-      * @return
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/refuseFriend"))
@@ -123,6 +123,7 @@ class UserController @Autowired()(private val userService: UserService) {
       *
       * @param uid
       * @param page
+      * @return String
       */
     @ResponseBody
     @GetMapping(Array("/findAddInfo"))
@@ -140,6 +141,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * @param page 第几页
       * @param name 好友名字
       * @param sex  性别
+      * @return String
       */
     @ResponseBody
     @GetMapping(Array("/findUsers"))
@@ -160,6 +162,7 @@ class UserController @Autowired()(private val userService: UserService) {
       *
       * @param page 第几页
       * @param name 群名称
+      * @return String
       */
     @ResponseBody
     @GetMapping(Array("/findGroups"))
@@ -179,6 +182,7 @@ class UserController @Autowired()(private val userService: UserService) {
       *
       * @param id   与谁的聊天记录id
       * @param Type 类型，可能是friend或者是group
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/chatLog"))
@@ -196,6 +200,7 @@ class UserController @Autowired()(private val userService: UserService) {
       *
       * @param id   与谁的聊天记录id
       * @param Type 类型，可能是friend或者是group
+      * @return String
       */
     @GetMapping(Array("/chatLogIndex"))
     def chatLogIndex(@RequestParam("id") id: Integer, @RequestParam("Type") Type: String,
@@ -211,6 +216,8 @@ class UserController @Autowired()(private val userService: UserService) {
 
     /**
       * 获取离线消息
+      *
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/getOffLineMessage"))
@@ -233,7 +240,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 更新签名
       *
       * @param sign
-      *
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/updateSign"))
@@ -251,6 +258,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 激活
       *
       * @param activeCode
+      * @return String
       *
       */
     @GetMapping(Array("/active/{activeCode}"))
@@ -265,7 +273,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 注册
       *
       * @param user
-      *
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/register"))
@@ -281,7 +289,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 登陆
       *
       * @param user
-      *
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/login"))
@@ -304,7 +312,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 初始化主界面数据
       *
       * @param userId
-      *
+      * @return String
       */
     @ResponseBody
     @ApiOperation("初始化聊天界面数据，分组列表好友信息、群列表")
@@ -326,7 +334,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 获取群成员
       *
       * @param id
-      *
+      * @return String
       */
     @ResponseBody
     @GetMapping(Array("/getMembers"))
@@ -341,7 +349,7 @@ class UserController @Autowired()(private val userService: UserService) {
       *
       * @param file
       * @param request
-      * @return
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/upload/image"))
@@ -359,11 +367,33 @@ class UserController @Autowired()(private val userService: UserService) {
     }
 
     /**
+      * 客户端上传图片
+      *
+      * @param file
+      * @param request
+      * @return String
+      */
+    @ResponseBody
+    @PostMapping(Array("/upload/groupAvatar"))
+    def uploadGroupAvatar(@RequestParam("avatar") file: MultipartFile, request: HttpServletRequest): String = {
+        if (file.isEmpty()) {
+            return gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.UPLOAD_FAIL))
+        }
+        val path = request.getServletContext.getRealPath("/")
+        val src = FileUtil.upload(SystemConstant.GROUP_AVATAR_PATH, path, file)
+        val result = new HashMap[String, String]
+        //图片的相对路径地址
+        result.put("src", src)
+        LOGGER.info("图片" + file.getOriginalFilename + "上传成功")
+        gson.toJson(new ResultSet[HashMap[String, String]](result))
+    }
+
+    /**
       * 客户端上传文件
       *
       * @param file
       * @param request
-      * @return
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/upload/file"))
@@ -385,6 +415,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 用户更新头像
       *
       * @param avatar
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/updateAvatar"))
@@ -403,7 +434,7 @@ class UserController @Autowired()(private val userService: UserService) {
       *
       * @param model
       * @param request
-      * @return
+      * @return String
       */
     @GetMapping(Array("/index"))
     def index(model: Model, request: HttpServletRequest): String = {
@@ -417,7 +448,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 根据id查找用户信息
       *
       * @param id
-      * @return
+      * @return String
       */
     @ResponseBody
     @GetMapping(Array("/findUser"))
@@ -429,7 +460,7 @@ class UserController @Autowired()(private val userService: UserService) {
       * 判断邮件是否存在
       *
       * @param email
-      * @return
+      * @return String
       */
     @ResponseBody
     @PostMapping(Array("/existEmail"))

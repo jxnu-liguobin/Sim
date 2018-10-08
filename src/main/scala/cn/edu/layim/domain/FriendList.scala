@@ -31,4 +31,7 @@ class FriendList(id: Integer, groupName: String) extends Group(id, groupName) {
     def this(list: List[User]) = {
         this(null, null, list)
     }
+
+    def this() = this(null, null)
+
 }

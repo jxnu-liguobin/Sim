@@ -33,6 +33,7 @@ class UserController @Autowired()(private val userService: UserService) {
 
     private final val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserController])
 
+    //可省略
     private final val gson: Gson = new Gson
 
     /**

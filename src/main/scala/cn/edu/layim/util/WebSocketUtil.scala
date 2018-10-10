@@ -1,6 +1,7 @@
 package cn.edu.layim.util
 
-import java.util.{Collections, HashMap, List}
+import java.util.concurrent.ConcurrentHashMap
+import java.util.{HashMap, List}
 
 import cn.edu.layim.Application
 import cn.edu.layim.common.SystemConstant
@@ -30,7 +31,7 @@ object WebSocketUtil {
     private final lazy val application = Application.getApplicationContext
 
     @BeanProperty
-    final var sessions = Collections.synchronizedMap(new HashMap[Integer, Session]())
+    final val sessions = new ConcurrentHashMap[Integer, Session]
 
     private lazy val redisService: RedisService = application.getBean(classOf[RedisService])
 

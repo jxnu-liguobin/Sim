@@ -14,7 +14,7 @@ object SecurityUtil {
     /** 秘钥 */
     private final val SITE_WIDE_SECRET: String = "silence"
 
-    private final val encoder: PasswordEncoder = new StandardPasswordEncoder(SITE_WIDE_SECRET);
+    private final val encoder: PasswordEncoder = new StandardPasswordEncoder(SITE_WIDE_SECRET)
 
     /**
       * 采用SHA-256算法，迭代1024次，使用一个密钥(site-wide secret)以及8位随机盐对原密码进行加密

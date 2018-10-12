@@ -5,7 +5,7 @@ import java.util.{ArrayList, List}
 import cn.edu.layim.common.SystemConstant
 import cn.edu.layim.domain._
 import cn.edu.layim.entity._
-import cn.edu.layim.repository.UserMapper
+import cn.edu.layim.repository.UserRepository
 import cn.edu.layim.util.{DateUtil, SecurityUtil, UUIDUtil, WebUtil}
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.{Logger, LoggerFactory}
@@ -24,7 +24,7 @@ import scala.collection.JavaConversions
   *
   */
 @Service
-class UserService @Autowired()(private var userMapper: UserMapper) {
+class UserService @Autowired()(private var userRepository: UserRepository) {
 
     private final val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserService])
 
@@ -40,7 +40,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @return Boolean
       */
     @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)
-    def leaveOutGroup(gid: Int, uid: Int): Boolean = userMapper.leaveOutGroup(new GroupMember(gid, uid)) == 1
+    def leaveOutGroup(gid: Int, uid: Int): Boolean = userRepository.leaveOutGroup(new GroupMember(gid, uid)) == 1
 
     /**
       * 添加群成员
@@ -55,7 +55,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
         if (gid == null || uid == null) {
             return false
         } else {
-            userMapper.addGroupMember(new GroupMember(gid, uid)) == 1
+            userRepository.addGroupMember(new GroupMember(gid, uid)) == 1
             updateAddMessage(messageBoxId, 1)
         }
     }
@@ -73,7 +73,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
             return false
         }
         else {
-            userMapper.removeFriend(friendId, uId) == 1
+            userRepository.removeFriend(friendId, uId) == 1
         }
     }
 
@@ -91,7 +91,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
             return false
         }
         else {
-            userMapper.updateAvatar(userId, avatar) == 1
+            userRepository.updateAvatar(userId, avatar) == 1
         }
     }
 
@@ -111,7 +111,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
             return false
         }
         else {
-            userMapper.changeGroup(groupId, uId, mId) == 1
+            userRepository.changeGroup(groupId, uId, mId) == 1
         }
     }
 
@@ -129,7 +129,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)
     def addFriend(mid: Int, mgid: Int, tid: Int, tgid: Int, messageBoxId: Int): Boolean = {
         val add = new AddFriends(mid, mgid, tid, tgid)
-        if (userMapper.addFriend(add) != 0) {
+        if (userRepository.addFriend(add) != 0) {
             return updateAddMessage(messageBoxId, 1)
         }
         false
@@ -147,7 +147,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
             return false
         }
         else {
-            userMapper.createFriendGroup(new FriendGroup(uid, groupName)) == 1
+            userRepository.createFriendGroup(new FriendGroup(uid, groupName)) == 1
         }
     }
 
@@ -158,7 +158,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param agree 0未处理，1同意，2拒绝
       * @return Int
       */
-    def countUnHandMessage(uid: Int, agree: Integer): Int = userMapper.countUnHandMessage(uid, agree)
+    def countUnHandMessage(uid: Int, agree: Integer): Int = userRepository.countUnHandMessage(uid, agree)
 
     /**
       * 查询添加好友、群组信息
@@ -167,12 +167,12 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @return List[AddInfo]
       */
     def findAddInfo(uid: Int): List[AddInfo] = {
-        val list = userMapper.findAddInfo(uid)
+        val list = userRepository.findAddInfo(uid)
         JavaConversions.collectionAsScalaIterable(list).foreach { info => {
             if (info.Type == 0) {
                 info.setContent("申请添加你为好友")
             } else {
-                val group: GroupList = userMapper.findGroupById(info.getFrom_group)
+                val group: GroupList = userRepository.findGroupById(info.getFrom_group)
                 info.setContent("申请加入 '" + group.getGroupname + "' 群聊中!")
             }
             info.setHref(null)
@@ -195,7 +195,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
         val addMessage = new AddMessage
         addMessage.setAgree(agree)
         addMessage.setId(messageBoxId)
-        userMapper.updateAddMessage(addMessage) == 1
+        userRepository.updateAddMessage(addMessage) == 1
     }
 
 
@@ -206,7 +206,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @see AddMessage.scala
       * @return Int
       */
-    def saveAddMessage(addMessage: AddMessage): Int = userMapper.saveAddMessage(addMessage)
+    def saveAddMessage(addMessage: AddMessage): Int = userRepository.saveAddMessage(addMessage)
 
     /**
       * 根据群名模糊统计
@@ -214,7 +214,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param groupName 群组名称
       * @return Int
       */
-    def countGroup(groupName: String): Int = userMapper.countGroup(groupName)
+    def countGroup(groupName: String): Int = userRepository.countGroup(groupName)
 
     /**
       * 根据群名模糊查询群
@@ -222,7 +222,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param groupName 群组名称
       * @return List[GroupList]
       */
-    def findGroup(groupName: String): List[GroupList] = userMapper.findGroup(groupName)
+    def findGroup(groupName: String): List[GroupList] = userRepository.findGroup(groupName)
 
     /**
       * 根据用户名和性别统计用户
@@ -231,7 +231,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param sex      性别
       * @return Int
       */
-    def countUsers(username: String, sex: Integer): Int = userMapper.countUser(username, sex)
+    def countUsers(username: String, sex: Integer): Int = userRepository.countUser(username, sex)
 
     /**
       * 根据用户名和性别查询用户
@@ -240,7 +240,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param sex      性别
       * @return List[User]
       */
-    def findUsers(username: String, sex: Integer): List[User] = userMapper.findUsers(username, sex)
+    def findUsers(username: String, sex: Integer): List[User] = userRepository.findUsers(username, sex)
 
 
     /**
@@ -253,8 +253,8 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       */
     def countHistoryMessage(uid: Int, mid: Int, Type: String): Int = {
         Type match {
-            case "friend" => userMapper.countHistoryMessage(uid, mid, Type)
-            case "group" => userMapper.countHistoryMessage(null, mid, Type)
+            case "friend" => userRepository.countHistoryMessage(uid, mid, Type)
+            case "group" => userRepository.countHistoryMessage(null, mid, Type)
         }
     }
 
@@ -272,7 +272,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
         //单人聊天记录
         if ("friend".equals(Type)) {
             //查找聊天记录
-            val historys: List[Receive] = userMapper.findHistoryMessage(user.getId, mid, Type)
+            val historys: List[Receive] = userRepository.findHistoryMessage(user.getId, mid, Type)
             val toUser = findUserById(mid)
             JavaConversions.collectionAsScalaIterable(historys).foreach { history => {
                 var chatHistory: ChatHistory = null
@@ -288,7 +288,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
         //群聊天记录
         if ("group".equals(Type)) {
             //查找聊天记录
-            val historys: List[Receive] = userMapper.findHistoryMessage(null, mid, Type)
+            val historys: List[Receive] = userRepository.findHistoryMessage(null, mid, Type)
             JavaConversions.collectionAsScalaIterable(historys).foreach { history => {
                 var chatHistory: ChatHistory = null
                 val u = findUserById(history.getFromid)
@@ -311,7 +311,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @param status 历史消息还是离线消息 0代表离线 1表示已读
       * @return List[Receive]
       */
-    def findOffLineMessage(uid: Int, status: Int): List[Receive] = userMapper.findOffLineMessage(uid, status)
+    def findOffLineMessage(uid: Int, status: Int): List[Receive] = userRepository.findOffLineMessage(uid, status)
 
 
     /**
@@ -321,7 +321,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @see Receive.scala
       * @return Int
       */
-    def saveMessage(receive: Receive): Int = userMapper.saveMessage(receive)
+    def saveMessage(receive: Receive): Int = userRepository.saveMessage(receive)
 
     /**
       * 用户更新签名
@@ -334,7 +334,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
         if (user == null || user.getSign == null || user.getId == null) {
             return false
         } else {
-            return userMapper.updateSign(user.getSign, user.getId) == 1
+            return userRepository.updateSign(user.getSign, user.getId) == 1
         }
     }
 
@@ -348,7 +348,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
         if (activeCode == null || "".equals(activeCode)) {
             return 0
         }
-        userMapper.activeUser(activeCode)
+        userRepository.activeUser(activeCode)
     }
 
     /**
@@ -362,7 +362,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
             return false
         }
         else {
-            userMapper.matchUser(email) != null
+            userRepository.matchUser(email) != null
         }
     }
 
@@ -377,7 +377,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
         if (user == null || user.getEmail == null) {
             return null
         }
-        val u: User = userMapper.matchUser(user.getEmail)
+        val u: User = userRepository.matchUser(user.getEmail)
         //密码不匹配
         if (u == null || !SecurityUtil.matchs(user.getPassword, u.getPassword)) {
             return null
@@ -392,7 +392,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       * @return List[User]
       */
     @Cacheable(value = Array("findUserByGroupId"), keyGenerator = "wiselyKeyGenerator")
-    def findUserByGroupId(gid: Int): List[User] = userMapper.findUserByGroupId(gid)
+    def findUserByGroupId(gid: Int): List[User] = userRepository.findUserByGroupId(gid)
 
     /**
       * 根据ID查询用户的好友分组的列表信息
@@ -404,11 +404,11 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       */
     @Cacheable(value = Array("findFriendGroupsById"), keyGenerator = "wiselyKeyGenerator")
     def findFriendGroupsById(uid: Int): List[FriendList] = {
-        val friends = userMapper.findFriendGroupsById(uid)
+        val friends = userRepository.findFriendGroupsById(uid)
         //封装分组列表下的好友信息
         JavaConversions.collectionAsScalaIterable(friends).foreach {
             friend: FriendList => {
-                friend.list = userMapper.findUsersByFriendGroupIds(friend.getId)
+                friend.list = userRepository.findUsersByFriendGroupIds(friend.getId)
             }
         }
         friends
@@ -423,7 +423,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
     @Cacheable(value = Array("findUserById"), keyGenerator = "wiselyKeyGenerator")
     def findUserById(id: Int): User = {
         if (id != null) {
-            return userMapper.findUserById(id)
+            return userRepository.findUserById(id)
         } else {
             null
         }
@@ -437,7 +437,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
       */
     @Cacheable(value = Array("findGroupsById"), keyGenerator = "wiselyKeyGenerator")
     def findGroupsById(id: Int): List[GroupList] = {
-        userMapper.findGroupsById(id)
+        userRepository.findGroupsById(id)
     }
 
     /**
@@ -460,7 +460,7 @@ class UserService @Autowired()(private var userMapper: UserMapper) {
             user.setCreateDate(DateUtil.getDate)
             //加密密码
             user.setPassword(SecurityUtil.encrypt(user.getPassword))
-            userMapper.saveUser(user)
+            userRepository.saveUser(user)
             LOGGER.info("userid = " + user.getId)
             //创建默认的好友分组
             createFriendGroup(SystemConstant.DEFAULT_GROUP_NAME, user.getId)

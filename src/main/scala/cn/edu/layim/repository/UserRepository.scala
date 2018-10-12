@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations._
   * @author 梦境迷离
   *
   */
-trait UserMapper {
+trait UserRepository {
 
     /**
       * 退出群

@@ -305,7 +305,7 @@ trait UserRepository {
       * @param friendGroup 好友分组
       * @return Int
       */
-    @Insert(Array("insert into t_friend_group(group_name,uid) values(#{groupName},#{uid})"))
+    @Insert(Array("insert into t_friend_group(group_name,uid) values(#{groupname},#{uid})"))
     def createFriendGroup(friendGroup: FriendGroup): Int
 
 }

@@ -102,5 +102,5 @@ task wrapper(type: Wrapper) {
 
 bootRepackage.enabled = false
 run {
-	main='com.silence.Application'
+	main='cn.edu.layim.Application'
 }

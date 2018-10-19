@@ -5,12 +5,12 @@ import java.util.{HashMap, List}
 import cn.edu.layim.common.SystemConstant
 import cn.edu.layim.domain._
 import cn.edu.layim.entity.User
-import cn.edu.layim.service.UserService
-import cn.edu.layim.util.FileUtil
+import cn.edu.layim.service.{CookieService, RedisService, UserService}
+import cn.edu.layim.util.{FileUtil, SecurityUtil}
 import com.github.pagehelper.PageHelper
 import com.google.gson.Gson
 import io.swagger.annotations.{Api, ApiOperation}
-import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.{HttpServletRequest, HttpServletResponse}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -29,7 +29,7 @@ import scala.collection.JavaConversions
 @Controller
 @Api(value = "用户相关操作")
 @RequestMapping(value = Array("/user"))
-class UserController @Autowired()(private val userService: UserService) {
+class UserController @Autowired()(private val userService: UserService, private val redisService: RedisService, private val cookieService: CookieService) {
 
     private final val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserController])
 
@@ -295,14 +295,23 @@ class UserController @Autowired()(private val userService: UserService) {
       */
     @ResponseBody
     @PostMapping(Array("/login"))
-    def login(@RequestBody user: User, request: HttpServletRequest): String = {
+    def login(@RequestBody user: User, request: HttpServletRequest, response: HttpServletResponse): String = {
+
+        val userCookie = cookieService.`match`(request)
+        if (userCookie != null && user != null && userCookie.getEmail.equals(user.getEmail)
+          && userCookie.getPassword.equals(user.getPassword)) {
+            LOGGER.info("通过 Cookie 成功登陆服务器")
+            request.getSession.setAttribute("user", userCookie)
+            return gson.toJson(new ResultSet[User](userCookie))
+        }
         val u: User = userService.matchUser(user)
         //未激活
         if (u != null && "nonactivated".equals(u.getStatus)) {
             return gson.toJson(new ResultSet[User](SystemConstant.ERROR, SystemConstant.NONACTIVED))
         } else if (u != null && !"nonactivated".equals(u.getStatus)) {
             LOGGER.info(user + "成功登陆服务器")
-            request.getSession.setAttribute("user", u);
+            request.getSession.setAttribute("user", u)
+            cookieService.addCookie(u, request, response)
             return gson.toJson(new ResultSet[User](u))
         } else {
             val result = new ResultSet[User](SystemConstant.ERROR, SystemConstant.LOGGIN_FAIL)
@@ -429,6 +438,35 @@ class UserController @Autowired()(private val userService: UserService) {
         val result = new HashMap[String, String]
         result.put("src", src)
         gson.toJson(new ResultSet(result))
+    }
+
+    /**
+      * 更新信息个人信息
+      *
+      * @param user
+      * @return String
+      */
+    @ResponseBody
+    @PostMapping(Array("/updateInfo"))
+    def updateAvatar(@RequestBody user: UserVo, request: HttpServletRequest): String = {
+        if (user == null) {
+            return gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.UPDATE_INFO_FAIL))
+        }
+        val u = userService.findUserById(user.getId)
+        //前台明文传输，有安全问题
+        if (!SecurityUtil.matchs(user.getOldpwd, u.getPassword)) {
+            return gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.UPDATE_INFO_PASSWORD_FAIL))
+        }
+        u.setPassword(SecurityUtil.encrypt(user.getPassword))
+        if (user.getSex.equals("nan")) {
+            u.setSex(0)
+        } else {
+            u.setSex(1)
+        }
+        u.setSign(user.getSign)
+        u.setUsername(user.getUsername)
+        userService.updateUserInfo(u, u.getId)
+        gson.toJson(new ResultSet[String](SystemConstant.SUCCESS, SystemConstant.UPDATE_INFO_SUCCESS))
     }
 
     /**

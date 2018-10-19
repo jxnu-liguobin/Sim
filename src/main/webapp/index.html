@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="static/css/login/style3.css">
 		<link rel="stylesheet" type="text/css" href="static/css/login/animate-custom.css">
 		<link rel="stylesheet" href="static/layui/css/layui.css">
-		<script src="/static/layui/layui.js"></script>
+        <script src="/static/layui/layui.js"></script>
         <style type="text/css">
             body {
                 background: url(static/image/4.jpg) no-repeat;
@@ -30,14 +30,14 @@
                                 <h1>登陆</h1>
                                 <p> 
                                     <label for="email" class="uname" data-icon="u"> 电子邮件 </label>
-                                    <input id="email"  name="email" required="required" type="email" placeholder="mymail@mail.com">
+                                    <input id="email"  name="email" required="required" type="email" placeholder="mymail@mail.com" >
                                 </p>
                                 <p> 
                                     <label for="password" class="youpasswd" data-icon="p"> 密码 </label>
-                                    <input id="password" name="password" required="required" type="password" placeholder="eg. 56482sjhjk">
+                                    <input id="password" name="password" required="required" type="password" placeholder="eg. 56482sjhjk" >
                                 </p>
                                 <p class="keeplogin"> 
-									<input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping"> 
+									<input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping">
 									<label for="loginkeeping">记住我</label>
 								</p>
                                 <p class="login button"> 
@@ -154,13 +154,14 @@
 	    });
 	    //登陆
 	    form.on('submit(login)', function (data){
-		    var d = {'email': $("#email").val(),'password': $("#password").val()};
+            var check = document.getElementById("loginkeeping").checked;
+            var d = {'email': $("#email").val(),'password': $("#password").val()};
 	    	//loading层
 	    	var index = layer.load(1, {
 	    	    shade: [0.6,'#fff'] //0.1透明度的白色背景
 	    	});
 	    	$.ajax({
-	    		url:"user/login",
+	    		url:"user/login?check="+check,
 	    		dataType:"JSON",
 	    		contentType:"application/json",
 	    		type:"POST",
@@ -185,6 +186,6 @@
 	    	return false;
 	    });
 	});
-</script> 
+</script>
 </body>
 </html>

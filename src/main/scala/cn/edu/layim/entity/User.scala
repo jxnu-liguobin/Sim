@@ -62,6 +62,5 @@ class User extends Serializable {
     @BeanProperty
     var active: String = _
 
-    override def toString = "id = " + id + ", username = " + username + ", password = " + password + ", sign = " + sign + ", email = " + email + ", avatar = " + avatar + ", createDate = " + createDate + ", sex = " + sex + ", status = " + status
-
+    override def toString = s"User($id, $username, $password, $sign, $avatar, $email, $createDate, $sex, $status, $active)"
 }

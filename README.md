@@ -11,7 +11,6 @@
     Alibaba Druid
     Java Mail
     Mybatis And PageHelper
-    Spring Security
     Swagger
 
 ### 环境 ###
@@ -37,7 +36,7 @@
 3. 创建群组接口
 4. 管理群组接口
 5. 管理好友列表接口
-6. 更新个人信息接口
+6. 更新个人信息接口 √
 7. 屏蔽好友接口
 
 

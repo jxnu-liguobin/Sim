@@ -11,6 +11,12 @@ object SystemConstant {
 
     final val LOGGIN_SUCCESS = "登陆成功"
 
+    final val UPDATE_INFO_SUCCESS = "个人信息修改成功"
+
+    final val UPDATE_INFO_FAIL = "个人信息修改失败"
+
+    final val UPDATE_INFO_PASSWORD_FAIL = "个人信息修改失败【旧密码错误】"
+
     final val LOGGIN_FAIL = "登陆失败"
 
     final val NONACTIVED = "用户未激活"

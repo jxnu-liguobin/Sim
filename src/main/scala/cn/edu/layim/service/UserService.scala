@@ -95,6 +95,25 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
         }
     }
 
+
+    /**
+      * 更新用户信息
+      *
+      * @param user 个人信息
+      * @param uid  用户id
+      * @return Boolean
+      */
+    @CacheEvict(value = Array("findUserById"), allEntries = true)
+    @Transactional
+    def updateUserInfo(user: User, uid: Int): Boolean = {
+        if (user == null | uid == null) {
+            return false
+        }
+        else {
+            userRepository.updateUserInfo(user) == 1
+        }
+    }
+
     /**
       * 移动好友分组
       *

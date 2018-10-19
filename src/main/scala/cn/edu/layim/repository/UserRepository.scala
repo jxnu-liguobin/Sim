@@ -225,6 +225,15 @@ trait UserRepository {
     def updateSign(@Param("sign") sign: String, @Param("uid") uid: Int): Int
 
     /**
+      * 更新用户信息
+      *
+      * @param user 用户
+      * @return Int
+      */
+    @Update(Array("update t_user set username= #{username}, sex = #{sex}, sign = #{sign}, password = #{password} where id = #{id}"))
+    def updateUserInfo(user: User): Int
+
+    /**
       * 激活用户账号
       *
       * @param activeCode 激活码
@@ -248,7 +257,7 @@ trait UserRepository {
       * @param id 用户id
       * @return User
       */
-    @Select(Array("select id,username,status,sign,avatar,email,sex,create_date from t_user where id = #{id}"))
+    @Select(Array("select id,username,password,status,sign,avatar,email,sex,create_date from t_user where id = #{id}"))
     def findUserById(id: Int): User
 
     /**

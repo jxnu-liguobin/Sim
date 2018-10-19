@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="main layui-clear" style="padding: 15px">
-	<div class="layui-form layui-form-pane">
+	<div class="layui-form layui-form-pane" id="userInfo">
         <blockquote class="layui-elem-quote">
             	个人信息
         </blockquote>
@@ -32,13 +32,13 @@
 			<div class="layui-form-item">
 				<label for="user_email" class="layui-form-label">邮箱</label>
 				<div class="layui-input-inline">
-					<input lay-verify="email" type="email" id="email" name="email" class="layui-input" value="">
+					<input lay-verify="email" type="email" id="email" name="email" class="layui-input" value="" disabled="">
 				</div>
 			</div>
 			<div class="layui-form-item">
 				<label class="layui-form-label">性别</label>
 				<input type="radio" name="sex" value="nan" title="男">
-				<input type="radio" name="sex" value="nv" title="女" checked>
+				<input type="radio" name="sex" value="nv" title="女">
 			</div>
 			<div class="layui-form-item">
 				<label for="user_email" class="layui-form-label">签名</label>

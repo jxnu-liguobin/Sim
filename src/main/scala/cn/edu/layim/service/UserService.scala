@@ -103,7 +103,7 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       * @param uid  用户id
       * @return Boolean
       */
-    @CacheEvict(value = Array("findUserById"), allEntries = true)
+    @CacheEvict(value = Array("findUserById", "findUserByGroupId", "findFriendGroupsById"), allEntries = true)
     @Transactional
     def updateUserInfo(user: User, uid: Int): Boolean = {
         if (user == null | uid == null) {
@@ -171,7 +171,7 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
     }
 
     /**
-      * 统计消息
+      * 统计未处理消息
       *
       * @param uid   个人id
       * @param agree 0未处理，1同意，2拒绝

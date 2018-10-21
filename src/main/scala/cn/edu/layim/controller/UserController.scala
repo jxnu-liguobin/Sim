@@ -150,7 +150,11 @@ class UserController @Autowired()(private val userService: UserService, private 
                   @RequestParam(value = "name", required = false) name: String,
                   @RequestParam(value = "sex", required = false) sex: Integer): String = {
         val count = userService.countUsers(name, sex)
-        val pages = if (count < SystemConstant.USER_PAGE) 1 else (count / SystemConstant.USER_PAGE + 1)
+        LOGGER.info("==> 总记录:" + count)
+        val pages = if (count < SystemConstant.USER_PAGE) 1 else {
+            if (count % SystemConstant.USER_PAGE == 0) count / SystemConstant.USER_PAGE
+            else count / SystemConstant.USER_PAGE + 1
+        }
         PageHelper.startPage(page, SystemConstant.USER_PAGE)
         val users = userService.findUsers(name, sex)
         val result = new ResultPageSet(users)
@@ -459,9 +463,9 @@ class UserController @Autowired()(private val userService: UserService, private 
         }
         u.setPassword(SecurityUtil.encrypt(user.getPassword))
         if (user.getSex.equals("nan")) {
-            u.setSex(0)
-        } else {
             u.setSex(1)
+        } else {
+            u.setSex(0)
         }
         u.setSign(user.getSign)
         u.setUsername(user.getUsername)

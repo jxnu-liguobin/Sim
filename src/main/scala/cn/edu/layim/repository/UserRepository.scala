@@ -165,7 +165,7 @@ trait UserRepository {
       * @param sex      性别
       * @return List[User]
       */
-    @Select(Array("<script> select id,username,status,sign,avatar,email from t_user where 1=1 <if test='username != null'> and username like '%${username}%'</if><if test='sex != null'> and sex=#{sex}</if></script>"))
+    @Select(Array("<script> select id,username,sex,status,sign,avatar,email from t_user where 1=1 <if test='username != null'> and username like '%${username}%'</if><if test='sex != null'> and sex=#{sex}</if></script>"))
     def findUsers(@Param("username") username: String, @Param("sex") sex: Integer): List[User]
 
     /**

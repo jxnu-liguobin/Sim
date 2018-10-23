@@ -40,7 +40,7 @@ object FileUtil {
     }
 
     /**
-      * 头像
+      * 用户更新头像
       *
       * @param realpath 服务器绝对路径地址
       * @param file     文件

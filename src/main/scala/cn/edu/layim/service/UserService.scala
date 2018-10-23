@@ -1,6 +1,7 @@
 package cn.edu.layim.service
 
-import java.util.{ArrayList, List}
+import java.util
+import java.util.List
 
 import cn.edu.layim.common.SystemConstant
 import cn.edu.layim.domain._
@@ -39,8 +40,19 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       * @param uid 用户
       * @return Boolean
       */
-    @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)
-    def leaveOutGroup(gid: Int, uid: Int): Boolean = userRepository.leaveOutGroup(new GroupMember(gid, uid)) == 1
+    @CacheEvict(value = Array("findUserById", "findGroupsById", "findUserByGroupId"), allEntries = true)
+    @Transactional
+    def leaveOutGroup(gid: Int, uid: Int): Boolean = {
+
+        //创建者退群，直接解散群,此处逻辑可自行调整
+        val group = userRepository.findGroupById(gid)
+        if (group == null) return false
+        if (group.getCreateId.equals(uid)) {
+            return false
+        } else {
+            userRepository.leaveOutGroup(new GroupMember(gid, uid)) == 1
+        }
+    }
 
     /**
       * 添加群成员
@@ -51,12 +63,38 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       * @return Boolean
       */
     @Transactional
+    @CacheEvict(value = Array("findUserByGroupId", "findGroupsById"), allEntries = true)
     def addGroupMember(gid: Int, uid: Int, messageBoxId: Int): Boolean = {
         if (gid == null || uid == null) {
             return false
         } else {
+
+            val group = userRepository.findGroupById(gid)
+            if (group.getCreateId.equals(uid)) {
+                //自己加自己的群，默认同意
+                updateAddMessage(messageBoxId, 1)
+                return false
+            } else {
+                userRepository.addGroupMember(new GroupMember(gid, uid)) == 1
+                updateAddMessage(messageBoxId, 1)
+            }
+        }
+    }
+
+    /**
+      * 用户创建群时，将自己加入群组，不需要提示
+      *
+      * @param gid 群组id
+      * @param uid 用户id
+      * @return Boolean
+      */
+    @CacheEvict(value = Array("findGroupsById", "findUserByGroupId"), allEntries = true)
+    @Transactional
+    def addGroupMember(gid: Int, uid: Int): Boolean = {
+        if (gid == null || uid == null) {
+            return false
+        } else {
             userRepository.addGroupMember(new GroupMember(gid, uid)) == 1
-            updateAddMessage(messageBoxId, 1)
         }
     }
 
@@ -68,6 +106,7 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       * @return Boolean
       */
     @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)
+    @Transactional
     def removeFriend(friendId: Int, uId: Int): Boolean = {
         if (friendId == null || uId == null) {
             return false
@@ -161,12 +200,32 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       * @param groupName 群组id
       * @return BooleanFriendGroup
       */
+    @CacheEvict(value = Array("findFriendGroupsById"), allEntries = true)
+    @Transactional
     def createFriendGroup(groupName: String, uid: Int): Boolean = {
         if (uid == null || groupName == null || "".equals(uid) || "".equals(groupName)) {
             return false
         }
         else {
             userRepository.createFriendGroup(new FriendGroup(uid, groupName)) == 1
+        }
+    }
+
+    /**
+      * 创建群组
+      *
+      * @param groupList 群
+      * @return Boolean
+      */
+    @CacheEvict(value = Array("findGroupsById"), allEntries = true)
+    @Transactional
+    def createGroup(groupList: GroupList): Int = {
+        if (groupList == null) {
+            return -1
+        } else {
+            userRepository.createGroupList(groupList)
+            val id = groupList.getId
+            if (id > 0) return id else return -1
         }
     }
 
@@ -187,17 +246,18 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       */
     def findAddInfo(uid: Int): List[AddInfo] = {
         val list = userRepository.findAddInfo(uid)
-        JavaConversions.collectionAsScalaIterable(list).foreach { info => {
-            if (info.Type == 0) {
-                info.setContent("申请添加你为好友")
-            } else {
-                val group: GroupList = userRepository.findGroupById(info.getFrom_group)
-                info.setContent("申请加入 '" + group.getGroupname + "' 群聊中!")
+        JavaConversions.collectionAsScalaIterable(list).foreach {
+            info => {
+                if (info.Type == 0) {
+                    info.setContent("申请添加你为好友")
+                } else {
+                    val group: GroupList = userRepository.findGroupById(info.getFrom_group)
+                    info.setContent("申请加入 '" + group.getGroupname + "' 群聊中!")
+                }
+                info.setHref(null)
+                info.setUser(findUserById(info.getFrom))
+                LOGGER.info(info.toString())
             }
-            info.setHref(null)
-            info.setUser(findUserById(info.getFrom))
-            LOGGER.info(info.toString())
-        }
         }
         list
     }
@@ -225,6 +285,7 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       * @see AddMessage.scala
       * @return Int
       */
+    @Transactional
     def saveAddMessage(addMessage: AddMessage): Int = userRepository.saveAddMessage(addMessage)
 
     /**
@@ -287,37 +348,39 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       * @return List[ChatHistory]
       */
     def findHistoryMessage(user: User, mid: Int, Type: String): List[ChatHistory] = {
-        val list = new ArrayList[ChatHistory]()
+        val list = new util.ArrayList[ChatHistory]()
         //单人聊天记录
         if ("friend".equals(Type)) {
             //查找聊天记录
             val historys: List[Receive] = userRepository.findHistoryMessage(user.getId, mid, Type)
             val toUser = findUserById(mid)
-            JavaConversions.collectionAsScalaIterable(historys).foreach { history => {
-                var chatHistory: ChatHistory = null
-                if (history.getId == mid) {
-                    chatHistory = new ChatHistory(history.getId, toUser.getUsername, toUser.getAvatar, history.getContent, history.getTimestamp)
-                } else {
-                    chatHistory = new ChatHistory(history.getId, user.getUsername, user.getAvatar, history.getContent, history.getTimestamp)
+            JavaConversions.collectionAsScalaIterable(historys).foreach {
+                history => {
+                    var chatHistory: ChatHistory = null
+                    if (history.getId == mid) {
+                        chatHistory = new ChatHistory(history.getId, toUser.getUsername, toUser.getAvatar, history.getContent, history.getTimestamp)
+                    } else {
+                        chatHistory = new ChatHistory(history.getId, user.getUsername, user.getAvatar, history.getContent, history.getTimestamp)
+                    }
+                    list.add(chatHistory)
                 }
-                list.add(chatHistory)
-            }
             }
         }
         //群聊天记录
         if ("group".equals(Type)) {
             //查找聊天记录
             val historys: List[Receive] = userRepository.findHistoryMessage(null, mid, Type)
-            JavaConversions.collectionAsScalaIterable(historys).foreach { history => {
-                var chatHistory: ChatHistory = null
-                val u = findUserById(history.getFromid)
-                if (history.getFromid().equals(user.getId)) {
-                    chatHistory = new ChatHistory(user.getId, user.getUsername, user.getAvatar, history.getContent, history.getTimestamp)
-                } else {
-                    chatHistory = new ChatHistory(history.getId, u.getUsername, u.getAvatar, history.getContent, history.getTimestamp)
+            JavaConversions.collectionAsScalaIterable(historys).foreach {
+                history => {
+                    var chatHistory: ChatHistory = null
+                    val u = findUserById(history.getFromid)
+                    if (history.getFromid().equals(user.getId)) {
+                        chatHistory = new ChatHistory(user.getId, user.getUsername, user.getAvatar, history.getContent, history.getTimestamp)
+                    } else {
+                        chatHistory = new ChatHistory(history.getId, u.getUsername, u.getAvatar, history.getContent, history.getTimestamp)
+                    }
+                    list.add(chatHistory)
                 }
-                list.add(chatHistory)
-            }
             }
         }
         return list
@@ -340,6 +403,7 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       * @see Receive.scala
       * @return Int
       */
+    @Transactional
     def saveMessage(receive: Receive): Int = userRepository.saveMessage(receive)
 
     /**
@@ -349,6 +413,7 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
       * @see User.scala
       * @return Boolean
       */
+    @Transactional
     def updateSing(user: User): Boolean = {
         if (user == null || user.getSign == null || user.getId == null) {
             return false
@@ -449,7 +514,7 @@ class UserService @Autowired()(private var userRepository: UserRepository) {
     }
 
     /**
-      * 根据ID查询群组列表
+      * 根据用户ID查询用户的群组列表
       *
       * @param id 群组id
       * @return List[GroupList]

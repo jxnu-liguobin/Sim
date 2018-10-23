@@ -1,10 +1,11 @@
 package cn.edu.layim.controller
 
+import java.util
 import java.util.{HashMap, List}
 
 import cn.edu.layim.common.SystemConstant
 import cn.edu.layim.domain._
-import cn.edu.layim.entity.User
+import cn.edu.layim.entity.{GroupList, User}
 import cn.edu.layim.service.{CookieService, RedisService, UserService}
 import cn.edu.layim.util.{FileUtil, SecurityUtil}
 import com.github.pagehelper.PageHelper
@@ -174,10 +175,37 @@ class UserController @Autowired()(private val userService: UserService, private 
     def findGroups(@RequestParam(value = "page", defaultValue = "1") page: Int,
                    @RequestParam(value = "name", required = false) name: String): String = {
         val count = userService.countGroup(name)
-        val pages = if (count < SystemConstant.USER_PAGE) 1 else (count / SystemConstant.USER_PAGE + 1)
+        val pages = if (count < SystemConstant.USER_PAGE) 1 else {
+            if (count % SystemConstant.USER_PAGE == 0) count / SystemConstant.USER_PAGE
+            else count / SystemConstant.USER_PAGE + 1
+        }
         PageHelper.startPage(page, SystemConstant.USER_PAGE)
         val groups = userService.findGroup(name)
         val result = new ResultPageSet(groups)
+        result.setPages(pages)
+        gson.toJson(result)
+    }
+
+    /**
+      * 分页查询我的创建的群组
+      *
+      * @param page
+      * @param createId
+      * @return
+      */
+    @ResponseBody
+    @GetMapping(Array("/findMyGroups"))
+    def findMyGroups(@RequestParam(value = "page", defaultValue = "1") page: Int,
+                     @RequestParam(value = "createId", required = true) createId: Integer): String = {
+        val groups: util.List[GroupList] = userService.findGroupsById(createId)
+        val groupNews = groups.toArray.filter(x => x.asInstanceOf[GroupList].getCreateId.equals(createId))
+        val count = groupNews.length
+        val pages = if (count < SystemConstant.USER_PAGE) 1 else {
+            if (count % SystemConstant.USER_PAGE == 0) count / SystemConstant.USER_PAGE
+            else count / SystemConstant.USER_PAGE + 1
+        }
+        PageHelper.startPage(page, SystemConstant.USER_PAGE)
+        val result = new ResultPageSet(groupNews)
         result.setPages(pages)
         gson.toJson(result)
     }
@@ -401,6 +429,33 @@ class UserController @Autowired()(private val userService: UserService, private 
         result.put("src", src)
         LOGGER.info("图片" + file.getOriginalFilename + "上传成功")
         gson.toJson(new ResultSet[HashMap[String, String]](result))
+    }
+
+    /**
+      * 用户创建群组
+      *
+      * @param groupList 群组
+      * @return String
+      */
+    @PostMapping(Array("/createGroup"))
+    @ResponseBody
+    def createGroup(@RequestBody groupList: GroupList): String = {
+
+        val ret = userService.createGroup(groupList)
+
+        if (ret == -1) {
+            return gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.CREATE_GROUP_ERROR))
+        }
+        try {
+            if (userService.addGroupMember(ret, groupList.getCreateId)) {
+                return gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.CREATE_GROUP_SUCCCESS))
+            }
+        } catch {
+            case e: Exception => {
+                return gson.toJson(new ResultSet(SystemConstant.ERROR, e.getMessage))
+            }
+        }
+        return gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.CREATE_GROUP_ERROR))
     }
 
     /**

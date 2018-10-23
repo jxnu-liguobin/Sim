@@ -83,7 +83,7 @@ object WebSocketUtil {
     }
 
     /**
-      * 同意添加好友
+      * 同意添加成员
       *
       * @param mess
       */

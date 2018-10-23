@@ -97,7 +97,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function(layim){
 					layim.msgbox(1);
 					break;
 				};
-				//同意添加好友时添加dao好友列表中
+				//同意添加好友时添加到好友列表中
 				case "agreeAddFriend": {
 					var group = eval("(" + json.msg + ")");
 					layim.addList({

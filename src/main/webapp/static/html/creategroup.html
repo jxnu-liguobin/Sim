@@ -5,6 +5,8 @@
     <title>创建群组</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css">
     <script src="/static/layui/layui.js"></script>
+    <script src="/static/js/group.js"></script>
+
     <style type="text/css">
         .layui-form {
             margin-left: 20px;
@@ -25,6 +27,7 @@
     <div class="layui-form-item">
         <div class="site-demo-upload">
             <label for="avatar" class="layui-form-label">群头像</label>
+            <input type="hidden" id="group_avatar" name="group_avatar"/>
             <div class="site-demo-upbar">
                 <input name="avatar" class="layui-upload-file" id="avatar" type="file">
             </div>
@@ -39,20 +42,4 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
-    layui.use(['jquery', 'layer', 'form', 'upload',], function () {
-        var $ = layui.jquery, form = layui.form(), layer = layui.layer, upload = layui.upload;
-        layui.upload({
-            url: '/user/upload/groupAvatar',
-            methos: 'post',
-            before: function (input) {
-                console.log(input);
-            },
-            success: function (res) {
-                console.log(res); //上传成功返回值，必须为json格式
-            }
-        });
-    });
-    //缺少提交表单，创建群
-</script>
 </html>

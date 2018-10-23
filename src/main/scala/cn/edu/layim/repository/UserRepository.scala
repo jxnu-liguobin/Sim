@@ -16,6 +16,25 @@ import org.apache.ibatis.annotations._
 trait UserRepository {
 
     /**
+      * 创建群
+      *
+      * @param groupList 群组对象
+      * @return Int
+      */
+    @Insert(Array("insert into t_group(group_name,avatar,create_id) values(#{groupname},#{avatar},#{createId})"))
+    @SelectKey(before = false, statement = Array(" SELECT LAST_INSERT_ID() AS id "), resultType = classOf[Integer], keyProperty = "id", keyColumn = "id")
+    def createGroupList(groupList: GroupList): Int
+
+    /**
+      * 删除群
+      *
+      * @param id 群id
+      * @return
+      */
+    @Delete(Array("delete from t_group where id = #{id}"))
+    def deleteGroup(id: Int): Int
+
+    /**
       * 退出群
       *
       * @param groupMember 群成员对象

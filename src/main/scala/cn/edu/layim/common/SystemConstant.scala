@@ -13,6 +13,10 @@ object SystemConstant {
 
     final val UPDATE_INFO_SUCCESS = "个人信息修改成功"
 
+    final val CREATE_GROUP_ERROR = "群组创建失败"
+
+    final val CREATE_GROUP_SUCCCESS = "群组创建成功"
+
     final val UPDATE_INFO_FAIL = "个人信息修改失败"
 
     final val UPDATE_INFO_PASSWORD_FAIL = "个人信息修改失败【旧密码错误】"

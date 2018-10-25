@@ -446,16 +446,12 @@ class UserController @Autowired()(private val userService: UserService, private 
         if (ret == -1) {
             return gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.CREATE_GROUP_ERROR))
         }
-        try {
-            if (userService.addGroupMember(ret, groupList.getCreateId)) {
-                return gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.CREATE_GROUP_SUCCCESS))
-            }
-        } catch {
-            case e: Exception => {
-                return gson.toJson(new ResultSet(SystemConstant.ERROR, e.getMessage))
-            }
+
+        if (userService.addGroupMember(ret, groupList.getCreateId)) {
+            return gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.CREATE_GROUP_SUCCCESS))
         }
-        return gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.CREATE_GROUP_ERROR))
+
+        gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.CREATE_GROUP_ERROR))
     }
 
     /**

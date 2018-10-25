@@ -442,15 +442,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     def createGroup(@RequestBody groupList: GroupList): String = {
 
         val ret = userService.createGroup(groupList)
-
         if (ret == -1) {
             return gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.CREATE_GROUP_ERROR))
         }
-
         if (userService.addGroupMember(ret, groupList.getCreateId)) {
             return gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.CREATE_GROUP_SUCCCESS))
         }
-
         gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.CREATE_GROUP_ERROR))
     }
 

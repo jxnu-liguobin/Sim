@@ -518,9 +518,9 @@ class UserController @Autowired()(private val userService: UserService, private 
         }
         u.setPassword(SecurityUtil.encrypt(user.getPassword))
         if (user.getSex.equals("nan")) {
-            u.setSex(1)
-        } else {
             u.setSex(0)
+        } else {
+            u.setSex(1)
         }
         u.setSign(user.getSign)
         u.setUsername(user.getUsername)

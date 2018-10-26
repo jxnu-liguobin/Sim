@@ -27,6 +27,5 @@ class Message {
     @BeanProperty
     var msg: String = _
 
-    override def toString = "type = " + Type + ", mine = " + mine + ",to = " + to + ", msg = " + msg
-
+    override def toString = s"Message(Type=$Type, mine=$mine, to=$to, msg=$msg)"
 }

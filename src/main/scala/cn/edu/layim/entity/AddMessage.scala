@@ -44,6 +44,5 @@ class AddMessage {
     @BeanProperty
     var time: Date = _
 
-    override def toString = "id=" + id + ", fromUid=" + fromUid + ", toUid=" + toUid + ", groupId=" + groupId + ", remark=" + remark + ", agree=" + agree + ", Type=" + Type + ", time=" + time
-
+    override def toString = s"AddMessage(id=$id, fromUid=$fromUid, toUid=$toUid, groupId=$groupId, remark=$remark, agree=$agree, Type=$Type, time=$time)"
 }

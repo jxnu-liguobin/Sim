@@ -54,8 +54,5 @@ class Receive {
     @BeanProperty
     var status: Int = _
 
-    override def toString = "id = " + id + ", username = " + username +
-      ", avatar = " + avatar + ",Type = " + Type + ", content = " + content + ", cid = " + cid + ", mine = " + mine +
-      ", fromid = " + fromid + ", timestamp = " + timestamp + ", status =" + status
-
+    override def toString = s"Receive(toid=$toid, id=$id, username=$username, avatar=$avatar, Type=$Type, content=$content, cid=$cid, mine=$mine, fromid=$fromid, timestamp=$timestamp, status=$status)"
 }

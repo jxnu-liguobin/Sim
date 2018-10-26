@@ -15,36 +15,45 @@ class AddInfo {
     @BeanProperty
     var id: Int = _
 
+    //用户id
     @BeanProperty
     var uid: Int = _
 
+    //消息内容
     @BeanProperty
     var content: String = _
 
+    //消息发送者id
     @BeanProperty
     var from: Int = _
 
+    //消息发送者申请加入的群id
     @BeanProperty
     var from_group: Int = _
 
+    //消息类型
     @BeanProperty
     var Type: Int = _
 
+    //附言
     @BeanProperty
     var remark: String = _
 
+    //来源，没使用，未知
     @BeanProperty
     var href: String = _
 
+    //是否已读
     @BeanProperty
     var read: Int = _
 
+    //时间
     @BeanProperty
     var time: String = _
 
+    //消息发送者
     @BeanProperty
     var user: User = _
 
-    override def toString = "id=" + id + ",uid=" + uid + ",content=" + content + ",from=" + from + ",from_group=" + from_group + ",Type=" + Type + ",remark=" + remark + ",href=" + href + ",read=" + read + ",time=" + time + ",user=" + user
-
+    override def toString = s"AddInfo(id=$id, uid=$uid, content=$content, from=$from, from_group=$from_group, Type=$Type, remark=$remark, href=$href, read=$read, time=$time, user=$user)"
 }

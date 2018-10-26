@@ -30,6 +30,5 @@ class Mine {
     @BeanProperty
     var content: String = _
 
-    override def toString = "id = " + id + ", username = " + username + ", mine = " + mine + ", avatar = " + avatar + ", content = " + content
-
+    override def toString = s"Mine(id=$id, username=$username, mine=$mine, avatar=$avatar, content=$content)"
 }

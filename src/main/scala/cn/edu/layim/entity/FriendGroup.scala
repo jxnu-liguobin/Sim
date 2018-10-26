@@ -25,6 +25,5 @@ class FriendGroup {
         this.groupname = groupname
     }
 
-    override def toString = "uid = " + uid + ",groupname = " + groupname
-
+    override def toString = s"FriendGroup(uid=$uid, groupname=$groupname)"
 }

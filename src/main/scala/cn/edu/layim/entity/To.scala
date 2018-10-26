@@ -34,6 +34,5 @@ class To {
     @BeanProperty
     var Type: String = _
 
-    override def toString = "id = " + id + ", username = " + username + ", sign = " + sign + ", avatar = " + avatar + ", status = " + status + ", type = " + Type
-
+    override def toString = s"To(id=$id, username=$username, sign=$sign, avatar=$avatar, status=$status, Type=$Type)"
 }

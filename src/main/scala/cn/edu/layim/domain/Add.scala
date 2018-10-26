@@ -22,5 +22,5 @@ class Add {
     @BeanProperty
     var Type: Int = _
 
-    override def toString = "groupId=" + groupId + ", remark=" + remark + ", Type=" + Type
+    override def toString = s"Add(groupId=$groupId, remark=$remark, Type=$Type)"
 }

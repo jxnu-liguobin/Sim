@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
   * @time 2018-10-19
   */
 @Service
-class CookieService(@Autowired() val redisService: RedisService) {
+class CookieService @Autowired()(private val redisService: RedisService) {
 
     private final val LOGGER: Logger = LoggerFactory.getLogger(classOf[CookieService])
 

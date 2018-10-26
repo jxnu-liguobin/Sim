@@ -25,7 +25,7 @@ import scala.collection.JavaConversions
   *
   */
 @Service
-class UserService @Autowired()(private var userRepository: UserRepository) {
+class UserService @Autowired()(private val userRepository: UserRepository) {
 
     private final val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserService])
 

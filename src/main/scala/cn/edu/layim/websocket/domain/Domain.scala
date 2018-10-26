@@ -20,6 +20,8 @@ object Domain {
 
         @BeanProperty
         var remark: String = _
+
+        override def toString = s"Group(groupId=$groupId, remark=$remark)"
     }
 
     /**
@@ -36,7 +38,7 @@ object Domain {
         @BeanProperty
         var messageBoxId: Int = _
 
-        override def toString = "toUid=" + toUid + ",groupId=" + groupId + ",messageBoxId=" + messageBoxId
+        override def toString = s"AgreeAddGroup(toUid=$toUid, groupId=$groupId, messageBoxId=$messageBoxId)"
     }
 
 }

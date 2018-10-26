@@ -25,7 +25,8 @@ class MailService {
     @Autowired
     private var sender: JavaMailSender = _
 
-    @Value("${spring.mail.username}") private var username: String = _
+    @Value("${spring.mail.username}")
+    private var username: String = _
 
     /**
       * 发送纯文本的简单邮件

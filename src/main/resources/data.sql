@@ -34,6 +34,8 @@ INSERT INTO `t_friend_group` VALUES ('9', '19', '我的好友');
 INSERT INTO `t_friend_group` VALUES ('10', '35', '我的好友');
 INSERT INTO `t_friend_group` VALUES ('11', '53', '我的好友');
 INSERT INTO `t_friend_group` VALUES ('12', '57', '我的好友');
+INSERT INTO `t_friend_group` VALUES ('13', '100', '我的好友');
+
 
 -- ----------------------------
 -- Records of t_friend_group_friends

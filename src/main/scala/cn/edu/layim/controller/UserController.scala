@@ -49,7 +49,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     def leaveOutGroup(@RequestParam("groupId") groupId: Integer, request: HttpServletRequest): String = {
         val user = request.getSession.getAttribute("user").asInstanceOf[User]
         val result = userService.leaveOutGroup(groupId, user.getId)
-        gson.toJson(new ResultSet(result))
+        if (result) {
+            gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.SUCCESS_MESSAGE))
+        } else {
+            gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.LEAVEOUT_GROUP_ERROR))
+        }
     }
 
     /**
@@ -198,14 +202,18 @@ class UserController @Autowired()(private val userService: UserService, private 
     def findMyGroups(@RequestParam(value = "page", defaultValue = "1") page: Int,
                      @RequestParam(value = "createId", required = true) createId: Integer): String = {
         val groups: util.List[GroupList] = userService.findGroupsById(createId)
+        var result: ResultPageSet[Array[AnyRef]] = null
+        if (groups == null) {
+            return gson.toJson(result)
+        }
         val groupNews = groups.toArray.filter(x => x.asInstanceOf[GroupList].getCreateId.equals(createId))
+        result = new ResultPageSet(groupNews)
         val count = groupNews.length
         val pages = if (count < SystemConstant.USER_PAGE) 1 else {
             if (count % SystemConstant.USER_PAGE == 0) count / SystemConstant.USER_PAGE
             else count / SystemConstant.USER_PAGE + 1
         }
         PageHelper.startPage(page, SystemConstant.USER_PAGE)
-        val result = new ResultPageSet(groupNews)
         result.setPages(pages)
         gson.toJson(result)
     }

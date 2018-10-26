@@ -43,10 +43,10 @@ class MailService {
         message.setText(content)
         try {
             sender.send(message)
-            LOGGER.info("发送给  " + to + "邮件发送成功")
+            LOGGER.info("发送给  " + to + " 邮件发送成功")
         } catch {
             case ex: Exception => {
-                LOGGER.info("发送给 " + to + "邮件发送失败！" + ex.getMessage)
+                LOGGER.info("发送给 " + to + " 邮件发送失败！" + ex.getMessage)
             }
         }
     }
@@ -67,10 +67,10 @@ class MailService {
         helper.setText(content, true)
         try {
             sender.send(message)
-            LOGGER.info("发送给  " + to + "html格式的邮件发送成功")
+            LOGGER.info("发送给  " + to + " html格式的邮件发送成功")
         } catch {
             case ex: MessagingException => {
-                LOGGER.info("发送给  " + to + "html格式的邮件发送失败！" + ex.getMessage)
+                LOGGER.info("发送给  " + to + " html格式的邮件发送失败！" + ex.getMessage)
             }
         }
     }
@@ -95,10 +95,10 @@ class MailService {
         helper.addAttachment(fileName, file)
         try {
             sender.send(message)
-            LOGGER.info("发送给  " + to + "带附件邮件发送成功")
+            LOGGER.info("发送给  " + to + " 带附件邮件发送成功")
         } catch {
             case ex: MessagingException => {
-                LOGGER.info("发送给   " + to + "带附件邮件发送失败！" + ex.getMessage)
+                LOGGER.info("发送给   " + to + " 带附件邮件发送失败！" + ex.getMessage)
             }
         }
     }
@@ -123,10 +123,10 @@ class MailService {
         helper.addInline(rscId, res)
         try {
             sender.send(message)
-            LOGGER.info("发送给  " + to + "嵌入静态资源的邮件发送成功")
+            LOGGER.info("发送给  " + to + " 嵌入静态资源的邮件发送成功")
         } catch {
             case ex: MessagingException => {
-                LOGGER.info("发送给  " + to + "嵌入静态资源的邮件发送失败！" + ex.getMessage)
+                LOGGER.info("发送给  " + to + " 嵌入静态资源的邮件发送失败！" + ex.getMessage)
             }
         }
     }

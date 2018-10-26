@@ -33,6 +33,8 @@ object SystemConstant {
 
     final val ERROR_MESSAGE = "操作失败"
 
+    final val LEAVEOUT_GROUP_ERROR = "操作失败【群主不能退群】"
+
     final val UPLOAD_SUCCESS = "上传成功"
 
     final val UPLOAD_FAIL = "上传失败"

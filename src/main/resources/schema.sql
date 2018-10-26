@@ -74,7 +74,7 @@ CREATE TABLE `t_message` (
   `toid` int(10) NOT NULL COMMENT '发送给哪个用户或者组id',
   `mid` int(10) NOT NULL COMMENT '消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）',
   `fromid` int(10) NOT NULL COMMENT '消息的发送者id（比如群组中的某个消息发送者）',
-  `content` varchar(255) NOT NULL COMMENT '消息内容',
+  `content` varchar(512) NOT NULL COMMENT '消息内容',
   `type` varchar(10) NOT NULL DEFAULT '' COMMENT '聊天窗口来源类型',
   `timestamp` bigint(25) NOT NULL COMMENT '服务器动态时间',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否已读',

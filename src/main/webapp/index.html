@@ -114,11 +114,17 @@
 	    		}
 	    	});
 		});
-		
+
 	    //注册
 	    form.on('submit(register)', function (data){
 	    	var passwordsignup_confirm = $("#passwordsignup_confirm").val().trim();
 	    	var passwordsignup = $("#passwordsignup").val().trim();
+
+            if(passwordsignup_confirm.length < 6 || passwordsignup < 6){
+                layer.alert( '密码长度不能小于6');
+                return false;
+            }
+
 	    	if (passwordsignup != passwordsignup_confirm) {
 	    		layer.msg("两次密码不一致!");
 	    		$("#passwordsignup_confirm").val("");

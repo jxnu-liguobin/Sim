@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>LayIM即时通讯</title>
+<title>Scala 即时通讯</title>
 <link rel="stylesheet" href="/static/layui/css/layui.css">
 <style>
 html{background-color: #333;}            

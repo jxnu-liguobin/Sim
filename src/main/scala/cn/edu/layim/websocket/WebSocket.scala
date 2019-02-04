@@ -40,7 +40,7 @@ class WebSocket {
         val mess = gson.fromJson(message.replaceAll("type", "Type"), classOf[Message])
         LOGGER.info("来自客户端的消息: " + mess)
         mess.getType match {
-            case "message" => {
+                case "message" => {
                 WebSocketUtil.sendMessage(mess)
             }
             case "checkOnline" => {

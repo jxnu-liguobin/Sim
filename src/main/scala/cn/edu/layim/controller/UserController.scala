@@ -22,11 +22,11 @@ import org.springframework.web.multipart.MultipartFile
 import scala.collection.JavaConversions
 
 /**
-  * 用户接口
-  *
-  * @date 2018年9月9日
-  * @author 梦境迷离
-  */
+ * 用户接口
+ *
+ * @date 2018年9月9日
+ * @author 梦境迷离
+ */
 @Controller
 @Api(value = "用户相关操作")
 @RequestMapping(value = Array("/user"))
@@ -38,12 +38,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     private final val gson: Gson = new Gson
 
     /**
-      * 退出群
-      *
-      * @param groupId 群编号
-      * @param request
-      * @return String
-      */
+     * 退出群
+     *
+     * @param groupId 群编号
+     * @param request
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/leaveOutGroup"))
     def leaveOutGroup(@RequestParam("groupId") groupId: Integer, request: HttpServletRequest): String = {
@@ -57,11 +57,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 删除好友
-      *
-      * @param friendId
-      * @return String
-      */
+     * 删除好友
+     *
+     * @param friendId
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/removeFriend"))
     def removeFriend(@RequestParam("friendId") friendId: Integer, request: HttpServletRequest): String = {
@@ -71,13 +71,13 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 移动好友分组
-      *
-      * @param groupId 新的分组id
-      * @param userId  被移动的好友id
-      * @param request
-      * @return String
-      */
+     * 移动好友分组
+     *
+     * @param groupId 新的分组id
+     * @param userId  被移动的好友id
+     * @param request
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/changeGroup"))
     def changeGroup(@RequestParam("groupId") groupId: Integer, @RequestParam("userId") userId: Integer
@@ -92,12 +92,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 拒绝添加好友
-      *
-      * @param request
-      * @param messageBoxId 消息盒子的消息id
-      * @return String
-      */
+     * 拒绝添加好友
+     *
+     * @param request
+     * @param messageBoxId 消息盒子的消息id
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/refuseFriend"))
     def refuseFriend(@RequestParam("messageBoxId") messageBoxId: Integer, request: HttpServletRequest): String = {
@@ -106,14 +106,14 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 添加好友
-      *
-      * @param uid          对方用户ID
-      * @param fromGroup    对方设定的好友分组
-      * @param group        我设定的好友分组
-      * @param messageBoxId 消息盒子的消息id
-      * @return String
-      */
+     * 同意添加好友
+     *
+     * @param uid          对方用户ID
+     * @param fromGroup    对方设定的好友分组
+     * @param group        我设定的好友分组
+     * @param messageBoxId 消息盒子的消息id
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/agreeFriend"))
     def agreeFriend(@RequestParam("uid") uid: Integer, @RequestParam("from_group") fromGroup: Integer,
@@ -121,16 +121,20 @@ class UserController @Autowired()(private val userService: UserService, private 
                     request: HttpServletRequest): String = {
         val user = request.getSession.getAttribute("user").asInstanceOf[User]
         val result = userService.addFriend(user.getId, group, uid, fromGroup, messageBoxId)
-        gson.toJson(new ResultSet(result))
+        if (!result) {
+            gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.ERROR_ADD_REPETITION))
+        } else {
+            gson.toJson(new ResultSet(result))
+        }
     }
 
     /**
-      * 查询消息盒子信息
-      *
-      * @param uid
-      * @param page
-      * @return String
-      */
+     * 查询消息盒子信息
+     *
+     * @param uid
+     * @param page
+     * @return String
+     */
     @ResponseBody
     @GetMapping(Array("/findAddInfo"))
     def findAddInfo(@RequestParam("uid") uid: Int, @RequestParam("page") page: Int): String = {
@@ -142,13 +146,13 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 分页查找好友
-      *
-      * @param page 第几页
-      * @param name 好友名字
-      * @param sex  性别
-      * @return String
-      */
+     * 分页查找好友
+     *
+     * @param page 第几页
+     * @param name 好友名字
+     * @param sex  性别
+     * @return String
+     */
     @ResponseBody
     @GetMapping(Array("/findUsers"))
     def findUsers(@RequestParam(value = "page", defaultValue = "1") page: Int,
@@ -168,12 +172,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 分页查找群组
-      *
-      * @param page 第几页
-      * @param name 群名称
-      * @return String
-      */
+     * 分页查找群组
+     *
+     * @param page 第几页
+     * @param name 群名称
+     * @return String
+     */
     @ResponseBody
     @GetMapping(Array("/findGroups"))
     def findGroups(@RequestParam(value = "page", defaultValue = "1") page: Int,
@@ -191,12 +195,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 分页查询我的创建的群组
-      *
-      * @param page
-      * @param createId
-      * @return
-      */
+     * 分页查询我的创建的群组
+     *
+     * @param page
+     * @param createId
+     * @return
+     */
     @ResponseBody
     @GetMapping(Array("/findMyGroups"))
     def findMyGroups(@RequestParam(value = "page", defaultValue = "1") page: Int,
@@ -219,12 +223,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 获取聊天记录
-      *
-      * @param id   与谁的聊天记录id
-      * @param Type 类型，可能是friend或者是group
-      * @return String
-      */
+     * 获取聊天记录
+     *
+     * @param id   与谁的聊天记录id
+     * @param Type 类型，可能是friend或者是group
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/chatLog"))
     def chatLog(@RequestParam("id") id: Integer, @RequestParam("Type") Type: String,
@@ -237,12 +241,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 弹出聊天记录页面
-      *
-      * @param id   与谁的聊天记录id
-      * @param Type 类型，可能是friend或者是group
-      * @return String
-      */
+     * 弹出聊天记录页面
+     *
+     * @param id   与谁的聊天记录id
+     * @param Type 类型，可能是friend或者是group
+     * @return String
+     */
     @GetMapping(Array("/chatLogIndex"))
     def chatLogIndex(@RequestParam("id") id: Integer, @RequestParam("Type") Type: String,
                      model: Model, request: HttpServletRequest): String = {
@@ -256,10 +260,10 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 获取离线消息
-      *
-      * @return String
-      */
+     * 获取离线消息
+     *
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/getOffLineMessage"))
     def getOffLineMessage(request: HttpServletRequest): String = {
@@ -278,11 +282,11 @@ class UserController @Autowired()(private val userService: UserService, private 
 
 
     /**
-      * 更新签名
-      *
-      * @param sign
-      * @return String
-      */
+     * 更新签名
+     *
+     * @param sign
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/updateSign"))
     def updateSign(request: HttpServletRequest, @RequestParam("sign") sign: String): String = {
@@ -296,12 +300,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 激活
-      *
-      * @param activeCode
-      * @return String
-      *
-      */
+     * 激活
+     *
+     * @param activeCode
+     * @return String
+     *
+     */
     @GetMapping(Array("/active/{activeCode}"))
     def activeUser(@PathVariable("activeCode") activeCode: String): String = {
         if (userService.activeUser(activeCode) == 1) {
@@ -312,11 +316,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 注册
-      *
-      * @param user
-      * @return String
-      */
+     * 注册
+     *
+     * @param user
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/register"))
     def register(@RequestBody user: User, request: HttpServletRequest): String = {
@@ -328,11 +332,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 登陆
-      *
-      * @param user
-      * @return String
-      */
+     * 登录
+     *
+     * @param user
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/login"))
     def login(@RequestBody user: User, request: HttpServletRequest, response: HttpServletResponse): String = {
@@ -360,11 +364,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 初始化主界面数据
-      *
-      * @param userId
-      * @return String
-      */
+     * 初始化主界面数据
+     *
+     * @param userId
+     * @return String
+     */
     @ResponseBody
     @ApiOperation("初始化聊天界面数据，分组列表好友信息、群列表")
     @PostMapping(Array("/init/{userId}"))
@@ -382,11 +386,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 获取群成员
-      *
-      * @param id
-      * @return String
-      */
+     * 获取群成员
+     *
+     * @param id
+     * @return String
+     */
     @ResponseBody
     @GetMapping(Array("/getMembers"))
     def getMembers(@RequestParam("id") id: Int): String = {
@@ -396,12 +400,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 客户端上传图片
-      *
-      * @param file
-      * @param request
-      * @return String
-      */
+     * 客户端上传图片
+     *
+     * @param file
+     * @param request
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/upload/image"))
     def uploadImage(@RequestParam("file") file: MultipartFile, request: HttpServletRequest): String = {
@@ -418,12 +422,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 上传群组头像
-      *
-      * @param file
-      * @param request
-      * @return String
-      */
+     * 上传群组头像
+     *
+     * @param file
+     * @param request
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/upload/groupAvatar"))
     def uploadGroupAvatar(@RequestParam("avatar") file: MultipartFile, request: HttpServletRequest): String = {
@@ -440,11 +444,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 用户创建群组
-      *
-      * @param groupList 群组
-      * @return String
-      */
+     * 用户创建群组
+     *
+     * @param groupList 群组
+     * @return String
+     */
     @PostMapping(Array("/createGroup"))
     @ResponseBody
     def createGroup(@RequestBody groupList: GroupList): String = {
@@ -460,12 +464,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 客户端上传文件
-      *
-      * @param file
-      * @param request
-      * @return String
-      */
+     * 客户端上传文件
+     *
+     * @param file
+     * @param request
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/upload/file"))
     def uploadFile(@RequestParam("file") file: MultipartFile, request: HttpServletRequest): String = {
@@ -483,11 +487,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 用户更新头像
-      *
-      * @param avatar
-      * @return String
-      */
+     * 用户更新头像
+     *
+     * @param avatar
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/updateAvatar"))
     def updateAvatar(@RequestParam("avatar") avatar: MultipartFile, request: HttpServletRequest): String = {
@@ -501,11 +505,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 更新信息个人信息
-      *
-      * @param user
-      * @return String
-      */
+     * 更新信息个人信息
+     *
+     * @param user
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/updateInfo"))
     def updateAvatar(@RequestBody user: UserVo, request: HttpServletRequest): String = {
@@ -530,12 +534,12 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 跳转主页
-      *
-      * @param model
-      * @param request
-      * @return String
-      */
+     * 跳转主页
+     *
+     * @param model
+     * @param request
+     * @return String
+     */
     @GetMapping(Array("/index"))
     def index(model: Model, request: HttpServletRequest): String = {
         val user = request.getSession.getAttribute("user")
@@ -545,11 +549,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 根据id查找用户信息
-      *
-      * @param id
-      * @return String
-      */
+     * 根据id查找用户信息
+     *
+     * @param id
+     * @return String
+     */
     @ResponseBody
     @GetMapping(Array("/findUser"))
     def findUserById(@RequestParam("id") id: Integer): String = {
@@ -557,11 +561,11 @@ class UserController @Autowired()(private val userService: UserService, private 
     }
 
     /**
-      * 判断邮件是否存在
-      *
-      * @param email
-      * @return String
-      */
+     * 判断邮件是否存在
+     *
+     * @param email
+     * @return String
+     */
     @ResponseBody
     @PostMapping(Array("/existEmail"))
     def existEmail(@RequestParam("email") email: String): String = {

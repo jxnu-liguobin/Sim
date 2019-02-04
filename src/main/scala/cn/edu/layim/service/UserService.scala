@@ -69,9 +69,11 @@ class UserService @Autowired()(private val userRepository: UserRepository) {
         if (group.getCreateId.equals(uid)) {
             //自己加自己的群，默认同意
             updateAddMessage(messageBoxId, 1)
-            false
+            true
         } else {
+
             userRepository.addGroupMember(new GroupMember(gid, uid)) == 1
+
             updateAddMessage(messageBoxId, 1)
         }
     }
@@ -158,8 +160,14 @@ class UserService @Autowired()(private val userRepository: UserRepository) {
     @CacheEvict(value = Array("findUserById", "findFriendGroupsById", "findUserByGroupId"), allEntries = true)
     def addFriend(mid: Int, mgid: Int, tid: Int, tgid: Int, messageBoxId: Int): Boolean = {
         val add = new AddFriends(mid, mgid, tid, tgid)
-        if (userRepository.addFriend(add) != 0) {
-            return updateAddMessage(messageBoxId, 1)
+        try {
+            if (userRepository.addFriend(add) != 0) {
+                return updateAddMessage(messageBoxId, 1)
+            }
+        } catch {
+            case ex: Exception => {
+                LOGGER.error("重复添好友")
+            }
         }
         false
     }

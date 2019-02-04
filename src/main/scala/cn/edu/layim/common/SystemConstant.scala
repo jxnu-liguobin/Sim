@@ -49,6 +49,8 @@ object SystemConstant {
 
     final val DEFAULT_GROUP_NAME = "我的好友"
 
+    final val ERROR_ADD_REPETITION = "已是好友，请勿重复添加"
+
     //电子邮件相关
     final val SUBJECT = "LayIM即时通讯系统邮箱激活邮件"
 

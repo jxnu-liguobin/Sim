@@ -115,26 +115,50 @@
 	    	});
 		});
 
+        //监测登录密码长度
+        $("#password").blur(function() {
+            var password = $("#password").val().trim();
+            if (!/^[\S]{6,12}$/.test(password)) {
+                layer.tips('密码必须6到12位', '#password');
+                $("#password").val("");
+                return ;
+            }
+        });
+
+        //监测注册密码长度
+        $("#passwordsignup").blur(function() {
+            var passwordsignup = $("#passwordsignup").val();
+            if (!/^[\S]{6,12}$/.test(passwordsignup)) {
+                layer.tips('密码必须6到12位', '#passwordsignup');
+                $("#passwordsignup").val("");
+                $("#passwordsignup_confirm").val("");
+            }
+        });
+        //监听确认密码
+        $("#passwordsignup_confirm").blur(function () {
+            var passwordsignup_confirm = $("#passwordsignup_confirm").val();
+            var passwordsignup = $("#passwordsignup").val();
+            if (passwordsignup!='' && passwordsignup_confirm!='' && passwordsignup_confirm!=passwordsignup) {
+                layer.tips('两次密码不一致', '#passwordsignup_confirm');
+                $("#passwordsignup_confirm").val("");
+                $("#passwordsignup").val("");
+            }
+        })
+
 	    //注册
 	    form.on('submit(register)', function (data){
-	    	var passwordsignup_confirm = $("#passwordsignup_confirm").val().trim();
-	    	var passwordsignup = $("#passwordsignup").val().trim();
-
-            if(passwordsignup_confirm.length < 6 || passwordsignup < 6){
-                layer.alert( '密码长度不能小于6');
-                return false;
-            }
-
-	    	if (passwordsignup != passwordsignup_confirm) {
-	    		layer.msg("两次密码不一致!");
-	    		$("#passwordsignup_confirm").val("");
-	    		$("#passwordsignup").val("");
-	    		return false;
-	    	}
+            // var passwordsignup_confirm = $("#passwordsignup_confirm").val();
+            // var passwordsignup = $("#passwordsignup").val();
+            // if (passwordsignup != passwordsignup_confirm) {
+            //     layer.tips('两次密码不一致', '#passwordsignup_confirm');
+            //     $("#passwordsignup_confirm").val("");
+            //     $("#passwordsignup").val("");
+            //     return false;
+            // }
 	    	var d = {
 				'username':$("#usernamesignup").val(),
 				'email':$("#emailsignup").val(),
-				'password':passwordsignup
+				'password':$("#passwordsignup").val()
 			};
 	    	
 	    	//loading层

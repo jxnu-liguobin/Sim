@@ -2,20 +2,20 @@
 
 ### 主要技术 ### 
 
-    LayIM
-    WebSocket
-    Gradle
-    Spring Boot
-    Scala
-    Redis
-    Alibaba Druid
-    Java Mail
-    Mybatis And PageHelper
-    Swagger
+* Scala
+* LayIM
+* WebSocket
+* Gradle
+* Spring Boot
+* Redis
+* Alibaba Druid
+* Java Mail
+* Mybatis And PageHelper
+* Swagger
 
 ### 环境 ###
 
-* Scala 2.11.8
+* Scala 2.11.8+
 * JDK 1.8
 * Gradle 3.0
 * Mysql
@@ -44,7 +44,6 @@
 * 管理好友列表接口【重命名、删除、新增】 - 若不改layim源码，则只能在“设置”页面管理
 * 若干前端问题或bug
 * 代码优化
-
 
 创建新的群，默认将创建者加入群中。退群的操作可能有以下情况：
 

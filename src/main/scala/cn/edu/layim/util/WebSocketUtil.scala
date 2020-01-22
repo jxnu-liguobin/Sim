@@ -1,7 +1,8 @@
 package cn.edu.layim.util
 
+import java.util
+import java.util.List
 import java.util.concurrent.ConcurrentHashMap
-import java.util.{ HashMap, List }
 
 import cn.edu.layim.Application
 import cn.edu.layim.constant.SystemConstant
@@ -15,7 +16,7 @@ import javax.websocket.Session
 import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.beans.BeanProperty
-import scala.collection.JavaConversions
+import scala.collection.JavaConverters._
 
 
 /**
@@ -65,7 +66,7 @@ object WebSocketUtil {
       //找到群组id里面的所有用户
       val users: List[User] = userService.findUserByGroupId(gid)
       //过滤掉本身的uid
-      JavaConversions.collectionAsScalaIterable(users).filter(_.id != message.getMine.getId)
+      users.asScala.filter(_.id != message.getMine.getId)
         .foreach { user => {
           //是否在线
           if (WebSocketUtil.getSessions.containsKey(user.getId)) {
@@ -110,7 +111,7 @@ object WebSocketUtil {
    */
   def removeFriend(uId: Integer, friendId: Integer) = synchronized {
     //对方是否在线，在线则处理，不在线则不处理
-    val result = new HashMap[String, String]
+    val result = new util.HashMap[String, String]
     if (sessions.get(friendId) != null) {
       result.put("type", "delFriend");
       result.put("uId", uId + "");
@@ -136,7 +137,7 @@ object WebSocketUtil {
     addMessage.setRemark(t.getRemark)
     addMessage.setType(1)
     userService.saveAddMessage(addMessage)
-    val result = new HashMap[String, String]
+    val result = new util.HashMap[String, String]
     if (sessions.get(to.getId) != null) {
       result.put("type", "addGroup");
       sendMessage(gson.toJson(result), sessions.get(to.getId))
@@ -155,12 +156,12 @@ object WebSocketUtil {
     addMessage.setFromUid(mine.getId)
     addMessage.setTime(DateUtil.getDateTime)
     addMessage.setToUid(message.getTo.getId)
-    val add = gson.fromJson(message.getMsg(), classOf[Add])
+    val add = gson.fromJson(message.getMsg, classOf[Add])
     addMessage.setRemark(add.getRemark)
     addMessage.setType(add.getType)
     addMessage.setGroupId(add.getGroupId)
     userService.saveAddMessage(addMessage)
-    val result = new HashMap[String, String]
+    val result = new util.HashMap[String, String]
     //如果对方在线，则推送给对方
     if (sessions.get(message.getTo.getId) != null) {
       result.put("type", "addFriend")
@@ -174,10 +175,10 @@ object WebSocketUtil {
    * @param uid
    * @return HashMap[String, String]
    */
-  def countUnHandMessage(uid: Integer): HashMap[String, String] = synchronized {
+  def countUnHandMessage(uid: Integer): util.HashMap[String, String] = synchronized {
     val count = userService.countUnHandMessage(uid, 0)
     LOGGER.info("count = " + count)
-    val result = new HashMap[String, String]
+    val result = new util.HashMap[String, String]
     result.put("type", "unHandMessage")
     result.put("count", count + "")
     result
@@ -189,10 +190,10 @@ object WebSocketUtil {
    * @param message
    * @return HashMap[String, String]
    */
-  def checkOnline(message: Message, session: Session): HashMap[String, String] = synchronized {
+  def checkOnline(message: Message, session: Session): util.HashMap[String, String] = synchronized {
     LOGGER.info("监测在线状态" + message.getTo.toString)
     val uids = redisService.getSets(SystemConstant.ONLINE_USER)
-    val result = new HashMap[String, String]
+    val result = new util.HashMap[String, String]
     result.put("type", "checkOnline")
     if (uids.contains(message.getTo.getId.toString))
       result.put("status", "在线")
@@ -208,7 +209,7 @@ object WebSocketUtil {
    * @param session
    */
   def sendMessage(message: String, session: Session): Unit = synchronized {
-    session.getBasicRemote().sendText(message)
+    session.getBasicRemote.sendText(message)
   }
 
   /**

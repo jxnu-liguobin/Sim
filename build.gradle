@@ -35,7 +35,8 @@ jar {
 }
 
 repositories {
-    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+//    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    jcenter()
     mavenCentral()
 }
 
@@ -88,6 +89,7 @@ dependencies {
     compile group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.23'
     compile group: 'com.typesafe.akka', name: 'akka-http_2.12', version: '10.1.10'
     compile group: 'com.typesafe.akka', name: 'akka-slf4j_2.12', version: '2.5.23'
+    compile group: 'com.typesafe.akka', name: 'akka-stream_2.12', version: '2.5.23'
 
     //test
     testCompile("org.springframework.boot:spring-boot-starter-test")

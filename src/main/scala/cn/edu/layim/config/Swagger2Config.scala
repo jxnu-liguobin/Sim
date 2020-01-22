@@ -32,6 +32,6 @@ class Swagger2Config {
     // 创建人
     .contact("梦境迷离")
     // 版本号
-    .version("1.0").build()
+    .version("1.2").build()
 
 }

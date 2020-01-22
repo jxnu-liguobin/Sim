@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.{ HashMap, List }
 
 import cn.edu.layim.Application
-import cn.edu.layim.common.SystemConstant
+import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.domain.{ Add, Receive }
 import cn.edu.layim.entity._
 import cn.edu.layim.service.{ RedisService, UserService }
@@ -45,7 +45,7 @@ object WebSocketUtil {
    * @param  message
    */
   def sendMessage(message: Message): Unit = synchronized {
-    LOGGER.info("发送好友消息和群消息!");
+    LOGGER.debug("发送好友消息和群消息!");
     //封装返回消息格式
     val gid = message.getTo.getId
     val receive = WebSocketUtil.getReceiveType(message)

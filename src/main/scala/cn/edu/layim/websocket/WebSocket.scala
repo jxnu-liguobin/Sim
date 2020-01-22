@@ -1,7 +1,7 @@
 package cn.edu.layim.websocket
 
 import cn.edu.layim.Application
-import cn.edu.layim.common.SystemConstant
+import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.entity.Message
 import cn.edu.layim.service.RedisService
 import cn.edu.layim.util.WebSocketUtil

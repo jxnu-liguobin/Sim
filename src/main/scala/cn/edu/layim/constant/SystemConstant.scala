@@ -1,4 +1,4 @@
-package cn.edu.layim.common
+package cn.edu.layim.constant
 
 /**
  * 系统常量

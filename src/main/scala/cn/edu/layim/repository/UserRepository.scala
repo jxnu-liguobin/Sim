@@ -1,6 +1,6 @@
 package cn.edu.layim.repository
 
-import java.util.List
+import java.util
 
 import cn.edu.layim.domain._
 import cn.edu.layim.entity.{ FriendGroup, _ }
@@ -117,7 +117,7 @@ trait UserRepository {
     new Result(property = "read", column = "agree"),
     new Result(property = "from_group", column = "group_id"))
   )
-  def findAddInfo(@Param("uid") uid: Int): List[AddInfo]
+  def findAddInfo(@Param("uid") uid: Int): util.List[AddInfo]
 
   /**
    * 更新好友、群组信息请求
@@ -156,7 +156,7 @@ trait UserRepository {
    * @return Int
    */
   @Select(Array("<script> select id,group_name,avatar,create_id from t_group where 1 = 1 <if test='groupName != null'> and group_name like '%${groupName}%'</if></script>"))
-  def findGroup(@Param("groupName") groupName: String): List[GroupList]
+  def findGroup(@Param("groupName") groupName: String): util.List[GroupList]
 
   /**
    * 根据群id查询群信息
@@ -185,7 +185,7 @@ trait UserRepository {
    * @return List[User]
    */
   @Select(Array("<script> select id,username,sex,status,sign,avatar,email from t_user where 1=1 <if test='username != null'> and username like '%${username}%'</if><if test='sex != null'> and sex=#{sex}</if></script>"))
-  def findUsers(@Param("username") username: String, @Param("sex") sex: Integer): List[User]
+  def findUsers(@Param("username") username: String, @Param("sex") sex: Integer): util.List[User]
 
   /**
    * 统计查询消息
@@ -210,7 +210,7 @@ trait UserRepository {
   @Results(value = Array(new Result(property = "id", column = "mid")))
   @Select(Array("<script> select toid,fromid,mid,content,type,timestamp,status from t_message where type = #{Type} and " +
     "<choose><when test='uid!=null and mid !=null'>(toid = #{uid} and mid = #{mid}) or (toid = #{mid} and mid = #{uid}) </when><when test='mid != null'> mid = #{mid} </when></choose> order by timestamp </script>"))
-  def findHistoryMessage(@Param("uid") uid: Integer, @Param("mid") mid: Int, @Param("Type") Type: String): List[Receive]
+  def findHistoryMessage(@Param("uid") uid: Integer, @Param("mid") mid: Int, @Param("Type") Type: String): util.List[Receive]
 
   /**
    * 查询消息
@@ -221,7 +221,7 @@ trait UserRepository {
    */
   @Results(value = Array(new Result(property = "id", column = "mid")))
   @Select(Array("select toid,fromid,mid,content,type,timestamp,status from t_message where toid = #{uid} and status = #{status}"))
-  def findOffLineMessage(@Param("uid") uid: Int, @Param("status") status: Int): List[Receive]
+  def findOffLineMessage(@Param("uid") uid: Int, @Param("status") status: Int): util.List[Receive]
 
   /**
    * 保存用户聊天记录
@@ -268,7 +268,7 @@ trait UserRepository {
    * @return List[User]
    */
   @Select(Array("select id,username,status,sign,avatar,email from t_user where id in(select uid from t_group_members where gid = #{gid})"))
-  def findUserByGroupId(gid: Int): List[User]
+  def findUserByGroupId(gid: Int): util.List[User]
 
   /**
    * 根据ID查询用户信息
@@ -287,7 +287,7 @@ trait UserRepository {
    */
   @Results(value = Array(new Result(property = "createId", column = "create_id")))
   @Select(Array("select id,group_name,avatar,create_id from t_group where id in(select distinct gid from t_group_members where uid = #{uid})"))
-  def findGroupsById(uid: Int): List[GroupList]
+  def findGroupsById(uid: Int): util.List[GroupList]
 
   /**
    * 根据ID查询该用户的好友分组的列表
@@ -296,7 +296,7 @@ trait UserRepository {
    * @return List[FriendList]
    */
   @Select(Array("select id, group_name from t_friend_group where uid = #{uid}"))
-  def findFriendGroupsById(uid: Int): List[FriendList]
+  def findFriendGroupsById(uid: Int): util.List[FriendList]
 
   /**
    * 根据好友列表ID查询用户信息列表
@@ -305,7 +305,7 @@ trait UserRepository {
    * @return List[User]
    */
   @Select(Array("select id,username,avatar,sign,status,email,sex from t_user where id in(select uid from t_friend_group_friends where fgid = #{fgid})"))
-  def findUsersByFriendGroupIds(fgid: Int): List[User]
+  def findUsersByFriendGroupIds(fgid: Int): util.List[User]
 
   /**
    * 保存用户信息

@@ -3,7 +3,7 @@ package cn.edu.layim.service
 import java.util
 import java.util.List
 
-import cn.edu.layim.common.SystemConstant
+import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.domain._
 import cn.edu.layim.entity._
 import cn.edu.layim.repository.UserRepository
@@ -15,7 +15,7 @@ import org.springframework.cache.annotation.{ CacheEvict, Cacheable }
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-import scala.collection.JavaConversions
+import scala.collection.JavaConverters._
 
 /**
  * 用户信息相关操作
@@ -206,9 +206,9 @@ class UserService @Autowired()(userRepository: UserRepository, mailService: Mail
    * @param uid 个人id
    * @return List[AddInfo]
    */
-  def findAddInfo(uid: Int): List[AddInfo] = {
+  def findAddInfo(uid: Int): util.List[AddInfo] = {
     val list = userRepository.findAddInfo(uid)
-    JavaConversions.collectionAsScalaIterable(list).foreach {
+    list.asScala.foreach {
       info => {
         if (info.Type == 0) {
           info.setContent("申请添加你为好友")
@@ -264,7 +264,7 @@ class UserService @Autowired()(userRepository: UserRepository, mailService: Mail
    * @param groupName 群组名称
    * @return List[GroupList]
    */
-  def findGroup(groupName: String): List[GroupList] = userRepository.findGroup(groupName)
+  def findGroup(groupName: String): util.List[GroupList] = userRepository.findGroup(groupName)
 
   /**
    * 根据用户名和性别统计用户
@@ -282,7 +282,7 @@ class UserService @Autowired()(userRepository: UserRepository, mailService: Mail
    * @param sex      性别
    * @return List[User]
    */
-  def findUsers(username: String, sex: Integer): List[User] = userRepository.findUsers(username, sex)
+  def findUsers(username: String, sex: Integer): util.List[User] = userRepository.findUsers(username, sex)
 
 
   /**
@@ -309,14 +309,14 @@ class UserService @Autowired()(userRepository: UserRepository, mailService: Mail
    * @see User.scala
    * @return List[ChatHistory]
    */
-  def findHistoryMessage(user: User, mid: Int, Type: String): List[ChatHistory] = {
+  def findHistoryMessage(user: User, mid: Int, Type: String): util.List[ChatHistory] = {
     val list = new util.ArrayList[ChatHistory]()
     //单人聊天记录
     if ("friend".equals(Type)) {
       //查找聊天记录
       val historys: List[Receive] = userRepository.findHistoryMessage(user.getId, mid, Type)
       val toUser = findUserById(mid)
-      JavaConversions.collectionAsScalaIterable(historys).foreach {
+      historys.asScala.foreach {
         history => {
           var chatHistory: ChatHistory = null
           if (history.getId == mid) {
@@ -331,12 +331,12 @@ class UserService @Autowired()(userRepository: UserRepository, mailService: Mail
     //群聊天记录
     if ("group".equals(Type)) {
       //查找聊天记录
-      val historys: List[Receive] = userRepository.findHistoryMessage(null, mid, Type)
-      JavaConversions.collectionAsScalaIterable(historys).foreach {
+      val historys = userRepository.findHistoryMessage(null, mid, Type)
+      historys.asScala.foreach {
         history => {
           var chatHistory: ChatHistory = null
           val u = findUserById(history.getFromid)
-          if (history.getFromid().equals(user.getId)) {
+          if (history.getFromid.equals(user.getId)) {
             chatHistory = new ChatHistory(user.getId, user.getUsername, user.getAvatar, history.getContent, history.getTimestamp)
           } else {
             chatHistory = new ChatHistory(history.getId, u.getUsername, u.getAvatar, history.getContent, history.getTimestamp)
@@ -355,7 +355,7 @@ class UserService @Autowired()(userRepository: UserRepository, mailService: Mail
    * @param status 历史消息还是离线消息 0代表离线 1表示已读
    * @return List[Receive]
    */
-  def findOffLineMessage(uid: Int, status: Int): List[Receive] = userRepository.findOffLineMessage(uid, status)
+  def findOffLineMessage(uid: Int, status: Int): util.List[Receive] = userRepository.findOffLineMessage(uid, status)
 
 
   /**
@@ -429,7 +429,7 @@ class UserService @Autowired()(userRepository: UserRepository, mailService: Mail
    * @return List[User]
    */
   @Cacheable(value = Array("findUserByGroupId"), keyGenerator = "wiselyKeyGenerator")
-  def findUserByGroupId(gid: Int): List[User] = userRepository.findUserByGroupId(gid)
+  def findUserByGroupId(gid: Int): util.List[User] = userRepository.findUserByGroupId(gid)
 
   /**
    * 根据ID查询用户的好友分组的列表信息
@@ -440,10 +440,10 @@ class UserService @Autowired()(userRepository: UserRepository, mailService: Mail
    * @return List[FriendList]
    */
   @Cacheable(value = Array("findFriendGroupsById"), keyGenerator = "wiselyKeyGenerator")
-  def findFriendGroupsById(uid: Int): List[FriendList] = {
+  def findFriendGroupsById(uid: Int): util.List[FriendList] = {
     val friends = userRepository.findFriendGroupsById(uid)
     //封装分组列表下的好友信息
-    JavaConversions.collectionAsScalaIterable(friends).foreach {
+    friends.asScala.foreach {
       friend: FriendList => {
         friend.list = userRepository.findUsersByFriendGroupIds(friend.getId)
       }
@@ -469,7 +469,7 @@ class UserService @Autowired()(userRepository: UserRepository, mailService: Mail
    * @return List[GroupList]
    */
   @Cacheable(value = Array("findGroupsById"), keyGenerator = "wiselyKeyGenerator")
-  def findGroupsById(id: Int): List[GroupList] = {
+  def findGroupsById(id: Int): util.List[GroupList] = {
     userRepository.findGroupsById(id)
   }
 

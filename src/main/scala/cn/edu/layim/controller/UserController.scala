@@ -1,9 +1,9 @@
 package cn.edu.layim.controller
 
 import java.util
-import java.util.{ HashMap, List }
+import java.util.List
 
-import cn.edu.layim.common.SystemConstant
+import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.domain._
 import cn.edu.layim.entity.{ GroupList, User }
 import cn.edu.layim.service.{ CookieService, RedisService, UserService }
@@ -19,7 +19,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation._
 import org.springframework.web.multipart.MultipartFile
 
-import scala.collection.JavaConversions
+import scala.collection.JavaConverters._
 
 
 /**
@@ -198,7 +198,7 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
   def findMyGroups(@RequestParam(value = "page", defaultValue = "1") page: Int,
                    @RequestParam(value = "createId", required = true) createId: Integer): String = {
     val groups: util.List[GroupList] = userService.findGroupsById(createId)
-    var result: ResultPageSet[Array[AnyRef]] = null
+    var result: ResultPageSet = null
     if (groups == null) {
       return gson.toJson(result)
     }
@@ -228,7 +228,7 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     PageHelper.startPage(page, SystemConstant.SYSTEM_PAGE)
     //查找聊天记录
-    val historys: List[ChatHistory] = userService.findHistoryMessage(user, id, Type)
+    val historys: util.List[ChatHistory] = userService.findHistoryMessage(user, id, Type)
     gson.toJson(new ResultSet(historys))
   }
 
@@ -246,7 +246,7 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
     model.addAttribute("Type", Type)
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     var pages: Int = userService.countHistoryMessage(user.getId, id, Type)
-    pages = if (pages < SystemConstant.SYSTEM_PAGE) pages else (pages / SystemConstant.SYSTEM_PAGE + 1)
+    pages = if (pages < SystemConstant.SYSTEM_PAGE) pages else pages / SystemConstant.SYSTEM_PAGE + 1
     model.addAttribute("pages", pages)
     "chatLog"
   }
@@ -262,7 +262,7 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     LOGGER.info("查询 uid = " + user.getId + " 的离线消息")
     val receives: List[Receive] = userService.findOffLineMessage(user.getId, 0)
-    JavaConversions.collectionAsScalaIterable(receives).foreach {
+    receives.asScala.foreach {
       receive => {
         val user = userService.findUserById(receive.getId)
         receive.setUsername(user.getUsername)
@@ -311,8 +311,8 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
   @ResponseBody
   @PostMapping(Array("/register"))
   def register(@RequestBody user: User, request: HttpServletRequest): String = {
-    if (userService.saveUser(user, request)) gson.toJson(new ResultSet[String](SystemConstant.SUCCESS, SystemConstant.REGISTER_SUCCESS))
-    else gson.toJson(new ResultSet[String](SystemConstant.ERROR, SystemConstant.REGISTER_FAIL))
+    if (userService.saveUser(user, request)) gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.REGISTER_SUCCESS))
+    else gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.REGISTER_FAIL))
   }
 
   /**
@@ -330,19 +330,19 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
       && userCookie.getPassword.equals(user.getPassword)) {
       LOGGER.info("通过 Cookie 成功登陆服务器")
       request.getSession.setAttribute("user", userCookie)
-      gson.toJson(new ResultSet[User](userCookie))
+      gson.toJson(new ResultSet(userCookie))
     } else {
       val u: User = userService.matchUser(user)
       //未激活
       if (u != null && "nonactivated".equals(u.getStatus)) {
-        gson.toJson(new ResultSet[User](SystemConstant.ERROR, SystemConstant.NONACTIVED))
+        gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.NONACTIVED))
       } else if (u != null && !"nonactivated".equals(u.getStatus)) {
         LOGGER.info(user + "成功登陆服务器")
         request.getSession.setAttribute("user", u)
         cookieService.addCookie(u, request, response)
-        gson.toJson(new ResultSet[User](u))
+        gson.toJson(new ResultSet(u))
       } else {
-        val result = new ResultSet[User](SystemConstant.ERROR, SystemConstant.LOGGIN_FAIL)
+        val result = new ResultSet(SystemConstant.ERROR, SystemConstant.LOGGIN_FAIL)
         gson.toJson(result)
       }
     }
@@ -367,7 +367,7 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
     data.group = userService.findGroupsById(userId)
     //用户好友列表
     data.friend = userService.findFriendGroupsById(userId)
-    gson.toJson(new ResultSet[FriendAndGroupInfo](data))
+    gson.toJson(new ResultSet(data))
   }
 
   /**
@@ -381,7 +381,7 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
   def getMembers(@RequestParam("id") id: Int): String = {
     val users = userService.findUserByGroupId(id)
     val friends = new FriendList(users)
-    gson.toJson(new ResultSet[FriendList](friends))
+    gson.toJson(new ResultSet(friends))
   }
 
   /**
@@ -398,11 +398,11 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
     else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.IMAGE_PATH, path, file)
-      val result = new HashMap[String, String]
+      val result = new util.HashMap[String, String]
       //图片的相对路径地址
       result.put("src", src)
       LOGGER.info("图片" + file.getOriginalFilename + "上传成功")
-      gson.toJson(new ResultSet[HashMap[String, String]](result))
+      gson.toJson(new ResultSet(result))
     }
   }
 
@@ -420,11 +420,11 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
     else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.GROUP_AVATAR_PATH, path, file)
-      val result = new HashMap[String, String]
+      val result = new util.HashMap[String, String]
       //图片的相对路径地址
       result.put("src", src)
       LOGGER.info("图片" + file.getOriginalFilename + "上传成功")
-      gson.toJson(new ResultSet[HashMap[String, String]](result))
+      gson.toJson(new ResultSet(result))
     }
   }
 
@@ -461,12 +461,12 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
     else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.FILE_PATH, path, file)
-      val result = new HashMap[String, String]
+      val result = new util.HashMap[String, String]
       //文件的相对路径地址
       result.put("src", src)
       result.put("name", file.getOriginalFilename)
       LOGGER.info("文件" + file.getOriginalFilename + "上传成功")
-      gson.toJson(new ResultSet[HashMap[String, String]](result))
+      gson.toJson(new ResultSet(result))
     }
   }
 
@@ -483,7 +483,7 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
     val path = request.getServletContext.getRealPath(SystemConstant.AVATAR_PATH)
     val src = FileUtil.upload(path, avatar)
     userService.updateAvatar(user.getId, src)
-    val result = new HashMap[String, String]
+    val result = new util.HashMap[String, String]
     result.put("src", src)
     gson.toJson(new ResultSet(result))
   }
@@ -510,7 +510,7 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
         u.setSign(user.getSign)
         u.setUsername(user.getUsername)
         userService.updateUserInfo(u, u.getId)
-        gson.toJson(new ResultSet[String](SystemConstant.SUCCESS, SystemConstant.UPDATE_INFO_SUCCESS))
+        gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.UPDATE_INFO_SUCCESS))
       }
     }
   }

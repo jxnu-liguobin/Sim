@@ -30,13 +30,13 @@ ext {
     targetCompatibility = 1.8
 }
 jar {
-    baseName = 'spring-boot-scala'
-    version = '0.1.0'
+    baseName = 'LayIM'
+    version = '1.2'
 }
 
 repositories {
-    mavenCentral()
     maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
 }
 
 dependencies {
@@ -49,13 +49,12 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-redis")
     compile("org.springframework.boot:spring-boot-starter-mail")
 
-    //apache
+    //apache file
     compile("commons-fileupload:commons-fileupload:1.3.2")
 
     //scala
     compile "org.scala-lang:scala-library:2.12.8"
     compile "org.scala-lang:scala-compiler:2.12.8"
-    compile "org.scala-lang:scala-reflect:2.12.8"
 
     //mysql driver
     compile("mysql:mysql-connector-java:5.1.38")
@@ -85,15 +84,15 @@ dependencies {
     compile("javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1")
     compile("org.apache.taglibs:taglibs-standard-impl:1.2.5")
 
-    //shiro
-    compile("org.apache.shiro:shiro-core:1.2.5")
-    compile("org.apache.shiro:shiro-web:1.2.5")
-    compile("org.apache.shiro:shiro-ehcache:1.2.5")
-    compile("org.apache.shiro:shiro-spring:1.2.5")
+    //akka http
+    compile group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.23'
+    compile group: 'com.typesafe.akka', name: 'akka-http_2.12', version: '10.1.10'
+    compile group: 'com.typesafe.akka', name: 'akka-slf4j_2.12', version: '2.5.23'
 
     //test
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("junit:junit:4.12")
+
 }
 
 

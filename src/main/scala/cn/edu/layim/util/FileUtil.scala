@@ -2,7 +2,7 @@ package cn.edu.layim.util
 
 import java.io.File
 
-import cn.edu.layim.common.SystemConstant
+import cn.edu.layim.constant.SystemConstant
 import org.apache.commons.io.FileUtils
 import org.springframework.web.multipart.MultipartFile
 

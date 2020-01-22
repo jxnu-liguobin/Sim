@@ -1,0 +1,12 @@
+bin/
+target/
+.settings/
+.classpath
+.project
+.cache-main
+.gradle/
+gradle/
+out/
+gradlew
+gradlew.bat
+log/

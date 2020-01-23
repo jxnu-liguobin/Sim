@@ -136,5 +136,4 @@ class RedisService @Autowired()(redisTemplate: RedisTemplate[String, String]) {
     val keys: Set[String] = redisTemplate.keys(keyParttern)
     if (keys.size() > 0) redisTemplate.delete(keys)
   }
-
 }

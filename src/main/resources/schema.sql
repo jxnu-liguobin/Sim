@@ -42,6 +42,7 @@ CREATE TABLE `t_friend_group_friends` (
 
 -- ----------------------------
 -- Table structure for `t_group`
+-- 格式问题，使用了其他默认时间
 -- ----------------------------
 DROP TABLE IF EXISTS `t_group`;
 CREATE TABLE `t_group` (
@@ -49,7 +50,7 @@ CREATE TABLE `t_group` (
   `group_name` varchar(64) NOT NULL COMMENT '群组名称',
   `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '群组图标',
   `create_id` int(20) NOT NULL COMMENT '创建者id',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` timestamp NOT NULL DEFAULT '1971-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 

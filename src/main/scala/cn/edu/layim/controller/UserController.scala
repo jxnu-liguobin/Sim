@@ -31,7 +31,7 @@ import scala.collection.JavaConverters._
 @Controller
 @Api(value = "用户相关操作")
 @RequestMapping(value = Array("/user"))
-class UserController @Autowired()(userService: UserService, redisService: RedisService, cookieService: CookieService) {
+class UserController @Autowired()(userService: UserService, cookieService: CookieService) {
 
   private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserController])
 
@@ -325,13 +325,13 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
   @PostMapping(Array("/login"))
   def login(@RequestBody user: User, request: HttpServletRequest, response: HttpServletResponse): String = {
 
-    val userCookie = cookieService.`match`(request)
-    if (userCookie != null && user != null && userCookie.getEmail.equals(user.getEmail)
-      && userCookie.getPassword.equals(user.getPassword)) {
-      LOGGER.info("通过 Cookie 成功登陆服务器")
-      request.getSession.setAttribute("user", userCookie)
-      gson.toJson(new ResultSet(userCookie))
-    } else {
+//    val userCookie = cookieService.`match`(request)
+//    if (userCookie != null && user != null && userCookie.getEmail.equals(user.getEmail)
+//      && userCookie.getPassword.equals(user.getPassword)) {
+//      LOGGER.info("通过 Cookie 成功登陆服务器")
+//      request.getSession.setAttribute("user", userCookie)
+//      gson.toJson(new ResultSet(userCookie))
+//    } else {
       val u: User = userService.matchUser(user)
       //未激活
       if (u != null && "nonactivated".equals(u.getStatus)) {
@@ -344,7 +344,7 @@ class UserController @Autowired()(userService: UserService, redisService: RedisS
       } else {
         val result = new ResultSet(SystemConstant.ERROR, SystemConstant.LOGGIN_FAIL)
         gson.toJson(result)
-      }
+//      }
     }
   }
 

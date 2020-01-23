@@ -20,8 +20,8 @@ object RandomData {
 
     (0 to 100).foreach {
       i =>
-        var start = "insert into t_user(username,password,sign,telephone,avatar,sex,create_date) values ("
-        start += "'" + getChineseName() + "','" + SecurityUtil.encrypt("123456") + "','" + "梦境亦是美，醒来亦是空" + "','" + getTel() + "','" + "http://localhost/static/image/group_default.jpg" + "'," + getNum(0, 1) + ",'" + getDate() + "')"
+        var start = "insert into t_user(username,password,sign,email,avatar,sex,active,status,create_date) values ("
+        start += "'" + getChineseName() + "','" + SecurityUtil.encrypt("123456") + "','" + "梦境亦是美，醒来亦是空" + "','" + getTel() + "','" + s"http://localhost/static/image/avatar/avatar(${new Random().nextInt(9) + 1}).jpg" + "'," + getNum(0, 1) + ",'" + "123','" + "hide','" + getDate() + "');"
         println(start)
     }
 
@@ -37,7 +37,7 @@ object RandomData {
     val first = teleFirst(index)
     val second = String.valueOf(getNum(1, 888) + 10000).substring(1)
     val thrid = String.valueOf(getNum(1, 9100) + 10000).substring(1)
-    first + second + thrid
+    first + second + thrid + email_suffix(new Random().nextInt(email_suffix.length - 1))
   }
 
   /**

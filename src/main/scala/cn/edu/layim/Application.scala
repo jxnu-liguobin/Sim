@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext
 
 import scala.beans.BeanProperty
 
+
 /**
  * IDEA添加 vm参数 -Dspring.output.ansi.enabled=ALWAYS  打印彩色控制台
  */
@@ -23,7 +24,9 @@ object Application extends SpringBootServletInitializer {
   @BeanProperty
   var applicationContext: ApplicationContext = null
 
-  def main(args: Array[String]) = applicationContext = SpringApplication.run(classOf[Config])
+  def main(args: Array[String]) = applicationContext = {
+    SpringApplication.run(classOf[Config])
+  }
 
   override protected def configure(builder: SpringApplicationBuilder) = builder.sources(Application)
 

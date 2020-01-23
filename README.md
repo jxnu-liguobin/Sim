@@ -23,12 +23,30 @@
 
 配置Mysql数据库，Redis以及邮件服务器，如果不需要邮件相关服务，可以在UserService.scala中注释掉相关的代码
 
-启动 `Application.scala`
+* 创建MySQL库 `websocket`
+* `schema.sql` 和 `data.sql` 自动初始化表结构和数据，如需要自己mock数据，参考 `RandomData.scala` 构造
+* 修改 `application.conf` 
+```
+# 必须配置akka http websocket server的绑定IP，且不能与SpringBoot绑定的相同
+# 这里我分别用了127.0.0.1:80 和 192.168.124.10:8080。暂时怎么搞
+akka-http-server {
+ host = "192.168.124.10"
+ port = 8080
+}
+```
+* 启动 `Application.scala`
+* 访问 `http://localhost`
+* 登录 
+```
+选取t_user表中的任意一条数据，如：
+邮箱 15906184943@sina.com
+密码 123456（所有mock数据都是一个密码）
+激活 将status状态改为 nonactivated（需要激活才能登录，要配置JavaMail）
+```
 
-访问 `http://localhost`
+> 默认每次启动Application会自动刷新数据库，需要保留记录，请为`schema.sql`和`data.sql`重命名
 
-
-### v1.2 版本 开发中
+### v1.2 版本
 
 更新日志
 

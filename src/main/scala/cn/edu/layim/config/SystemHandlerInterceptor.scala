@@ -23,7 +23,7 @@ class SystemHandlerInterceptor extends HandlerInterceptor {
    * @return Boolean
    */
   override def preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Object): Boolean = {
-    LOGGER.info("前置处理器，在请求处理之前调用")
+    LOGGER.debug("前置处理器，在请求处理之前调用")
     if (request.getSession.getAttribute("user") == null) {
       response.sendRedirect("/")
       false
@@ -40,7 +40,7 @@ class SystemHandlerInterceptor extends HandlerInterceptor {
    */
   override def postHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Object,
                           modelAndView: ModelAndView): Unit = {
-    LOGGER.info("请求处理之后，视图渲染之前调用")
+    LOGGER.debug("请求处理之后，视图渲染之前调用")
 
   }
 
@@ -54,7 +54,7 @@ class SystemHandlerInterceptor extends HandlerInterceptor {
    */
   override def afterCompletion(request: HttpServletRequest, response: HttpServletResponse, handler: Object,
                                ex: Exception) = {
-    LOGGER.info("后置处理器，在请求处理之后调用")
+    LOGGER.debug("后置处理器，在请求处理之后调用")
 
   }
 }

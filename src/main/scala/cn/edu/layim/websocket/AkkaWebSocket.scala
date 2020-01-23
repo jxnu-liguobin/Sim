@@ -47,7 +47,7 @@ class AkkaWebSocket @Autowired()(redisService: RedisService) {
       Source.actorRef[String](16, OverflowStrategy.fail).map(TextMessage.Strict).toMat(Sink.asPublisher(false))(Keep.both).run()
     val in: Sink[Message, Unit] = Flow[Message].watchTermination()((_, ft) => ft.foreach { _ => closeConnection(uId) }).mapConcat {
       case TextMessage.Strict(message) =>
-        val mess = gson.fromJson(message.replaceAll("type", "Type"), classOf[entity.Message])
+        val mess: entity.Message = gson.fromJson(message.replaceAll("type", "Type"), classOf[entity.Message])
         log.info(s"来自客户端的消 => [msg = $mess]")
         mess.getType match {
           case "message" => {
@@ -92,7 +92,7 @@ class AkkaWebSocket @Autowired()(redisService: RedisService) {
       case _ => Nil
     }.to(Sink.ignore)
 
-    log.debug(s"Opening websocket connection for $uId")
+    log.debug(s"Opening websocket connection => [uid = $uId]")
     wsConnections.put(uId, actorRef)
     Flow.fromSinkAndSource(in, Source.fromPublisher(publisher))
   }
@@ -105,9 +105,9 @@ class AkkaWebSocket @Autowired()(redisService: RedisService) {
   def closeConnection(id: Integer) = {
     wsConnections.asScala.get(id).foreach { ar =>
       log.info(s"Closing websocket connection => [id = $id]")
+      wsConnections.remove(id)
+      redisService.removeSetValue(SystemConstant.ONLINE_USER, id + "")
       ar ! Status.Success(Done)
     }
-    wsConnections.remove(id)
-    redisService.removeSetValue(SystemConstant.ONLINE_USER, id + "")
   }
 }

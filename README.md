@@ -1,7 +1,7 @@
 ### 主要技术 
 
 * Scala
-* Akka
+* Akka HTTP
 * Spring Boot
 * Redis
 * Alibaba Druid
@@ -46,11 +46,16 @@ akka-http-server {
 
 > 默认每次启动Application会自动刷新数据库，需要保留记录，请为`schema.sql`和`data.sql`重命名
 
+### 示例
+
+![基于Akka HTTP的LayIM](https://github.com/jxnu-liguobin/LayIM/tree/v1.2/src/main/resources/layim.png)
+
+
 ### v1.2 版本
 
 更新日志
 
-* 使用Akka Http重构WebSocket通信
+* 使用Akka HTTP重构WebSocket通信
 * 升级Scala版本至2.12.8
 
 ### V1.1 版本

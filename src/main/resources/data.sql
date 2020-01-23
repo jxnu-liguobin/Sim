@@ -676,3 +676,8 @@ values ('赵毓', 'c2b5bef53070a76d98d582e419ad44f498ebfa2374505e00ae35c527843b4
 insert into t_user(username, password, sign, email, avatar, sex, active, status, create_date)
 values ('卞豪', 'e3f2c5a2d73492475078630580d782f5526c5eeddb102151a2e8506b8de95c7fb0e40d8a7ce91b23', '梦境亦是美，醒来亦是空',
         '15602253303@yeah.net', 'http://localhost/static/image/avatar/avatar(8).jpg', 0, '123', 'hide', '2015-12-08');
+
+-- 给每个人初始化默认的好友列表
+insert into `t_friend_group` (uid, group_name)
+select id, '我的好友'
+from t_user

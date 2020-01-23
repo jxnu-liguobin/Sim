@@ -48,8 +48,7 @@ akka-http-server {
 
 ### 示例
 
-![基于Akka HTTP的LayIM](https://github.com/jxnu-liguobin/LayIM/tree/v1.2/src/main/resources/layim.png)
-
+![基于Akka HTTP的LayIM](https://github.com/jxnu-liguobin/LayIM/blob/v1.2/src/main/resources/layim.png)
 
 ### v1.2 版本
 

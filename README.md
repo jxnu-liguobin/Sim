@@ -34,6 +34,10 @@ akka-http-server {
  port = 8080
 }
 ```
+* 修改`webapp/static/js/websocket.js`
+```js
+var host = "192.168.124.10:8080" //改为与akka-http-server一致
+```
 * 启动 `Application.scala`
 * 访问 `http://localhost`
 * 登录 

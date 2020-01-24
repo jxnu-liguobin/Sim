@@ -24,9 +24,9 @@ import scala.collection.JavaConverters._
  * @author 梦境迷离
  * @version 1.2
  */
-object WebSocketUtil {
+object WebSocketService {
 
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(WebSocketUtil.getClass)
+  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(WebSocketService.getClass)
   private final lazy val application = Application.getApplicationContext
   final lazy val actorRefSessions = new ConcurrentHashMap[Integer, ActorRef]
   private lazy val userService: UserService = application.getBean(classOf[UserService])
@@ -43,15 +43,15 @@ object WebSocketUtil {
     LOGGER.debug(s"好友消息或群消息 => [msg = $message]");
     //封装返回消息格式
     val gid = message.getTo.getId
-    val receive = WebSocketUtil.getReceiveType(message)
+    val receive = WebSocketService.getReceiveType(message)
     val key: Integer = message.getTo.getId
     //聊天类型，可能来自朋友或群组
     if ("friend".equals(message.getTo.getType)) {
       //是否在线
-      if (WebSocketUtil.actorRefSessions.containsKey(key)) {
-        val actorRef = WebSocketUtil.actorRefSessions.get(key)
+      if (WebSocketService.actorRefSessions.containsKey(key)) {
+        val actorRef = WebSocketService.actorRefSessions.get(key)
         receive.setStatus(1)
-        WebSocketUtil.sendMessage(gson.toJson(receive).replaceAll("Type", "type"), actorRef)
+        WebSocketService.sendMessage(gson.toJson(receive).replaceAll("Type", "type"), actorRef)
       }
       //保存为离线消息,默认是为离线消息
       userService.saveMessage(receive)
@@ -63,10 +63,10 @@ object WebSocketUtil {
       users.asScala.filter(_.id != message.getMine.getId)
         .foreach { user => {
           //是否在线
-          if (WebSocketUtil.actorRefSessions.containsKey(user.getId)) {
-            val actorRef = WebSocketUtil.actorRefSessions.get(user.getId)
+          if (WebSocketService.actorRefSessions.containsKey(user.getId)) {
+            val actorRef = WebSocketService.actorRefSessions.get(user.getId)
             receive.setStatus(1)
-            WebSocketUtil.sendMessage(gson.toJson(receive).replaceAll("Type", "type"), actorRef)
+            WebSocketService.sendMessage(gson.toJson(receive).replaceAll("Type", "type"), actorRef)
           } else {
             receive.setId(key)
           }
@@ -112,7 +112,7 @@ object WebSocketUtil {
     if (actorRefSessions.get(friendId) != null) {
       result.put("type", "delFriend");
       result.put("uId", uId + "");
-      WebSocketUtil.sendMessage(gson.toJson(result), actorRefSessions.get(friendId))
+      WebSocketService.sendMessage(gson.toJson(result), actorRefSessions.get(friendId))
     }
   }
 

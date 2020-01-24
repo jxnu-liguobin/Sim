@@ -26,7 +26,7 @@ import scala.io.StdIn
  * @version 1.0,2020/1/22
  */
 @Component
-class WebSocketServer @Autowired()(redisService: RedisService, akkaServer: AkkaWebSocket) {
+class WebSocketServer @Autowired()(redisService: RedisService, akkaServer: AkkaHttpWebSocket) {
 
   import Directives._
 
@@ -68,6 +68,9 @@ class WebSocketServer @Autowired()(redisService: RedisService, akkaServer: AkkaW
         |       \/       \/    \/        \/            \/     \/    \/               \/     \/                 \/
         |""".stripMargin)
     val bindingFuture = Http().bindAndHandle(IMRoute, host, port, settings = IMServerSettings)
+    bindingFuture.failed.foreach { ex =>
+      LOGGER.error(s"Failed to bind to $host:$port!")
+    }
     StdIn.readLine()
     bindingFuture.flatMap(_.unbind()).onComplete(_ => system.terminate())
   }

@@ -28,7 +28,7 @@
 * 修改 `application.conf` 
 ```
 # 必须配置akka http websocket server的绑定IP，且不能与SpringBoot绑定的相同
-# 这里我分别用了127.0.0.1:80 和 192.168.124.10:8080。暂时怎么搞
+# 这里我分别用了127.0.0.1:80 和 192.168.124.10:8080。暂时这么搞，毕竟HTTP和WebSocket用的不同服务器。
 akka-http-server {
  host = "192.168.124.10"
  port = 8080

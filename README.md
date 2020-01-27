@@ -1,7 +1,7 @@
 ### 主要技术 
 
 * Scala
-* Akka HTTP
+* Akka
 * Spring Boot
 * Redis
 * Alibaba Druid
@@ -15,7 +15,7 @@
 
 * Scala 2.12.8+
 * JDK 1.8
-* Gradle 3.0
+* Gradle
 * Mysql
 * Redis 
 

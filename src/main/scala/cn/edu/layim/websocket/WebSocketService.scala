@@ -1,4 +1,4 @@
-package cn.edu.layim.util
+package cn.edu.layim.websocket
 
 import java.util
 import java.util.concurrent.ConcurrentHashMap
@@ -7,15 +7,14 @@ import akka.actor.ActorRef
 import cn.edu.layim.Application
 import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.domain.{ Add, Receive }
-import cn.edu.layim.entity._
+import cn.edu.layim.entity.{ AddMessage, Message, User }
 import cn.edu.layim.service.{ RedisService, UserService }
-import cn.edu.layim.websocket.Domain
+import cn.edu.layim.util.DateUtil
 import cn.edu.layim.websocket.Domain.AgreeAddGroup
 import com.google.gson.Gson
 import org.slf4j.{ Logger, LoggerFactory }
 
 import scala.collection.JavaConverters._
-
 
 /**
  * WebSocket 单例
@@ -43,17 +42,20 @@ object WebSocketService {
     LOGGER.debug(s"好友消息或群消息 => [msg = $message]");
     //封装返回消息格式
     val gid = message.getTo.getId
-    val receive = WebSocketService.getReceiveType(message)
+    val receive = WebSocketService.getReceive(message)
     val key: Integer = message.getTo.getId
+    val strMsg = () => {
+      gson.toJson(receive).replaceAll("Type", "type")
+    }
     //聊天类型，可能来自朋友或群组
-    if ("friend".equals(message.getTo.getType)) {
+    if ("friend" == message.getTo.getType) {
       //是否在线
       if (WebSocketService.actorRefSessions.containsKey(key)) {
         val actorRef = WebSocketService.actorRefSessions.get(key)
         receive.setStatus(1)
-        WebSocketService.sendMessage(gson.toJson(receive).replaceAll("Type", "type"), actorRef)
+        WebSocketService.sendMessage(strMsg(), actorRef)
       }
-      //保存为离线消息,默认是为离线消息
+      //保存为离线消息,默认为离线消息
       userService.saveMessage(receive)
     } else {
       receive.setId(gid)
@@ -66,7 +68,7 @@ object WebSocketService {
           if (WebSocketService.actorRefSessions.containsKey(user.getId)) {
             val actorRef = WebSocketService.actorRefSessions.get(user.getId)
             receive.setStatus(1)
-            WebSocketService.sendMessage(gson.toJson(receive).replaceAll("Type", "type"), actorRef)
+            WebSocketService.sendMessage(strMsg(), actorRef)
           } else {
             receive.setId(key)
           }
@@ -216,7 +218,7 @@ object WebSocketService {
    * @param message
    * @return Receive
    */
-  private def getReceiveType(message: Message): Receive = {
+  private def getReceive(message: Message): Receive = {
     val mine = message.getMine
     val to = message.getTo
     val receive = new Receive
@@ -242,5 +244,8 @@ object WebSocketService {
     if ("online".equals(status)) redisService.setSet(SystemConstant.ONLINE_USER, uId + "")
     else redisService.removeSetValue(SystemConstant.ONLINE_USER, uId + "")
   }
+
+  //用于统计实时在线的人数，根据ConcurrentHashMap特性，该人数不会很准确
+  def getConnections = actorRefSessions.size()
 
 }

@@ -2,11 +2,9 @@ package cn.edu.layim.actor
 
 import java.util
 
-import akka.actor.{ Actor, ActorLogging, ActorRef }
+import akka.actor.{ Actor, ActorLogging }
 import cn.edu.layim.actor.ActorMessage._
-import cn.edu.layim.entity
-import cn.edu.layim.util.WebSocketService
-import com.google.gson.Gson
+import cn.edu.layim.websocket.WebSocketService
 
 /**
  * 处理websocket的消息分发
@@ -63,17 +61,4 @@ class MessageHandleActor extends Actor with ActorLogging {
   override def unhandled(message: Any): Unit = {
     log.warning(s"No Mapping Message => [msg = $message]!")
   }
-}
-
-object ActorMessage {
-
-  final lazy val gson: Gson = new Gson
-
-  case class TransmitMessage(uId: Int, msg: String, originActorRef: ActorRef) {
-    def getMessage = {
-      val message: entity.Message = gson.fromJson(msg.replaceAll("type", "Type"), classOf[entity.Message])
-      message
-    }
-  }
-
 }

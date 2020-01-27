@@ -6,17 +6,17 @@ import akka.stream.scaladsl.{ Flow, Keep, Sink, Source }
 import akka.stream.{ ActorMaterializer, Materializer, OverflowStrategy }
 import akka.{ Done, NotUsed }
 import cn.edu.layim.actor.ActorMessage._
-import cn.edu.layim.actor.MessageHandleActor
+import cn.edu.layim.actor.{ MessageHandleActor, ScheduleJobActor }
 import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.service.RedisService
-import cn.edu.layim.util.WebSocketService
-import com.google.gson.Gson
 import org.reactivestreams.Publisher
 import org.slf4j.{ Logger, LoggerFactory }
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 import scala.collection.JavaConverters._
+import scala.concurrent.duration._
+import scala.language.postfixOps
 
 /**
  * 基于 akka stream 和 akka http的 websocket
@@ -25,17 +25,17 @@ import scala.collection.JavaConverters._
  * @author 梦境迷离
  */
 @Component
-class AkkaHttpWebSocket @Autowired()(redisService: RedisService) {
+class AkkaHttpWebSocketProvider @Autowired()(redisService: RedisService) {
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
   implicit val ec = system.dispatcher
-
-  private final lazy val log: Logger = LoggerFactory.getLogger(classOf[AkkaHttpWebSocket])
-  private final lazy val gson: Gson = new Gson
+  private final lazy val log: Logger = LoggerFactory.getLogger(classOf[AkkaHttpWebSocketProvider])
   private final lazy val wsConnections = WebSocketService.actorRefSessions
   private lazy val msgActor = system.actorOf(Props(classOf[MessageHandleActor]))
+  private lazy val jobActor = system.actorOf(Props(classOf[ScheduleJobActor]))
 
-  def getConnections = wsConnections.size
+  //重连是3秒
+  system.scheduler.schedule(5000 milliseconds, 500 milliseconds, jobActor, OnlineUserMessage)
 
   /**
    * 处理连接与消息处理
@@ -58,7 +58,7 @@ class AkkaHttpWebSocket @Autowired()(redisService: RedisService) {
       }.to(Sink.ignore)
     }
 
-    log.debug(s"Opening websocket connection => [uid = $uId]")
+    log.info(s"Opening websocket connection => [uid = $uId]")
     wsConnections.put(uId, actorRef)
     Flow.fromSinkAndSource(in, out)
   }

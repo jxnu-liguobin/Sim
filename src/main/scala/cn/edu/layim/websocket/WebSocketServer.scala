@@ -26,7 +26,7 @@ import scala.io.StdIn
  * @version 1.0,2020/1/22
  */
 @Component
-class WebSocketServer @Autowired()(redisService: RedisService, akkaServer: AkkaHttpWebSocket) {
+class WebSocketServer @Autowired()(redisService: RedisService, akkaService: AkkaHttpWebSocketProvider) {
 
   import Directives._
 
@@ -51,7 +51,7 @@ class WebSocketServer @Autowired()(redisService: RedisService, akkaServer: AkkaH
         parameters("uid".as[Int]) { uid =>
           LOGGER.info(s"新连接加入 => [userId = $uid]")
           redisService.setSet(SystemConstant.ONLINE_USER, uid + "")
-          handleWebSocketMessages(akkaServer.openConnection(uid))
+          handleWebSocketMessages(akkaService.openConnection(uid))
         }
       }
     }

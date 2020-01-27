@@ -246,6 +246,7 @@ object WebSocketService {
   }
 
   //用于统计实时在线的人数，根据ConcurrentHashMap特性，该人数不会很准确
+  //重连之后会重新加入进来，但与Redis还是有差异
   def getConnections = actorRefSessions.size()
 
 }

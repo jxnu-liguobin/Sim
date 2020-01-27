@@ -11,7 +11,7 @@ import cn.edu.layim.websocket.WebSocketService
  *
  * @author 梦境迷离
  * @since 2020-01-24
- * @version v1.0
+ * @version v1.2
  */
 class MessageHandleActor extends Actor with ActorLogging {
   override def receive: Receive = {

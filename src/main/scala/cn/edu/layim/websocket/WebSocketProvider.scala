@@ -21,15 +21,16 @@ import scala.language.postfixOps
 /**
  * 基于 akka stream 和 akka http的 websocket
  *
- * @date 2018年9月8日
+ * @date 2020年01月27日
  * @author 梦境迷离
+ * @version 1.2
  */
 @Component
-class AkkaHttpWebSocketProvider @Autowired()(redisService: RedisService) {
+class WebSocketProvider @Autowired()(redisService: RedisService) {
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
   implicit val ec = system.dispatcher
-  private final lazy val log: Logger = LoggerFactory.getLogger(classOf[AkkaHttpWebSocketProvider])
+  private final lazy val log: Logger = LoggerFactory.getLogger(classOf[WebSocketProvider])
   private final lazy val wsConnections = WebSocketService.actorRefSessions
   private lazy val msgActor = system.actorOf(Props(classOf[MessageHandleActor]))
   private lazy val jobActor = system.actorOf(Props(classOf[ScheduleJobActor]))
@@ -44,6 +45,7 @@ class AkkaHttpWebSocketProvider @Autowired()(redisService: RedisService) {
    * @return
    */
   def openConnection(uId: Integer): Flow[Message, Message, NotUsed] = {
+    //刷新重连
     closeConnection(uId)
     val (actorRef: ActorRef, publisher: Publisher[TextMessage.Strict]) = {
       Source.actorRef[String](16, OverflowStrategy.fail).map(TextMessage.Strict).toMat(Sink.asPublisher(false))(Keep.both).run()

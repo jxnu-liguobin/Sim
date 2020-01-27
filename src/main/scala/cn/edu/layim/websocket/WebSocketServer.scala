@@ -26,7 +26,7 @@ import scala.io.StdIn
  * @version 1.0,2020/1/22
  */
 @Component
-class WebSocketServer @Autowired()(redisService: RedisService, akkaService: AkkaHttpWebSocketProvider) {
+class WebSocketServer @Autowired()(redisService: RedisService, akkaService: WebSocketProvider) {
 
   import Directives._
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service
  * @time 2018-10-19
  */
 @Service
+@deprecated
 class CookieService @Autowired()(redisService: RedisService) {
 
   private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[CookieService])

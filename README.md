@@ -58,6 +58,7 @@ var host = "192.168.124.10:8080" //改为与akka-http-server一致
 
 更新日志
 
+* 简单使用Base64编码支持cookie
 * 实时输出在线用户数量
 * 使用Akka HTTP重构WebSocket通信
 * 升级Scala版本至2.12.8

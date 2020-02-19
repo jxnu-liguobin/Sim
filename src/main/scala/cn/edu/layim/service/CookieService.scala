@@ -1,12 +1,10 @@
 package cn.edu.layim.service
 
+import java.util.Base64
+
 import cn.edu.layim.entity.User
-import cn.edu.layim.util.UUIDUtil
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.serializer.SerializerFeature
 import javax.servlet.http.{ Cookie, HttpServletRequest, HttpServletResponse }
 import org.slf4j.{ Logger, LoggerFactory }
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 /**
@@ -16,40 +14,37 @@ import org.springframework.stereotype.Service
  * @time 2018-10-19
  */
 @Service
-@deprecated
-class CookieService @Autowired()(redisService: RedisService) {
+class CookieService {
 
   private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[CookieService])
 
   def addCookie(user: User, request: HttpServletRequest, response: HttpServletResponse) {
+    val baseE: Base64.Encoder = Base64.getEncoder
+    val baseD: Base64.Decoder = Base64.getDecoder
     //记住用户名、密码功能(注意：cookie存放密码会存在安全隐患)
     val loginkeeping: String = request.getParameter("check")
-    if ("true".equals(loginkeeping)) {
-      val uID = UUIDUtil.getUUID32String()
-      LOGGER.info("user uuid = " + uID)
-      redisService.set(uID, JSON.toJSONString(user, SerializerFeature.DisableCircularReferenceDetect))
-      val userCookie = new Cookie("uID", uID)
+    if ("true" == loginkeeping) {
+      //使用token，通过Redis
+      //val uID = UUIDUtil.getUUID32String()
+      LOGGER.info(s"add cookie for user => [email = ${user.getEmail}]")
+      //简单处理，cookie key不能使用=号
+      val userCookie = new Cookie(new String(baseE.encode(user.getEmail.getBytes)).replace("=", ""),
+        new String(baseE.encode(user.getPassword.getBytes)).replace("=", ""))
       userCookie.setMaxAge(30 * 24 * 60 * 60) //存活期为一个月 30*24*60*60
       userCookie.setPath("/")
       response.addCookie(userCookie)
-    }
-  }
-
-  def `match`(request: HttpServletRequest): User = {
-    val cookies = request.getCookies
-    //遍历所有的cookie,然后根据cookie的key值来获取value值
-    val uid = cookies.find(_.getName.equals("uID")).fold("")((_: Cookie).getValue)
-    if (uid == "")
-      null else {
-      val user = redisService.get(uid).asInstanceOf[String]
-      if (user != null) {
-        val U = JSON.parseObject(user, classOf[User])
-        if (U != null) {
-          LOGGER.info("user uuid = " + uid)
-          LOGGER.info("user info = " + U.toString)
-          U
-        } else null
-      } else null
+    } else {
+      //没有勾选时，清楚cookie
+      val cookies = request.getCookies;
+      for (cookie <- cookies) {
+        val cookieName = new String(baseD.decode(cookie.getName))
+        if (cookieName == user.getEmail) {
+          LOGGER.info(s"remove cookie for user => [email = ${user.getEmail}, cookie name = $cookieName]")
+          cookie.setMaxAge(0);
+          cookie.setPath("/");
+          response.addCookie(cookie);
+        }
+      }
     }
   }
 }

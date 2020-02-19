@@ -22,6 +22,8 @@ import scala.io.StdIn
 /**
  * akka-http websocket server
  *
+ * BUG：前端初始化总会抛一个异常
+ *
  * @author liguobin@growingio.com
  * @version 1.0,2020/1/22
  */

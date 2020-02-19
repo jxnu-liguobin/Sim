@@ -6,7 +6,7 @@ import java.util.List
 import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.domain._
 import cn.edu.layim.entity.{ GroupList, User }
-import cn.edu.layim.service.{ CookieService, RedisService, UserService }
+import cn.edu.layim.service.{ CookieService, UserService }
 import cn.edu.layim.util.{ FileUtil, SecurityUtil }
 import com.github.pagehelper.PageHelper
 import com.google.gson.Gson
@@ -151,7 +151,7 @@ class UserController @Autowired()(userService: UserService, cookieService: Cooki
                 @RequestParam(value = "name", required = false) name: String,
                 @RequestParam(value = "sex", required = false) sex: Integer): String = {
     val count = userService.countUsers(name, sex)
-    LOGGER.info("==> 总记录:" + count)
+    LOGGER.info(s"find users => [total = $count]")
     val pages = if (count < SystemConstant.USER_PAGE) 1 else {
       if (count % SystemConstant.USER_PAGE == 0) count / SystemConstant.USER_PAGE
       else count / SystemConstant.USER_PAGE + 1
@@ -260,7 +260,7 @@ class UserController @Autowired()(userService: UserService, cookieService: Cooki
   @PostMapping(Array("/getOffLineMessage"))
   def getOffLineMessage(request: HttpServletRequest): String = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
-    LOGGER.info("查询 uid = " + user.getId + " 的离线消息")
+    LOGGER.info(s"find offline msg [uid = ${user.getId}]")
     val receives: List[Receive] = userService.findOffLineMessage(user.getId, 0)
     receives.asScala.foreach {
       receive => {
@@ -324,27 +324,18 @@ class UserController @Autowired()(userService: UserService, cookieService: Cooki
   @ResponseBody
   @PostMapping(Array("/login"))
   def login(@RequestBody user: User, request: HttpServletRequest, response: HttpServletResponse): String = {
-
-//    val userCookie = cookieService.`match`(request)
-//    if (userCookie != null && user != null && userCookie.getEmail.equals(user.getEmail)
-//      && userCookie.getPassword.equals(user.getPassword)) {
-//      LOGGER.info("通过 Cookie 成功登陆服务器")
-//      request.getSession.setAttribute("user", userCookie)
-//      gson.toJson(new ResultSet(userCookie))
-//    } else {
-      val u: User = userService.matchUser(user)
-      //未激活
-      if (u != null && "nonactivated".equals(u.getStatus)) {
-        gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.NONACTIVED))
-      } else if (u != null && !"nonactivated".equals(u.getStatus)) {
-        LOGGER.info(user + "成功登陆服务器")
-        request.getSession.setAttribute("user", u)
-        cookieService.addCookie(u, request, response)
-        gson.toJson(new ResultSet(u))
-      } else {
-        val result = new ResultSet(SystemConstant.ERROR, SystemConstant.LOGGIN_FAIL)
-        gson.toJson(result)
-//      }
+    val u: User = userService.matchUser(user)
+    //未激活
+    if (u != null && "nonactivated".equals(u.getStatus)) {
+      gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.NONACTIVED))
+    } else if (u != null && !"nonactivated".equals(u.getStatus)) {
+      LOGGER.info(s"user login success => [user = $user]")
+      request.getSession.setAttribute("user", u)
+      cookieService.addCookie(user, request, response)
+      gson.toJson(new ResultSet(u))
+    } else {
+      val result = new ResultSet(SystemConstant.ERROR, SystemConstant.LOGGIN_FAIL)
+      gson.toJson(result)
     }
   }
 
@@ -526,7 +517,7 @@ class UserController @Autowired()(userService: UserService, cookieService: Cooki
   def index(model: Model, request: HttpServletRequest): String = {
     val user = request.getSession.getAttribute("user")
     model.addAttribute("user", user)
-    LOGGER.info("用户" + user + "登陆服务器")
+    LOGGER.info(s"user access server => [user = $user]")
     "index"
   }
 

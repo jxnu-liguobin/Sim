@@ -28,7 +28,8 @@
 * 修改 `application.conf` 
 ```
 # 必须配置akka http websocket server的绑定IP，且不能与SpringBoot绑定的相同
-# 这里我分别用了127.0.0.1:80 和 192.168.124.10:8080。暂时这么搞，毕竟HTTP和WebSocket用的不同服务器。
+# 这里我分别用了127.0.0.1:80 和 192.168.124.10:8080。暂时这么搞（一个本机局域网地址，一个本机回旋地址），毕竟HTTP和WebSocket用的不同服务器。
+# 最好restful请求也改成akka http，但是由于没有解决页面迁移问题，先这样，仅供学习。
 akka-http-server {
  host = "192.168.124.10"
  port = 8080
@@ -63,6 +64,12 @@ var host = "192.168.124.10:8080" //改为与akka-http-server一致
 * 使用Akka HTTP重构WebSocket通信
 * 升级Scala版本至2.12.8
 
+### TODO
+
+1. 使用Playframework、play-ws重构LayIM后端
+2. 使用Akka HTTP重构LayIM后端
+3. 升级LayIM到3.x
+
 ### V1.1 版本
 
 更新日志
@@ -88,5 +95,7 @@ var host = "192.168.124.10:8080" //改为与akka-http-server一致
 4. 群组列表的删除和增加只能通过刷新才能显示最新数据
 
 参考[scalad](https://github.com/scalad/LayIM)，并二次开发，是为1.1版本，还存在许多bug！！
+
+原项目命令式风格很重，改动很多，本次没有进行重构。
 
 包括但不限增加、修改、删除、完善代码等

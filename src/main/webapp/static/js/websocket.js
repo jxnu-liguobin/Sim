@@ -27,10 +27,10 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
     var im = {
         init: function () {
             if ('WebSocket' in window) {
-                var host = "0.0.0.0:8080"
-                // if(window.location.post != ""){
-                // 	host = host + ":" + window.location.port;
-                // }
+                var host = window.location.host
+                if(window.location.post != ""){
+                	host = host + ":" + 18080;
+                }
                 //因为目前不太理解akka stream，先用query params将就一下
                 var url = 'ws://' + host + '/websocket?uid=' + getUid();
                 socket = new ReconnectingWebSocket(url, null, {debug: true, reconnectInterval: 3000});

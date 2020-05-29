@@ -1,17 +1,19 @@
 package cn.edu.layim.config
 
-import org.slf4j.{ Logger, LoggerFactory }
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.{ Bean, Configuration }
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
 import redis.clients.jedis.JedisPoolConfig
 
 /**
- * redis连接配置
- *
+  * redis连接配置
+  *
  * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 @Configuration
 class RedisConfig {
 
@@ -45,10 +47,10 @@ class RedisConfig {
   private var maxWait: Int = _
 
   /**
-   * Jedis数据源配置
-   *
+    * Jedis数据源配置
+    *
    * @return JedisPoolConfig
-   */
+    */
   @Bean
   def jedisPoolConfig(): JedisPoolConfig = {
     val jedisPoolConfig = new JedisPoolConfig
@@ -60,10 +62,10 @@ class RedisConfig {
   }
 
   /**
-   * Jedis数据连接工厂
-   *
+    * Jedis数据连接工厂
+    *
    * @return JedisConnectionFactory
-   */
+    */
   @Bean
   def redisConnectionFactory(poolConfig: JedisPoolConfig): JedisConnectionFactory = {
     val factory: JedisConnectionFactory = new JedisConnectionFactory

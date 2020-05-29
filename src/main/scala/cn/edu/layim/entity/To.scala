@@ -3,11 +3,11 @@ package cn.edu.layim.entity
 import scala.beans.BeanProperty
 
 /**
- * 发送给...的信息
- *
+  * 发送给...的信息
+  *
  * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 class To {
 
   //对方的id
@@ -34,5 +34,6 @@ class To {
   @BeanProperty
   var Type: String = _
 
-  override def toString = s"To(id=$id, username=$username, sign=$sign, avatar=$avatar, status=$status, Type=$Type)"
+  override def toString =
+    s"To(id=$id, username=$username, sign=$sign, avatar=$avatar, status=$status, Type=$Type)"
 }

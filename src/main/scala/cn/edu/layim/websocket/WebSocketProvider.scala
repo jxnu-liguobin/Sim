@@ -1,16 +1,28 @@
 package cn.edu.layim.websocket
 
-import akka.actor.{ ActorRef, ActorSystem, Props, Status }
-import akka.http.scaladsl.model.ws.{ Message, TextMessage }
-import akka.stream.scaladsl.{ Flow, Keep, Sink, Source }
-import akka.stream.{ ActorMaterializer, Materializer, OverflowStrategy }
-import akka.{ Done, NotUsed }
+import akka.actor.ActorRef
+import akka.actor.ActorSystem
+import akka.actor.Props
+import akka.actor.Status
+import akka.http.scaladsl.model.ws.Message
+import akka.http.scaladsl.model.ws.TextMessage
+import akka.stream.scaladsl.Flow
+import akka.stream.scaladsl.Keep
+import akka.stream.scaladsl.Sink
+import akka.stream.scaladsl.Source
+import akka.stream.ActorMaterializer
+import akka.stream.Materializer
+import akka.stream.OverflowStrategy
+import akka.Done
+import akka.NotUsed
 import cn.edu.layim.actor.ActorMessage._
-import cn.edu.layim.actor.{ MessageHandleActor, ScheduleJobActor }
+import cn.edu.layim.actor.MessageHandleActor
+import cn.edu.layim.actor.ScheduleJobActor
 import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.service.RedisService
 import org.reactivestreams.Publisher
-import org.slf4j.{ Logger, LoggerFactory }
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -19,14 +31,14 @@ import scala.concurrent.duration._
 import scala.language.postfixOps
 
 /**
- * 基于 akka stream 和 akka http的 websocket
- *
+  * 基于 akka stream 和 akka http的 websocket
+  *
  * @date 2020年01月27日
- * @author 梦境迷离
- * @version 1.2
- */
+  * @author 梦境迷离
+  * @version 1.2
+  */
 @Component
-class WebSocketProvider @Autowired()(redisService: RedisService) {
+class WebSocketProvider @Autowired() (redisService: RedisService) {
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
   implicit val ec = system.dispatcher
@@ -36,28 +48,35 @@ class WebSocketProvider @Autowired()(redisService: RedisService) {
   private lazy val jobActor = system.actorOf(Props(classOf[ScheduleJobActor]))
 
   //重连是3秒
-  system.scheduler.schedule(5000 milliseconds, 500 milliseconds, jobActor, OnlineUserMessage)
+  system.scheduler.schedule(5000 milliseconds, 60000 milliseconds, jobActor, OnlineUserMessage)
 
   /**
-   * 处理连接与消息处理
-   *
+    * 处理连接与消息处理
+    *
    * @param uId
-   * @return
-   */
+    * @return
+    */
   def openConnection(uId: Integer): Flow[Message, Message, NotUsed] = {
     //刷新重连
     closeConnection(uId)
     val (actorRef: ActorRef, publisher: Publisher[TextMessage.Strict]) = {
-      Source.actorRef[String](16, OverflowStrategy.fail).map(TextMessage.Strict).toMat(Sink.asPublisher(false))(Keep.both).run()
+      Source
+        .actorRef[String](16, OverflowStrategy.fail)
+        .map(TextMessage.Strict)
+        .toMat(Sink.asPublisher(false))(Keep.both)
+        .run()
     }
     val out = Source.fromPublisher(publisher)
     val in: Sink[Message, Unit] = {
-      Flow[Message].watchTermination()((_, ft) => ft.foreach { _ => closeConnection(uId) }).mapConcat {
-        case TextMessage.Strict(message) =>
-          msgActor ! TransmitMessage(uId, message, actorRef)
-          Nil
-        case _ => Nil
-      }.to(Sink.ignore)
+      Flow[Message]
+        .watchTermination()((_, ft) => ft.foreach { _ => closeConnection(uId) })
+        .mapConcat {
+          case TextMessage.Strict(message) =>
+            msgActor ! TransmitMessage(uId, message, actorRef)
+            Nil
+          case _ => Nil
+        }
+        .to(Sink.ignore)
     }
 
     log.info(s"Opening websocket connection => [uid = $uId]")
@@ -66,10 +85,10 @@ class WebSocketProvider @Autowired()(redisService: RedisService) {
   }
 
   /**
-   * 关闭websocket
-   *
+    * 关闭websocket
+    *
    * @param id
-   */
+    */
   def closeConnection(id: Integer) = {
     wsConnections.asScala.get(id).foreach { ar =>
       log.info(s"Closing websocket connection => [id = $id]")

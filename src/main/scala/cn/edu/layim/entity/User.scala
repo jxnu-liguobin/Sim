@@ -8,12 +8,12 @@ import org.springframework.format.annotation.DateTimeFormat
 import scala.beans.BeanProperty
 
 /**
- * 用户
- *
+  * 用户
+  *
  * @see table:t_user
- * @date 2018年9月8日
- * @author 梦境迷离
- *
+  * @date 2018年9月8日
+  * @author 梦境迷离
+  *
  */
 class User extends Serializable {
 
@@ -62,5 +62,6 @@ class User extends Serializable {
   @BeanProperty
   var active: String = _
 
-  override def toString = s"User(id=$id, username=$username, password=$password, sign=$sign, avatar=$avatar, email=$email, createDate=$createDate, sex=$sex, status=$status, active=$active)"
+  override def toString =
+    s"User(id=$id, username=$username, password=$password, sign=$sign, avatar=$avatar, email=$email, createDate=$createDate, sex=$sex, status=$status, active=$active)"
 }

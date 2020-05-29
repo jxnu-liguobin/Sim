@@ -3,22 +3,25 @@ package cn.edu.layim.service
 import java.io.File
 
 import javax.mail.MessagingException
-import org.slf4j.{ Logger, LoggerFactory }
-import org.springframework.beans.factory.annotation.{ Autowired, Value }
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.FileSystemResource
 import org.springframework.mail.SimpleMailMessage
-import org.springframework.mail.javamail.{ JavaMailSender, MimeMessageHelper }
+import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
 
 /**
- * 邮件发送相关服务
- *
+  * 邮件发送相关服务
+  *
  * @date 2018年9月9日
- * @author 梦境迷离
- *
+  * @author 梦境迷离
+  *
  */
 @Service
-class MailService @Autowired()(sender: JavaMailSender) {
+class MailService @Autowired() (sender: JavaMailSender) {
 
   private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[MailService])
 
@@ -26,12 +29,12 @@ class MailService @Autowired()(sender: JavaMailSender) {
   private var username: String = _
 
   /**
-   * 发送纯文本的简单邮件
-   *
+    * 发送纯文本的简单邮件
+    *
    * @param to      邮件接收者
-   * @param subject 主题
-   * @param content 内容
-   */
+    * @param subject 主题
+    * @param content 内容
+    */
   def sendSimpleMail(to: String, subject: String, content: String) = {
     val message = new SimpleMailMessage
     message.setFrom(username)
@@ -49,12 +52,12 @@ class MailService @Autowired()(sender: JavaMailSender) {
   }
 
   /**
-   * 发送html格式的邮件
-   *
+    * 发送html格式的邮件
+    *
    * @param to      邮件接收者
-   * @param subject 主题
-   * @param content 内容
-   */
+    * @param subject 主题
+    * @param content 内容
+    */
   def sendHtmlMail(to: String, subject: String, content: String) = {
     val message = sender.createMimeMessage()
     val helper = new MimeMessageHelper(message, true)
@@ -73,13 +76,13 @@ class MailService @Autowired()(sender: JavaMailSender) {
   }
 
   /**
-   * 发送带附件的邮件
-   *
+    * 发送带附件的邮件
+    *
    * @param to       邮件接收者
-   * @param subject  主题
-   * @param content  内容
-   * @param filePath 附件路径
-   */
+    * @param subject  主题
+    * @param content  内容
+    * @param filePath 附件路径
+    */
   def sendAttachmentsMail(to: String, subject: String, content: String, filePath: String) = {
     val message = sender.createMimeMessage()
     val helper = new MimeMessageHelper(message, true)
@@ -101,15 +104,21 @@ class MailService @Autowired()(sender: JavaMailSender) {
   }
 
   /**
-   * 发送嵌入静态资源（一般是图片）的邮件
-   *
+    * 发送嵌入静态资源（一般是图片）的邮件
+    *
    * @param to      邮件接收者
-   * @param subject 主题
-   * @param content 邮件内容，需要包括一个静态资源的id，比如：<img src=\"cid:rscId01\" >
-   * @param rscPath 静态资源路径和文件名
-   * @param rscId   静态资源id
-   */
-  def sendInlineResourceMail(to: String, subject: String, content: String, rscPath: String, rscId: String) = {
+    * @param subject 主题
+    * @param content 邮件内容，需要包括一个静态资源的id，比如：<img src=\"cid:rscId01\" >
+    * @param rscPath 静态资源路径和文件名
+    * @param rscId   静态资源id
+    */
+  def sendInlineResourceMail(
+      to: String,
+      subject: String,
+      content: String,
+      rscPath: String,
+      rscId: String
+  ) = {
     val message = sender.createMimeMessage()
     val helper = new MimeMessageHelper(message, true)
     helper.setFrom(username)

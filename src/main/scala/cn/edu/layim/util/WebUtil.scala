@@ -3,19 +3,19 @@ package cn.edu.layim.util
 import javax.servlet.http.HttpServletRequest
 
 /**
- * web工具
- *
+  * web工具
+  *
  * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 object WebUtil {
 
   /**
-   * 获取服务器IP
-   *
+    * 获取服务器IP
+    *
    * @param request
-   * @return String
-   */
+    * @return String
+    */
   def getServerIpAdder(request: HttpServletRequest): String = {
     val addr: String = request.getScheme + "://" + request.getServerName
     if (request.getServerPort == 80) addr
@@ -23,11 +23,11 @@ object WebUtil {
   }
 
   /**
-   * 获取客户端真实IP
-   *
+    * 获取客户端真实IP
+    *
    * @param request
-   * @return String
-   */
+    * @return String
+    */
   def getClientIpAddr(request: HttpServletRequest): String = {
     if (request == null) {
       ""
@@ -35,17 +35,13 @@ object WebUtil {
       val ip: String = request.getHeader("x-forwarded-for")
       val ipRes = if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
         request.getHeader("Proxy-Client-IP")
-      }
-      else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+      } else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
         request.getHeader("WL-Proxy-Client-IP")
-      }
-      else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+      } else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
         request.getRemoteAddr()
-      }
-      else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+      } else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
         request.getHeader("http_client_ip")
-      }
-      else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+      } else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
         request.getHeader("HTTP_X_FORWARDED_FOR")
       }
       // 如果是多级代理，那么取第一个ip为客户ip

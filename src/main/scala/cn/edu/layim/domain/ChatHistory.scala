@@ -3,11 +3,11 @@ package cn.edu.layim.domain
 import scala.beans.BeanProperty
 
 /**
- * 聊天记录
- *
+  * 聊天记录
+  *
  * @data 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 class ChatHistory {
 
   //用户id

@@ -1,16 +1,17 @@
 package cn.edu.layim.actor
 
-import akka.actor.{ Actor, ActorLogging }
+import akka.actor.Actor
+import akka.actor.ActorLogging
 import cn.edu.layim.actor.ActorMessage.OnlineUserMessage
 import cn.edu.layim.websocket.WebSocketService
 
 /**
- * 定时获取在线用户数
- *
+  * 定时获取在线用户数
+  *
  * @author 梦境迷离
- * @since 2020-01-27
- * @version v1.0
- */
+  * @since 2020-01-27
+  * @version v1.0
+  */
 class ScheduleJobActor extends Actor with ActorLogging {
   def receive = {
     case OnlineUserMessage => {

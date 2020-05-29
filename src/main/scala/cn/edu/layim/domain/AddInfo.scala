@@ -5,11 +5,11 @@ import cn.edu.layim.entity.User
 import scala.beans.BeanProperty
 
 /**
- * 返回添加好友、群组消息
- *
+  * 返回添加好友、群组消息
+  *
  * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 class AddInfo {
 
   @BeanProperty
@@ -55,5 +55,6 @@ class AddInfo {
   @BeanProperty
   var user: User = _
 
-  override def toString = s"AddInfo(id=$id, uid=$uid, content=$content, from=$from, from_group=$from_group, Type=$Type, remark=$remark, href=$href, read=$read, time=$time, user=$user)"
+  override def toString =
+    s"AddInfo(id=$id, uid=$uid, content=$content, from=$from, from_group=$from_group, Type=$Type, remark=$remark, href=$href, read=$read, time=$time, user=$user)"
 }

@@ -39,7 +39,7 @@
 ### 部署
 
 1. gradle bootRepackage
-2. java -jar LayIM-1.2.1.jar
+2. cd build/libs; java -jar LayIM-1.2.1.jar
 
 > 默认每次启动Application会自动刷新数据库，需要保留记录，请为`schema.sql`和`data.sql`重命名
 

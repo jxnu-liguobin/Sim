@@ -38,7 +38,6 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
     // addPathPatterns 用于添加拦截规则，excludePathPatterns 用户排除拦截
     registry
       .addInterceptor(new SystemHandlerInterceptor)
-      .addPathPatterns("/**")
       .excludePathPatterns("/")
       .excludePathPatterns("/*.html")
       .excludePathPatterns("/user/active/*") //别拦截激活URL
@@ -46,6 +45,8 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
       .excludePathPatterns("/user/register")
       .excludePathPatterns("/user/existEmail")
       .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**")
+      .addPathPatterns("/**")
+
     super.addInterceptors(registry)
   }
 

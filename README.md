@@ -45,7 +45,7 @@
 
 ### 部署
 
-预览 http://scala.chat
+预览 http://im.dreamylost.cn
 
 邮箱：13706055022@googlemail.com
 密码：123456

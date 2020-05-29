@@ -58,7 +58,7 @@ class WebSocketProvider @Autowired() (redisService: RedisService) {
     */
   def openConnection(uId: Integer): Flow[Message, Message, NotUsed] = {
     //刷新重连
-    closeConnection(uId)
+    //closeConnection(uId)
     val (actorRef: ActorRef, publisher: Publisher[TextMessage.Strict]) = {
       Source
         .actorRef[String](16, OverflowStrategy.fail)

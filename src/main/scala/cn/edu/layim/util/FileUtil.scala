@@ -7,21 +7,21 @@ import org.apache.commons.io.FileUtils
 import org.springframework.web.multipart.MultipartFile
 
 /**
- * 服务器文件工具
- *
+  * 服务器文件工具
+  *
  * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 object FileUtil {
 
   /**
-   * 文件保存服务器
-   *
+    * 文件保存服务器
+    *
    * @param types 文件类型/upload/image 或  /upload/file
-   * @param path  文件绝对路径地址
-   * @param file  二进制文件
-   * @return 文件的相对路径地址
-   */
+    * @param path  文件绝对路径地址
+    * @param file  二进制文件
+    * @return 文件的相对路径地址
+    */
   def upload(types: String, path: String, file: MultipartFile): String = {
     var name = file.getOriginalFilename
     var paths = path + types + DateUtil.getDateString + "/"
@@ -40,12 +40,12 @@ object FileUtil {
   }
 
   /**
-   * 用户更新头像
-   *
+    * 用户更新头像
+    *
    * @param realpath 服务器绝对路径地址
-   * @param file     文件
-   * @return 相对路径
-   */
+    * @param file     文件
+    * @return 相对路径
+    */
   def upload(realpath: String, file: MultipartFile): String = {
     var name = file.getOriginalFilename
     name = UUIDUtil.getUUID32String + name.substring(name.indexOf("."))

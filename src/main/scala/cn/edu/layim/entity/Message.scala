@@ -3,12 +3,12 @@ package cn.edu.layim.entity
 import scala.beans.BeanProperty
 
 /**
- * 消息
- *
+  * 消息
+  *
  * @see table:t_message
- * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @date 2018年9月8日
+  * @author 梦境迷离
+  */
 class Message {
 
   //随便定义，用于在服务端区分消息类型

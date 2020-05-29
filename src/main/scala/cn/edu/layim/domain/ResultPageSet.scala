@@ -3,11 +3,11 @@ package cn.edu.layim.domain
 import scala.beans.BeanProperty
 
 /**
- * 分页结果集
- *
+  * 分页结果集
+  *
  * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 class ResultPageSet extends ResultSet {
 
   @BeanProperty

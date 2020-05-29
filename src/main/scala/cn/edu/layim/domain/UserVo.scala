@@ -5,11 +5,11 @@ import org.hibernate.validator.constraints.NotEmpty
 import scala.beans.BeanProperty
 
 /**
- * 返回个人信息更新
- *
+  * 返回个人信息更新
+  *
  * @author 梦境迷离
- * @time 2018-10-20
- */
+  * @time 2018-10-20
+  */
 class UserVo extends Serializable {
 
   @BeanProperty
@@ -39,5 +39,6 @@ class UserVo extends Serializable {
   @BeanProperty
   var sex: String = _
 
-  override def toString = s"UserVo(id=$id, username=$username, password=$password, oldpwd=$oldpwd, sign=$sign, sex=$sex)"
+  override def toString =
+    s"UserVo(id=$id, username=$username, password=$password, oldpwd=$oldpwd, sign=$sign, sex=$sex)"
 }

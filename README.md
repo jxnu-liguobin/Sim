@@ -13,7 +13,7 @@
 
 ### 环境 
 
-* Scala 2.12.8+
+* Scala 2.12.x
 * JDK 1.8
 * Gradle
 * Mysql
@@ -23,31 +23,36 @@
 
 配置Mysql数据库，Redis以及邮件服务器，如果不需要邮件相关服务，可以在UserService.scala中注释掉相关的代码
 
-* 创建MySQL库 `websocket`
-* `schema.sql` 和 `data.sql` 自动初始化表结构和数据，如需要自己mock数据，参考 `RandomData.scala` 构造
-* 修改 `application.conf` 
-```
-# 必须配置akka http websocket server的绑定IP，且不能与SpringBoot绑定的相同
-# 这里我分别用了127.0.0.1:80 和 192.168.124.10:8080。暂时这么搞（一个本机局域网地址，一个本机回旋地址），毕竟HTTP和WebSocket用的不同服务器。
-# 最好restful请求也改成akka http，但是由于没有解决页面迁移问题，先这样，仅供学习。
-akka-http-server {
- host = "192.168.124.10"
- port = 8080
-}
-```
-* 修改`webapp/static/js/websocket.js`
-```js
-var host = "192.168.124.10:8080" //改为与akka-http-server一致
-```
-* 启动 `Application.scala`
-* 访问 `http://localhost`
-* 登录 
+1. 创建MySQL库 `websocket`
+2. `schema.sql` 和 `data.sql` 自动初始化表结构和数据，如需要自己mock数据，参考 `RandomData.scala` 构造
+3. 查看 `application.conf` 默认可不修改
+4. 启动 `Application.scala`
+5. 访问 `http://localhost`
+6. 登录 
 ```
 选取t_user表中的任意一条数据，如：
 邮箱 15906184943@sina.com
 密码 123456（所有mock数据都是一个密码）
 激活 将status状态改为 nonactivated（需要激活才能登录，要配置JavaMail）
+
+随机的5个测试账号 密码
+15803194907@yeah.net 123456
+13501161119@263.net 123456
+15104496675@3721.net 123456
+13603931551@gmail.com 123456
+15507700151@hotmail.com 123456
 ```
+
+### 部署
+
+预览 http://scala.chat
+
+邮箱：13706055022@googlemail.com
+密码：123456
+
+1. cd LayIM
+2. gradle bootRepackage
+3. java -jar dist/LayIM-1.2.1.jar
 
 > 默认每次启动Application会自动刷新数据库，需要保留记录，请为`schema.sql`和`data.sql`重命名
 
@@ -55,9 +60,12 @@ var host = "192.168.124.10:8080" //改为与akka-http-server一致
 
 ![基于Akka HTTP的LayIM](https://github.com/jxnu-liguobin/LayIM/blob/v1.2/src/main/resources/layim.png)
 
-### v1.2 版本
+### v1.2.1
 
-更新日志
+* 增加scalafmt格式化
+* 打包并发布
+
+### v1.2 版本
 
 * 简单使用Base64编码支持cookie
 * 实时输出在线用户数量
@@ -71,8 +79,6 @@ var host = "192.168.124.10:8080" //改为与akka-http-server一致
 3. 升级LayIM到3.x
 
 ### V1.1 版本
-
-更新日志
 
 * 查询我创建的群接口 
 * 退群接口完善 

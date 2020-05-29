@@ -1,25 +1,28 @@
 package cn.edu.layim.config
 
-import com.alibaba.druid.support.http.{ StatViewServlet, WebStatFilter }
-import org.springframework.boot.web.servlet.{ FilterRegistrationBean, ServletRegistrationBean }
-import org.springframework.context.annotation.{ Bean, Configuration }
+import com.alibaba.druid.support.http.StatViewServlet
+import com.alibaba.druid.support.http.WebStatFilter
+import org.springframework.boot.web.servlet.FilterRegistrationBean
+import org.springframework.boot.web.servlet.ServletRegistrationBean
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
 import scala.collection.JavaConverters._
 
 /**
- * Alibaba Druid数据源配置
- *
+  * Alibaba Druid数据源配置
+  *
  * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 @Configuration
 class DruidConfig {
 
   /**
-   * druid配置访问路径和用户名密码
-   *
+    * druid配置访问路径和用户名密码
+    *
    * @return ServletRegistrationBean
-   */
+    */
   @Bean
   def statViewServlet(): ServletRegistrationBean = {
     val druid = new ServletRegistrationBean()
@@ -31,10 +34,10 @@ class DruidConfig {
   }
 
   /**
-   * 拦截器配置
-   *
+    * 拦截器配置
+    *
    * @return FilterRegistrationBean
-   */
+    */
   @Bean
   def webStatFilter(): FilterRegistrationBean = {
     val filter = new FilterRegistrationBean()

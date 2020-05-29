@@ -11,7 +11,8 @@ import akka.util.ByteString
 import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.service.RedisService
 import com.typesafe.config.ConfigFactory
-import org.slf4j.{ Logger, LoggerFactory }
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -20,15 +21,15 @@ import scala.concurrent.Future
 import scala.io.StdIn
 
 /**
- * akka-http websocket server
- *
+  * akka-http websocket server
+  *
  * BUG：前端初始化总会抛一个异常
- *
+  *
  * @author liguobin@growingio.com
- * @version 1.0,2020/1/22
- */
+  * @version 1.0,2020/1/22
+  */
 @Component
-class WebSocketServer @Autowired()(redisService: RedisService, akkaService: WebSocketProvider) {
+class WebSocketServer @Autowired() (redisService: RedisService, akkaService: WebSocketProvider) {
 
   import Directives._
 
@@ -42,8 +43,9 @@ class WebSocketServer @Autowired()(redisService: RedisService, akkaService: WebS
     //自定义保持活动数据有效负载
     val defaultSettings = ServerSettings(system)
     val pingCounter = new AtomicInteger()
-    val IMWebsocketSettings = defaultSettings.websocketSettings.
-      withPeriodicKeepAliveData(() => ByteString(s"debug-ping-${pingCounter.incrementAndGet()}"))
+    val IMWebsocketSettings = defaultSettings.websocketSettings.withPeriodicKeepAliveData(() =>
+      ByteString(s"debug-ping-${pingCounter.incrementAndGet()}")
+    )
     defaultSettings.withWebsocketSettings(IMWebsocketSettings)
   }
 
@@ -68,7 +70,8 @@ class WebSocketServer @Autowired()(redisService: RedisService, akkaService: WebS
         | \        /\  ___/| \_\ \/        (  <_> )  \___|    <\  ___/|  |    /        \  ___/|  | \/\   /\  ___/|  | \/
         |  \__/\  /  \___  >___  /_______  /\____/ \___  >__|_ \\___  >__|   /_______  /\___  >__|    \_/  \___  >__|
         |       \/       \/    \/        \/            \/     \/    \/               \/     \/                 \/
-        |""".stripMargin)
+        |""".stripMargin
+    )
     val bindingFuture = Http().bindAndHandle(IMRoute, host, port, settings = IMServerSettings)
     bindingFuture.failed.foreach { ex =>
       LOGGER.error(s"Failed to bind to $host:$port!")
@@ -81,5 +84,3 @@ class WebSocketServer @Autowired()(redisService: RedisService, akkaService: WebS
     startUp()
   }
 }
-
-

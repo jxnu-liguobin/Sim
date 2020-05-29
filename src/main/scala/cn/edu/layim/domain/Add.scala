@@ -3,11 +3,11 @@ package cn.edu.layim.domain
 import scala.beans.BeanProperty
 
 /**
- * 添加好友、群组
- *
+  * 添加好友、群组
+  *
  * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 class Add {
 
   //好友列表id或群组id

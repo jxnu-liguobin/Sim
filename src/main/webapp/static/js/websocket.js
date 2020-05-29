@@ -27,7 +27,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
     var im = {
         init: function () {
             if ('WebSocket' in window) {
-                var host = "192.168.199.107:8080"
+                var host = "0.0.0.0:8080"
                 // if(window.location.post != ""){
                 // 	host = host + ":" + window.location.port;
                 // }

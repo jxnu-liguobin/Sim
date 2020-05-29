@@ -2,17 +2,18 @@ package cn.edu.layim.actor
 
 import java.util
 
-import akka.actor.{ Actor, ActorLogging }
+import akka.actor.Actor
+import akka.actor.ActorLogging
 import cn.edu.layim.actor.ActorMessage._
 import cn.edu.layim.websocket.WebSocketService
 
 /**
- * 处理websocket的消息分发
- *
+  * 处理websocket的消息分发
+  *
  * @author 梦境迷离
- * @since 2020-01-24
- * @version v1.2
- */
+  * @since 2020-01-24
+  * @version v1.2
+  */
 class MessageHandleActor extends Actor with ActorLogging {
   override def receive: Receive = {
     case tm: TransmitMessage =>
@@ -22,7 +23,8 @@ class MessageHandleActor extends Actor with ActorLogging {
           WebSocketService.sendMessage(tm.getMessage)
         }
         case "checkOnline" => {
-          val result: util.HashMap[String, String] = WebSocketService.checkOnline(tm.getMessage, tm.originActorRef)
+          val result: util.HashMap[String, String] =
+            WebSocketService.checkOnline(tm.getMessage, tm.originActorRef)
           WebSocketService.sendMessage(gson.toJson(result), tm.originActorRef)
         }
         case "addGroup" => {
@@ -36,7 +38,10 @@ class MessageHandleActor extends Actor with ActorLogging {
         }
         case "agreeAddFriend" => {
           if (WebSocketService.actorRefSessions.get(tm.getMessage.getTo.getId) != null) {
-            WebSocketService.sendMessage(tm.msg, WebSocketService.actorRefSessions.get(tm.getMessage.getTo.getId))
+            WebSocketService.sendMessage(
+              tm.msg,
+              WebSocketService.actorRefSessions.get(tm.getMessage.getTo.getId)
+            )
           }
         }
         case "agreeAddGroup" => {

@@ -3,16 +3,19 @@ package cn.edu.layim.service
 import java.util.Base64
 
 import cn.edu.layim.entity.User
-import javax.servlet.http.{ Cookie, HttpServletRequest, HttpServletResponse }
-import org.slf4j.{ Logger, LoggerFactory }
+import javax.servlet.http.Cookie
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 /**
- * cookie 服务
- *
+  * cookie 服务
+  *
  * @author 梦境迷离
- * @time 2018-10-19
- */
+  * @time 2018-10-19
+  */
 @Service
 class CookieService {
 
@@ -28,8 +31,10 @@ class CookieService {
       //val uID = UUIDUtil.getUUID32String()
       LOGGER.info(s"add cookie for user => [email = ${user.getEmail}]")
       //简单处理，cookie key不能使用=号
-      val userCookie = new Cookie(new String(baseE.encode(user.getEmail.getBytes)).replace("=", ""),
-        new String(baseE.encode(user.getPassword.getBytes)).replace("=", ""))
+      val userCookie = new Cookie(
+        new String(baseE.encode(user.getEmail.getBytes)).replace("=", ""),
+        new String(baseE.encode(user.getPassword.getBytes)).replace("=", "")
+      )
       userCookie.setMaxAge(30 * 24 * 60 * 60) //存活期为一个月 30*24*60*60
       userCookie.setPath("/")
       response.addCookie(userCookie)
@@ -39,7 +44,9 @@ class CookieService {
       for (cookie <- cookies) {
         val cookieName = new String(baseD.decode(cookie.getName))
         if (cookieName == user.getEmail) {
-          LOGGER.info(s"remove cookie for user => [email = ${user.getEmail}, cookie name = $cookieName]")
+          LOGGER.info(
+            s"remove cookie for user => [email = ${user.getEmail}, cookie name = $cookieName]"
+          )
           cookie.setMaxAge(0);
           cookie.setPath("/");
           response.addCookie(cookie);

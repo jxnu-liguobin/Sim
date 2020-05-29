@@ -3,11 +3,11 @@ package cn.edu.layim.domain
 import scala.beans.BeanProperty
 
 /**
- * 收到的消息
- *
+  * 收到的消息
+  *
  * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @author 梦境迷离
+  */
 class Receive {
 
   //发送给哪个用户
@@ -54,5 +54,6 @@ class Receive {
   @BeanProperty
   var status: Int = _
 
-  override def toString = s"Receive(toid=$toid, id=$id, username=$username, avatar=$avatar, Type=$Type, content=$content, cid=$cid, mine=$mine, fromid=$fromid, timestamp=$timestamp, status=$status)"
+  override def toString =
+    s"Receive(toid=$toid, id=$id, username=$username, avatar=$avatar, Type=$Type, content=$content, cid=$cid, mine=$mine, fromid=$fromid, timestamp=$timestamp, status=$status)"
 }

@@ -5,12 +5,12 @@ import java.util.Date
 import scala.beans.BeanProperty
 
 /**
- * 添加消息
- *
+  * 添加消息
+  *
  * @see table:t_add_message
- * @date 2018年9月8日
- * @author 梦境迷离
- */
+  * @date 2018年9月8日
+  * @author 梦境迷离
+  */
 class AddMessage {
 
   @BeanProperty
@@ -44,5 +44,6 @@ class AddMessage {
   @BeanProperty
   var time: Date = _
 
-  override def toString = s"AddMessage(id=$id, fromUid=$fromUid, toUid=$toUid, groupId=$groupId, remark=$remark, agree=$agree, Type=$Type, time=$time)"
+  override def toString =
+    s"AddMessage(id=$id, fromUid=$fromUid, toUid=$toUid, groupId=$groupId, remark=$remark, agree=$agree, Type=$Type, time=$time)"
 }

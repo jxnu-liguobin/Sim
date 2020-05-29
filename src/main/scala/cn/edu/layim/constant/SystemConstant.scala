@@ -1,8 +1,8 @@
 package cn.edu.layim.constant
 
 /**
- * 系统常量
- */
+  * 系统常量
+  */
 object SystemConstant {
 
   final val SUCCESS = 0

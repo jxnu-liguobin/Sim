@@ -28,7 +28,12 @@ class DruidConfig {
     val druid = new ServletRegistrationBean()
     druid.setServlet(new StatViewServlet())
     druid.setUrlMappings(List("/druid/*").asJava)
-    val params = Map("loginUsername" -> "admin", "loginPassword" -> "admin", "allo" -> "", "resetEnable" -> "false")
+    val params = Map(
+      "loginUsername" -> "admin",
+      "loginPassword" -> "admin",
+      "allo" -> "",
+      "resetEnable" -> "false"
+    )
     druid.setInitParameters(params.asJava)
     druid
   }

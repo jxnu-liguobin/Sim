@@ -10,6 +10,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
+import scala.util.Try
+
 /**
   * cookie 服务
   *
@@ -42,7 +44,7 @@ class CookieService {
       //没有勾选时，清楚cookie
       val cookies = request.getCookies;
       for (cookie <- cookies) {
-        val cookieName = new String(baseD.decode(cookie.getName))
+        val cookieName = Try(new String(baseD.decode(cookie.getName))).getOrElse("")
         if (cookieName == user.getEmail) {
           LOGGER.info(
             s"remove cookie for user => [email = ${user.getEmail}, cookie name = $cookieName]"

@@ -13,7 +13,7 @@
 
 ### 环境 
 
-* Scala 2.12.8+
+* Scala 2.12.x
 * JDK 1.8
 * Gradle
 * Mysql
@@ -38,8 +38,14 @@
 
 ### 部署
 
-1. gradle bootRepackage
-2. cd build/libs; java -jar LayIM-1.2.1.jar
+预览 http://scala.chat
+
+邮箱：13706055022@googlemail.com
+密码：123456
+
+1. cd LayIM
+2. gradle bootRepackage
+3. java -jar dist/LayIM-1.2.1.jar
 
 > 默认每次启动Application会自动刷新数据库，需要保留记录，请为`schema.sql`和`data.sql`重命名
 

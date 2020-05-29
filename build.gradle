@@ -37,6 +37,7 @@ ext {
 jar {
     baseName = 'LayIM'
     version = '1.2.1'
+    destinationDir = file("$rootDir/dist")
 }
 
 repositories {

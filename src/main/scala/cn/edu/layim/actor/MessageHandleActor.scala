@@ -48,7 +48,7 @@ class MessageHandleActor extends Actor with ActorLogging {
           WebSocketService.agreeAddGroup(tm.getMessage)
         }
         case "refuseAddGroup" => {
-          WebSocketService.refuseAddGroup(tm.getMessage);
+          WebSocketService.refuseAddGroup(tm.getMessage)
         }
         case "unHandMessage" => {
           val result = WebSocketService.countUnHandMessage(tm.uId)

@@ -21,7 +21,7 @@ class MybatisConfig {
 
   @Bean
   def pageHelper(): PageHelper = {
-    LOGGER.info("注册MyBatis分页插件PageHelper");
+    LOGGER.info("注册MyBatis分页插件PageHelper")
     val pageHelper = new PageHelper()
     val properties = new Properties()
     properties.setProperty(

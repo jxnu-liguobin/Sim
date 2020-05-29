@@ -45,7 +45,7 @@ object WebSocketService {
     */
   def sendMessage(message: Message): Unit =
     synchronized {
-      LOGGER.debug(s"好友消息或群消息 => [msg = $message]");
+      LOGGER.debug(s"好友消息或群消息 => [msg = $message]")
       //封装返回消息格式
       val gid = message.getTo.getId
       val receive = WebSocketService.getReceive(message)
@@ -93,7 +93,7 @@ object WebSocketService {
    * @param msg
     */
   def agreeAddGroup(msg: Message): Unit = {
-    LOGGER.debug(s"同意入群消息 => [msg = $msg]");
+    LOGGER.debug(s"同意入群消息 => [msg = $msg]")
     val agree = gson.fromJson(msg.getMsg, classOf[AgreeAddGroup])
     userService.addGroupMember(agree.groupId, agree.toUid, agree.messageBoxId)
   }
@@ -104,7 +104,7 @@ object WebSocketService {
    * @param msg
     */
   def refuseAddGroup(msg: Message): Unit = {
-    LOGGER.debug(s"拒绝入群消息 => [msg = $msg]");
+    LOGGER.debug(s"拒绝入群消息 => [msg = $msg]")
     val refuse = gson.fromJson(msg.getMsg, classOf[Domain.AgreeAddGroup])
     userService.updateAddMessage(refuse.messageBoxId, 2)
   }
@@ -117,12 +117,12 @@ object WebSocketService {
     */
   def removeFriend(uId: Integer, friendId: Integer) =
     synchronized {
-      LOGGER.debug(s"删除好友通知消息 => [uId = $uId, friendId = $friendId ]");
+      LOGGER.debug(s"删除好友通知消息 => [uId = $uId, friendId = $friendId ]")
       //对方是否在线，在线则处理，不在线则不处理
       val result = new util.HashMap[String, String]
       if (actorRefSessions.get(friendId) != null) {
-        result.put("type", "delFriend");
-        result.put("uId", uId + "");
+        result.put("type", "delFriend")
+        result.put("uId", uId + "")
         WebSocketService.sendMessage(gson.toJson(result), actorRefSessions.get(friendId))
       }
     }
@@ -135,7 +135,7 @@ object WebSocketService {
     */
   def addGroup(uId: Integer, message: Message): Unit =
     synchronized {
-      LOGGER.debug(s"加群消息 => [uId = $uId, msg = $message ]");
+      LOGGER.debug(s"加群消息 => [uId = $uId, msg = $message ]")
       val addMessage = new AddMessage
       val mine = message.getMine
       val to = message.getTo
@@ -149,7 +149,7 @@ object WebSocketService {
       userService.saveAddMessage(addMessage)
       val result = new util.HashMap[String, String]
       if (actorRefSessions.get(to.getId) != null) {
-        result.put("type", "addGroup");
+        result.put("type", "addGroup")
         sendMessage(gson.toJson(result), actorRefSessions.get(to.getId))
       }
     }
@@ -162,7 +162,7 @@ object WebSocketService {
     */
   def addFriend(uId: Int, message: Message): Unit =
     synchronized {
-      LOGGER.debug(s"加好友消息 => [uId = $uId, msg = $message ]");
+      LOGGER.debug(s"加好友消息 => [uId = $uId, msg = $message ]")
       val mine = message.getMine
       val addMessage = new AddMessage
       addMessage.setFromUid(mine.getId)
@@ -189,7 +189,7 @@ object WebSocketService {
     */
   def countUnHandMessage(uId: Int): util.HashMap[String, String] =
     synchronized {
-      LOGGER.debug(s"离线消息统计 => [uId = $uId]");
+      LOGGER.debug(s"离线消息统计 => [uId = $uId]")
       val count = userService.countUnHandMessage(uId, 0)
       LOGGER.info("count = " + count)
       val result = new util.HashMap[String, String]

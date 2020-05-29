@@ -50,9 +50,9 @@ class CookieService {
             LOGGER.info(
               s"remove cookie for user => [email = ${user.getEmail}, cookie name = $cookieName]"
             )
-            cookie.setMaxAge(0);
-            cookie.setPath("/");
-            response.addCookie(cookie);
+            cookie.setMaxAge(0)
+            cookie.setPath("/")
+            response.addCookie(cookie)
           }
         }
       } catch {

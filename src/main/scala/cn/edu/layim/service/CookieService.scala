@@ -41,18 +41,23 @@ class CookieService {
       userCookie.setPath("/")
       response.addCookie(userCookie)
     } else {
-      //没有勾选时，清楚cookie
-      val cookies = request.getCookies;
-      for (cookie <- cookies) {
-        val cookieName = Try(new String(baseD.decode(cookie.getName))).getOrElse("")
-        if (cookieName == user.getEmail) {
-          LOGGER.info(
-            s"remove cookie for user => [email = ${user.getEmail}, cookie name = $cookieName]"
-          )
-          cookie.setMaxAge(0);
-          cookie.setPath("/");
-          response.addCookie(cookie);
+      try {
+        //没有勾选时，清楚cookie
+        val cookies = request.getCookies
+        for (cookie <- cookies) {
+          val cookieName = new String(baseD.decode(cookie.getName))
+          if (cookieName == user.getEmail) {
+            LOGGER.info(
+              s"remove cookie for user => [email = ${user.getEmail}, cookie name = $cookieName]"
+            )
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+          }
         }
+      } catch {
+        case e: Exception =>
+          LOGGER.error(s"failed in cookie service: $e")
       }
     }
   }

@@ -48,7 +48,7 @@ class WebSocketProvider @Autowired() (redisService: RedisService) {
   private lazy val jobActor = system.actorOf(Props(classOf[ScheduleJobActor]))
 
   //重连是3秒
-  system.scheduler.schedule(5000 milliseconds, 60000 milliseconds, jobActor, OnlineUserMessage)
+  system.scheduler.schedule(5000 milliseconds, 10000 milliseconds, jobActor, OnlineUserMessage)
 
   /**
     * 处理连接与消息处理

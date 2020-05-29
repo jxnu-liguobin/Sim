@@ -67,7 +67,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
   @CacheEvict(value = Array("findUserByGroupId", "findGroupsById"), allEntries = true)
   def addGroupMember(gid: Int, uid: Int, messageBoxId: Int): Boolean = {
     val group = userRepository.findGroupById(gid)
-    if (group.getCreateId.equals(uid)) {
+    if (group != null && group.getCreateId.equals(uid)) {
       //自己加自己的群，默认同意
       updateAddMessage(messageBoxId, 1)
       true
@@ -235,7 +235,9 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
           info.setContent("申请添加你为好友")
         } else {
           val group: GroupList = userRepository.findGroupById(info.getFrom_group)
-          info.setContent("申请加入 '" + group.getGroupname + "' 群聊中!")
+          if (group != null) {
+            info.setContent("申请加入 '" + group.getGroupname + "' 群聊中!")
+          }
         }
         info.setHref(null)
         info.setUser(findUserById(info.getFrom))

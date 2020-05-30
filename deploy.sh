@@ -2,7 +2,7 @@
 
 git pull origin master
 
-gradle clean build
+gradle build
 
 gradle bootRepackage
 

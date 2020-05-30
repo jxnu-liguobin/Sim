@@ -58,7 +58,7 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
                         });
                     } else if (data.code == 0) {
                         layer.msg(data.msg, {time: 2000}, function () {
-                            window.parent.location.reload();//刷新父页面
+                            window.parent.parent.location.reload();//刷新主页面
                         });
                     }
                 },

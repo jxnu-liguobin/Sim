@@ -24,6 +24,7 @@ import org.reactivestreams.Publisher
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.DependsOn
 import org.springframework.stereotype.Component
 
 import scala.collection.JavaConverters._
@@ -38,6 +39,7 @@ import scala.language.postfixOps
   * @version 1.2
   */
 @Component
+@DependsOn(Array("redisService"))
 class WebSocketProvider @Autowired() (redisService: RedisService) {
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()

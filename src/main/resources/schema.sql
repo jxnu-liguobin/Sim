@@ -14,7 +14,7 @@ CREATE TABLE `t_add_message` (
   `type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '类型，可能是添加好友或群组',
   `time` datetime NOT NULL COMMENT '申请时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `add_friend_unique` (`from_uid`,`to_uid`,`type`) USING BTREE
+  UNIQUE KEY `add_friend_unique` (`from_uid`,`to_uid`,`group_id`,`type`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

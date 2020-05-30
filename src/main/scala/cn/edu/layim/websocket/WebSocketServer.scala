@@ -39,7 +39,7 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
   private val host = ConfigFactory.load("application.conf").getString("akka-http-server.host")
   private val port = ConfigFactory.load("application.conf").getInt("akka-http-server.port")
 
-  val IMServerSettings = {
+  private val imServerSettings = {
     //自定义保持活动数据有效负载
     val defaultSettings = ServerSettings(system)
     val pingCounter = new AtomicInteger()
@@ -49,7 +49,7 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
     defaultSettings.withWebsocketSettings(IMWebsocketSettings)
   }
 
-  val IMRoute = {
+  private val imRoute = {
     path("websocket") {
       get {
         parameters("uid".as[Int]) { uid =>
@@ -62,7 +62,11 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
   }
 
   def startUp() {
-    println(
+    val bindingFuture = Http().bindAndHandle(imRoute, host, port, settings = imServerSettings)
+    bindingFuture.failed.foreach { ex =>
+      LOGGER.error(s"Failed to bind to $host:$port!")
+    }
+    LOGGER.info(
       """
         | __      __      ___.     _________              __           __      _________
         |/  \    /  \ ____\_ |__  /   _____/ ____   ____ |  | __ _____/  |_   /   _____/ ______________  __ ___________
@@ -72,10 +76,7 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
         |       \/       \/    \/        \/            \/     \/    \/               \/     \/                 \/
         |""".stripMargin
     )
-    val bindingFuture = Http().bindAndHandle(IMRoute, host, port, settings = IMServerSettings)
-    bindingFuture.failed.foreach { ex =>
-      LOGGER.error(s"Failed to bind to $host:$port!")
-    }
+    LOGGER.info(s"websocket listener on [$host:$port]")
     StdIn.readLine()
     bindingFuture.flatMap(_.unbind()).onComplete(_ => system.terminate())
   }

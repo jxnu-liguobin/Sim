@@ -162,6 +162,19 @@ trait UserRepository {
   def updateAddMessage(addMessage: AddMessage): Int
 
   /**
+    * 置为已读
+    *
+   * @param mine 我的id
+    * @param to 对方的id
+    * @param typ 对方的id
+    * @return Int
+    */
+  @Update(
+    Array("update t_message set status = 1 where mid = #{mine} and toid =#{to} and type = #{typ}")
+  )
+  def readMessage(@Param("mine") mine: Int, @Param("to") to: Int, @Param("typ") typ: String): Int
+
+  /**
     * 添加好友、群组信息请求
     * ON DUPLICATE KEY UPDATE 首先这个语法的目的是为了解决重复性，当数据库中存在某个记录时，执行这条语句会更新它，而不存在这条记录时，会插入它。
     *

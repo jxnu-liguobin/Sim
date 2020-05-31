@@ -1013,7 +1013,7 @@ layui.define(['layer', 'laytpl', 'upload', 'flow'], function(exports){
   var voice = function() {
     if(device.ie && device.ie < 9) return;
     var audio = document.createElement("audio");
-    audio.src = layui.cache.dir+'css/modules/layim/voice/'+ cache.base.voice;
+    audio.src = layui.cache.dir+'css/modules/layim/voice/default.wav';
     audio.play();
   };
   

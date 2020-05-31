@@ -19,6 +19,9 @@ class MessageHandleActor extends Actor with ActorLogging {
     case tm: TransmitMessage =>
       log.info(s"来自客户端的消 => [msg = $tm]")
       tm.getMessage.getType match {
+        case "readOfflineMessage" => {
+          WebSocketService.readOfflineMessage(tm.getMessage)
+        }
         case "message" => {
           WebSocketService.sendMessage(tm.getMessage)
         }

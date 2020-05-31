@@ -35,15 +35,45 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
         var mine = layim.cache().mine;
         $("#username").val(mine.username);
         $("#email").val(mine.email);
+        $("#oldpwd").val("");
+        $("#pwd").val("");
+        $("#repwd").val("");
         $("#sign").val(mine.sign);
         $("#LAY_demo_upload").attr("src", mine.avatar);
         if (mine.sex == "0") {
             $("input[type='radio']").eq(0).attr("checked", true);
-        } else {
+        }
+       else{
             $("input[type='radio']").eq(1).attr("checked", true);
         }
         form.render();//重新渲染 可以解决多种没有显示的情况
     });
+
+    function ajaxUpdateUserInfo(d) {
+        //发送
+        $.ajax({
+            url: "../../user/updateInfo",
+            dataType: "JSON",
+            contentType: "application/json",
+            type: "POST",
+            data: JSON.stringify(d),
+            success: function (data) {
+                if (data.code == 1) {
+                    layer.msg(data.msg, {time: 2000}, function () {
+                        window.parent.location.reload();//刷新父页面
+                    });
+                } else if (data.code == 0) {
+                    layer.msg(data.msg, {time: 2000}, function () {
+                        window.parent.location.reload();//刷新父页面
+                    });
+                }
+            },
+            error: function (data) {
+                layer.msg("服务器错误,请稍后再试！");
+            }
+        });
+        return false;
+    }
 
     //提交修改项
     $("#btn").click(function () {
@@ -52,8 +82,9 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
             // var email = $("#email").val();
             var sign = $("#sign").val();
             // var avatar = $("#user_avatar").val();
-            var sex = $("input[type='radio']:checked").val();
-            if ('' == username) {
+            var sex = $("input[name='sex']:checked").val();
+            var updatepw = $("input[name='updatepw']:checked").val();
+            if ('' === username) {
                 layer.tips('用户名不能为空', '#username');
                 return;
             }
@@ -61,15 +92,14 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
             //     layer.tips('邮箱不能为空!', '#email');
             //     return ;
             // }
-            if ('' == sign) {
+            if ('' === sign) {
                 layer.tips('签名不能为空', '#sign');
             }
-
             var oldpwd = $("#oldpwd").val(); //旧密码
             var pwd = $("#pwd").val();
             var repwd = $("#repwd").val();
             if ('' != oldpwd) {
-                if ('' == pwd) {
+                if ('' === pwd) {
                     layer.tips('新密码不能为空', '#pwd');
                     return;
                 }
@@ -89,7 +119,7 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
                     layer.tips('两次密码不一致', '#pwd');
                     return;
                 }
-                if ('' != pwd && '' != repwd && '' != oldpwd && pwd == repwd) {
+                if ('' != pwd && '' != repwd && '' != oldpwd && pwd === repwd) {
                     if (!/^[\S]{6,12}$/.test(pwd)) {
                         layer.tips('密码必须6到12位', '#pwd');
                         return;
@@ -99,29 +129,25 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
                         return;
                     }
                 }
-                var d = {'id': id, 'username': username, 'sex': sex, 'password': repwd, 'oldpwd': oldpwd, 'sign': sign};
+                var d = {
+                    'id': id,
+                    'username': username,
+                    'sex': sex,
+                    'password': repwd,
+                    'oldpwd': oldpwd,
+                    'sign': sign
+                };
                 //发送
-                $.ajax({
-                    url: "../../user/updateInfo",
-                    dataType: "JSON",
-                    contentType: "application/json",
-                    type: "POST",
-                    data: JSON.stringify(d),
-                    success: function (data) {
-                        if (data.code == 1) {
-                            layer.msg(data.msg, {time: 2000}, function () {
-                                window.parent.location.reload();//刷新父页面
-                            });
-                        } else if (data.code == 0) {
-                            layer.msg(data.msg, {time: 2000}, function () {
-                                window.parent.location.reload();//刷新父页面
-                            });
-                        }
-                    },
-                    error: function (data) {
-                        layer.msg("服务器错误,请稍后再试！");
-                    }
-                });
+                ajaxUpdateUserInfo(d)
+                return false;
+            } else {
+                if ('yes' === updatepw) {
+                    layer.alert("sorry，您勾选了修改密码但未做任何修改！")
+                    return false;
+                }
+                var d = {'id': id, 'username': username, 'sex': sex, 'sign': sign};
+                //发送
+                ajaxUpdateUserInfo(d)
                 return false;
             }
         });

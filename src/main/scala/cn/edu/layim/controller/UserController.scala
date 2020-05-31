@@ -555,12 +555,21 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.UPDATE_INFO_FAIL))
     else {
       val u = userService.findUserById(user.getId)
+      val sex = if (user.getSex.equals("nan")) 1 else 0
       //前台明文传输，有安全问题
-      if (!SecurityUtil.matchs(user.getOldpwd, u.getPassword)) {
+      if (
+        user.getPassword == null || user.getPassword.trim.length == 0 ||
+        user.getOldpwd == null || user.getOldpwd.trim.length == 0
+      ) {
+        u.setSex(sex)
+        u.setSign(user.getSign)
+        u.setUsername(user.getUsername)
+        userService.updateUserInfo(u, u.getId)
+        gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.UPDATE_INFO_SUCCESS))
+      } else if (!SecurityUtil.matchs(user.getOldpwd, u.getPassword)) {
         gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.UPDATE_INFO_PASSWORD_FAIL))
       } else {
         u.setPassword(SecurityUtil.encrypt(user.getPassword))
-        val sex = if (user.getSex.equals("nan")) 0 else 1
         u.setSex(sex)
         u.setSign(user.getSign)
         u.setUsername(user.getUsername)

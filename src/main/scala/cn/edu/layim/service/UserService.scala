@@ -262,6 +262,11 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     userRepository.updateAddMessage(addMessage) == 1
   }
 
+  @Transactional
+  def readFriendMessage(mine: Int, to: Int): Boolean = {
+    userRepository.readMessage(mine, to, "friend") == 1
+  }
+
   /**
     * 添加好友、群组信息请求
     *

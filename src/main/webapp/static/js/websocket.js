@@ -35,6 +35,20 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 var url = 'ws://' + host + '/websocket?uid=' + getUid();
                 socket = new ReconnectingWebSocket(url, null, {debug: true, reconnectInterval: 3000});
                 im.startListener();
+                $.ajax({
+                    url:"/user/getOffLineMessage",
+                    dataType:"JSON",
+                    type:"POST",
+                    success:function(data) {
+                        for(var i = 0; i < data.data.length; i ++){
+                            layim.getMessage(data.data[i]);
+                            console.log("离线消息："+ JSON.stringify(data.data[i]));
+                        }
+                    },
+                    error:function(data) {
+                        layer.msg(data.msg + ",服务器错误,请稍后再试！");
+                    }
+                });
             } else {
                 layer.msg('当前浏览器不支持WebSocket功能，请更换浏览器访问!', {icon: 2, shade: 0.5, time: -1});
             }
@@ -277,6 +291,8 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 mine: null,
                 to: res.data
             }));
+            var data = '{"type":"readOfflineMessage","to":{"id":'+parent.layui.layim.cache().mine.id+'},"mine":{"id":'+res.data.id+'}}'
+            socket.send(data);
         } else if (type === 'group') {
             //模拟系统消息
             /*layim.getMessage({
@@ -446,20 +462,4 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
             });
         }
     }
-    //获取离线消息
-    /*$.ajax({
-            url:"/user/getOffLineMessage",
-            dataType:"JSON",
-            type:"POST",
-            success:function(data) {
-                console.log(data.data.length)
-                for(var i = 0; i < data.data.length; i ++){
-                    layim.getMessage(data.data[i]);
-                    console.log(JSON.stringify(data.data[i]));
-                }
-            },
-            error:function(data) {
-                layer.msg(data.msg + ",服务器错误,请稍后再试！");
-            }
-    });*/
 });

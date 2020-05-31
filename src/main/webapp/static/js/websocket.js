@@ -71,6 +71,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 }
             }
         },
+
         //处理接收到的消息
         handleMessage: function (data) {
             json = eval("(" + data + ")");
@@ -148,7 +149,6 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
 
     //初始化WebSocket对象
     im.init();
-
     //基础配置
     layim.config({
         //主面板最小化后显示的名称
@@ -204,9 +204,10 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
 
     //监听在线状态的切换事件
     layim.on('online', function (data) {
+        console.log("当前状态："+data)
         socket.send(JSON.stringify({
             type: "changOnline",
-            mine: null,
+            mine: parent.layui.layim.cache().mine,
             to: null,
             msg: data
         }));

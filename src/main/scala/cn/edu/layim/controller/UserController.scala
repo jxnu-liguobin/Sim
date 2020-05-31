@@ -564,7 +564,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
         u.setSex(sex)
         u.setSign(user.getSign)
         u.setUsername(user.getUsername)
-        userService.updateUserInfo(u, u.getId)
+        userService.updateUserInfo(u)
         gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.UPDATE_INFO_SUCCESS))
       } else if (!SecurityUtil.matchs(user.getOldpwd, u.getPassword)) {
         gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.UPDATE_INFO_PASSWORD_FAIL))
@@ -573,7 +573,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
         u.setSex(sex)
         u.setSign(user.getSign)
         u.setUsername(user.getUsername)
-        userService.updateUserInfo(u, u.getId)
+        userService.updateUserInfo(u)
         gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.UPDATE_INFO_SUCCESS))
       }
     }

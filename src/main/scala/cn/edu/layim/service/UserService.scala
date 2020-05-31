@@ -123,7 +123,6 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     * 更新用户信息
     *
    * @param user 个人信息
-    * @param uid  用户id
     * @return Boolean
     */
   @CacheEvict(
@@ -131,8 +130,23 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     allEntries = true
   )
   @Transactional
-  def updateUserInfo(user: User, uid: Int): Boolean = {
+  def updateUserInfo(user: User): Boolean = {
     userRepository.updateUserInfo(user) == 1
+  }
+
+  /**
+    * 更新用户状态
+    *
+   * @param user 个人信息
+    * @return Boolean
+    */
+  @CacheEvict(
+    value = Array("findUserById", "findUserByGroupId", "findFriendGroupsById"),
+    allEntries = true
+  )
+  @Transactional
+  def updateUserStatus(user: User): Boolean = {
+    userRepository.updateUserStatus(user) == 1
   }
 
   /**

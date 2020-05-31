@@ -258,6 +258,10 @@ object WebSocketService {
       LOGGER.debug(s"检测在线状态 => [uId = $uId, status = $status]")
       if ("online".equals(status)) redisService.setSet(SystemConstant.ONLINE_USER, uId + "")
       else redisService.removeSetValue(SystemConstant.ONLINE_USER, uId + "")
+      val user = new User
+      user.setId(uId)
+      user.setStatus(status)
+      userService.updateUserStatus(user)
     }
 
   /**

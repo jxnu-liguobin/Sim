@@ -346,6 +346,19 @@ trait UserRepository {
   def updateUserInfo(user: User): Int
 
   /**
+    * 更新用户状态
+    *
+   * @param user 用户
+    * @return Int
+    */
+  @Update(
+    Array(
+      "update t_user set status = #{status} where id = #{id}"
+    )
+  )
+  def updateUserStatus(user: User): Int
+
+  /**
     * 激活用户账号
     *
    * @param activeCode 激活码

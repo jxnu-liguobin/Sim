@@ -23,4 +23,6 @@ object ActorMessage {
 
   case object OnlineUserMessage
 
+  case class UserStatusChange(uId: Int, typ: String)
+
 }

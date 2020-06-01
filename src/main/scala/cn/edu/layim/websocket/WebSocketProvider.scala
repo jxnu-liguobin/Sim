@@ -1,7 +1,8 @@
 package cn.edu.layim.websocket
 
+import akka.Done
+import akka.NotUsed
 import akka.actor.ActorRef
-import akka.actor.ActorSystem
 import akka.actor.Props
 import akka.actor.Status
 import akka.http.scaladsl.model.ws.Message
@@ -10,14 +11,11 @@ import akka.stream.scaladsl.Flow
 import akka.stream.scaladsl.Keep
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
-import akka.stream.ActorMaterializer
-import akka.stream.Materializer
 import akka.stream.OverflowStrategy
-import akka.Done
-import akka.NotUsed
-import cn.edu.layim.actor.ActorMessage._
 import cn.edu.layim.actor.MessageHandleActor
 import cn.edu.layim.actor.ScheduleJobActor
+import cn.edu.layim.actor.UserStatusChangeActor
+import cn.edu.layim.actor.ActorMessage._
 import cn.edu.layim.constant.SystemConstant
 import cn.edu.layim.service.RedisService
 import org.reactivestreams.Publisher
@@ -41,13 +39,13 @@ import scala.language.postfixOps
 @Component
 @DependsOn(Array("redisService"))
 class WebSocketProvider @Autowired() (redisService: RedisService) {
-  implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
-  implicit val ec = system.dispatcher
+
+  import ActorCommon._
   private final lazy val log: Logger = LoggerFactory.getLogger(classOf[WebSocketProvider])
   private final lazy val wsConnections = WebSocketService.actorRefSessions
   private lazy val msgActor = system.actorOf(Props(classOf[MessageHandleActor]))
   private lazy val jobActor = system.actorOf(Props(classOf[ScheduleJobActor]))
+  private lazy val userStatusActor = system.actorOf(Props(classOf[UserStatusChangeActor]))
 
   //重连是3秒
   system.scheduler.schedule(5000 milliseconds, 10000 milliseconds, jobActor, OnlineUserMessage)
@@ -96,7 +94,12 @@ class WebSocketProvider @Autowired() (redisService: RedisService) {
       log.info(s"Closing websocket connection => [id = $id]")
       wsConnections.remove(id)
       redisService.removeSetValue(SystemConstant.ONLINE_USER, id + "")
+//      userStatusChangeByServer(id, "hide")
       ar ! Status.Success(Done)
     }
   }
+//
+//  def userStatusChangeByServer(uId: Int, status: String): Unit = {
+//    userStatusActor ! UserStatusChange(uId, status)
+//  }
 }

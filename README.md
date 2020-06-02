@@ -24,7 +24,7 @@
 配置Mysql数据库，Redis以及邮件服务器，如果不需要邮件相关服务，可以在UserService.scala中注释掉相关的代码
 
 1. 创建MySQL库 `websocket`
-2. `schema.sql` 和 `data.sql` 自动初始化表结构和数据，如需要自己mock数据，参考 `RandomData.scala` 构造
+2. `schema.sql` 和 `data.sql` 初始化表结构和数据，如需要自己mock数据，参考 `RandomData.scala` 构造
 3. 查看 `application.conf` 默认可不修改
 4. 启动 `Application.scala`
 5. 访问 `http://localhost`
@@ -53,8 +53,6 @@
 1. cd LayIM
 2. gradle bootRepackage
 3. java -jar dist/LayIM-1.2.1.jar
-
-> 默认每次启动Application会自动刷新数据库，需要保留记录，请为`schema.sql`和`data.sql`重命名
 
 ### 示例
 

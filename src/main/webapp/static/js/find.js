@@ -32,7 +32,6 @@ layui.use([ 'element', 'jquery', 'layer', 'form', 'upload', 'flow'],function() {
     }
 
     var id = layim.cache().mine.id;
-
     $("#createGroup").click(function(){
         layer.open({
             type: 2,
@@ -43,6 +42,17 @@ layui.use([ 'element', 'jquery', 'layer', 'form', 'upload', 'flow'],function() {
             }
         });
     })
+
+     $("#createUserGroup").click(function(){
+            layer.open({
+                type: 2,
+                title: "创建分组",
+                area: ['400px', '200px'], //宽高
+                content: '/static/html/createusergroup.html?createId='+id,
+                success: function(layero, index){
+                }
+            });
+        })
     //显示添加群面板
     showAddGroup = function(item) {
         var mine = layim.cache().mine;

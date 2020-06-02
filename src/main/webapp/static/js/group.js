@@ -31,17 +31,64 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
     if(createId == null){
         return false;
     }
+
+    $("#restusergroup").click(function () {
+        layer.ready(function () {
+        $("#usergroupname").val("");
+      })
+           });
+    $("#restgroup").click(function () {
+           layer.ready(function () {
+           $("#groupname").val("");
+           $("#LAY_demo_upload").attr('src', "");
+           $("#group_avatar").val("");
+           })
+        });
+    $("#userbtn").click(function () {
+        layer.ready(function () {
+            var groupname = $("#usergroupname").val();
+            if ('' === groupname) {
+                layer.tips('分组名称不能为空', '#usergroupname');
+                return;
+            }
+            var d = {'groupname': groupname, 'uid': createId};
+            //发送
+            $.ajax({
+                url: "../../user/createUserGroup",
+                dataType: "JSON",
+                contentType: "application/json",
+                type: "POST",
+                data: JSON.stringify(d),
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {time: 2000}, function () {
+                            window.parent.location.reload();//刷新父页面
+                        });
+                    } else if (data.code == 0) {
+                        layer.msg(data.msg, {time: 2000}, function () {
+                            window.parent.parent.location.reload();//刷新主页面,简单粗暴的方法,否则应该操作表单元素太麻烦
+                        });
+                    }
+                },
+                error: function (data) {
+                    layer.msg("服务器错误,请稍后再试！");
+                }
+            });
+            return false;
+        });
+    });
     //提交修改项
     $("#btn").click(function () {
         layer.ready(function () {
             var groupname = $("#groupname").val();
             var group_avatar = $("#group_avatar").val();
-            if ('' == groupname) {
+            if ('' === groupname) {
                 layer.tips('群名称不能为空', '#groupname');
                 return;
             }
-            if ('' == group_avatar) {
-                layer.tips('群头像不能为空', '#group_avatar');
+            if ('' === group_avatar) {
+                layer.tips('群头像不能为空', '#avatar');
+                return;
             }
             var d = {'groupname': groupname, 'avatar': group_avatar, 'createId': createId};
             //发送

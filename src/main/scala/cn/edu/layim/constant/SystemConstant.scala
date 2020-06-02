@@ -15,7 +15,11 @@ object SystemConstant {
 
   final val CREATE_GROUP_ERROR = "群组创建失败"
 
+  final val CREATE_USER_GROUP_ERROR = "分组创建失败"
+
   final val CREATE_GROUP_SUCCCESS = "群组创建成功"
+
+  final val CREATE_USER_GROUP_SUCCCESS = "分组创建成功"
 
   final val UPDATE_INFO_FAIL = "个人信息修改失败"
 

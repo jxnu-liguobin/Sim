@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -199,13 +199,13 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     * 创建好友分组列表
     *
    * @param uid       个人id
-    * @param groupName 群组id
-    * @return BooleanFriendGroup
+    * @param groupname 群组id
+    * @return Boolean FriendGroup
     */
   @CacheEvict(value = Array("findFriendGroupsById"), allEntries = true)
   @Transactional
-  def createFriendGroup(groupName: String, uid: Int): Boolean = {
-    userRepository.createFriendGroup(new FriendGroup(uid, groupName)) == 1
+  def createFriendGroup(groupname: String, uid: Int): Boolean = {
+    userRepository.createFriendGroup(new FriendGroup(uid, groupname)) == 1
   }
 
   /**

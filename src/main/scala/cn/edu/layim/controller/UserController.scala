@@ -38,6 +38,8 @@ import scala.collection.JavaConverters._
 @RequestMapping(value = Array("/user"))
 class UserController @Autowired() (userService: UserService, cookieService: CookieService) {
 
+  import cn.edu.layim.entity.FriendGroup
+
   private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserController])
 
   //可省略
@@ -496,6 +498,24 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       )
     }
     gson.toJson(new ResultSet(SystemConstant.ERROR, SystemConstant.CREATE_GROUP_ERROR))
+  }
+
+  /**
+    * 用户创建好友分组
+    *
+   * @param friendGroup 好友分组
+    * @return String
+    */
+  @PostMapping(Array("/createUserGroup"))
+  @ResponseBody
+  def createUserGroup(@RequestBody friendGroup: FriendGroup): String = {
+    val ret = userService.createFriendGroup(friendGroup.getGroupname, friendGroup.getUid)
+    if (!ret) {
+      return gson.toJson(
+        new ResultSet(SystemConstant.ERROR, SystemConstant.CREATE_USER_GROUP_ERROR)
+      )
+    }
+    gson.toJson(new ResultSet(SystemConstant.SUCCESS, SystemConstant.CREATE_USER_GROUP_SUCCCESS))
   }
 
   /**

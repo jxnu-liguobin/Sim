@@ -17,5 +17,3 @@ include 'services:webservice'
 */
 
 rootProject.name = 'LayIM'
-include 'websocket'
-

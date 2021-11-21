@@ -119,4 +119,4 @@ spotless {
 }
 
 bootRepackage.enabled = true
-mainClassName = "cn.edu.layim.Application"
+mainClassName = "io.github.dreamylost.Application"

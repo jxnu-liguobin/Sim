@@ -13,7 +13,7 @@
 
 ### 环境 
 
-* Scala 2.12.x
+* Scala 2.13.x
 * JDK 1.8
 * Gradle
 * Mysql
@@ -57,6 +57,10 @@
 ### 示例
 
 ![基于Akka HTTP的LayIM](https://github.com/jxnu-liguobin/LayIM/blob/v1.2/src/main/resources/layim.png)
+
+### v1.3.0 版本
+
+* 函数式重构
 
 ### v1.2.1 版本
 

@@ -56,7 +56,7 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
     }
   }
 
-  def startUp() {
+  def startUp(): Unit = {
     val bindingFuture = Http().bindAndHandle(imRoute, host, port, settings = imServerSettings)
     bindingFuture.failed.foreach { ex =>
       LOGGER.error(s"Failed to bind to $host:$port!")

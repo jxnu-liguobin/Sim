@@ -29,7 +29,7 @@ import scala.collection.JavaConverters._
 object WebSocketService {
 
   private final lazy val LOGGER: Logger = LoggerFactory.getLogger(WebSocketService.getClass)
-  private final lazy val application = Application.getApplicationContext
+  private final lazy val application = Application.getApplicationContext()
   final val actorRefSessions = new ConcurrentHashMap[Integer, ActorRef]
   private lazy val userService: UserService = application.getBean(classOf[UserService])
   private lazy val redisService: RedisService = application.getBean(classOf[RedisService])

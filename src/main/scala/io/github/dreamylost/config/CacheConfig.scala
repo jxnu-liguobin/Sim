@@ -53,7 +53,7 @@ class CacheConfig extends CachingConfigurerSupport {
   @Bean
   def wiselyKeyGenerator(): KeyGenerator = {
     new KeyGenerator() {
-      override protected def generate(target: Any, method: Method, params: AnyRef*): Object = {
+      override def generate(target: Any, method: Method, params: AnyRef*): Object = {
         val sb = new StringBuilder
         sb.append(target.getClass.getName)
         sb.append(method.getName)

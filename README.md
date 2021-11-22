@@ -1,3 +1,18 @@
+### 技术栈
+
+- 开发语言：Scala
+- 平台：JVM
+- 前端：LayIM 3.0
+- MVC：Spring Boot
+- 数据库：Redis、MySQL
+- DAO：Mybatis
+- 分页：PageHelper
+- 连接池：Druid
+- WebSocket：Akka Actor、Akka HTTP
+- 邮件：Java Mail
+- API文档：Swagger
+- 构建工具：Gradle
+
 ### 项目结构
 
 ```
@@ -27,20 +42,6 @@ LayIM
        │           └─ static                              - 静态资源文件
        └─ test
 ```
-
-### 技术栈
-
-- 开发语言：Scala
-- 平台：JVM
-- 前端：LayIM 3.0
-- MVC：Spring Boot
-- 数据库：Redis、MySQL
-- DAO：Mybatis、PageHelper
-- 连接池：Druid
-- WebSocket：Akka Actor、Akka HTTP
-- 邮件：Java Mail
-- API文档：Swagger
-- 构建工具：Gradle
 
 ### 本地调试 
 

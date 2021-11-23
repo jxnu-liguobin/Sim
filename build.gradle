@@ -62,11 +62,11 @@ dependencies {
 
     //scala
     compile "org.scala-lang:scala-library:2.13.6"
-    compile "org.scala-lang:scala-reflect:2.13.6"
-    compile "org.scala-lang:scala-compiler:2.13.6"
+//    compile "org.scala-lang:scala-reflect:2.13.6"
+//    compile "org.scala-lang:scala-compiler:2.13.6"
 
     //mysql driver
-    compile("mysql:mysql-connector-java:5.1.38")
+    compile("mysql:mysql-connector-java:8.0.27")
 
     //alibaba druid
     compile 'com.alibaba:druid:1.0.26'
@@ -104,6 +104,13 @@ dependencies {
 
     //config
     compile group: 'com.typesafe', name: 'config', version: '1.2.1'
+
+    // scala 序列化
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.0'
+    implementation 'com.fasterxml.jackson.module:jackson-module-scala_2.13:2.13.0'
+    runtimeOnly 'com.fasterxml.jackson.module:jackson-modules-java8:2.13.0'
 
     //test
     testCompile("org.springframework.boot:spring-boot-starter-test")

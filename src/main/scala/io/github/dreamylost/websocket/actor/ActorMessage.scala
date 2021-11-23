@@ -2,6 +2,7 @@ package io.github.dreamylost.websocket.actor
 
 import akka.actor.ActorRef
 import com.google.gson.Gson
+import io.github.dreamylost.model.entity.Message
 
 /**
   *
@@ -15,8 +16,7 @@ object ActorMessage {
 
   case class TransmitMessage(uId: Int, msg: String, originActorRef: ActorRef) {
     def getMessage = {
-      import io.github.dreamylost.model.entity.Message
-      val message: Message = gson.fromJson(msg.replaceAll("type", "Type"), classOf[Message])
+      val message: Message = gson.fromJson(msg, classOf[Message])
       message
     }
   }

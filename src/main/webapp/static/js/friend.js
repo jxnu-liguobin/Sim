@@ -11,7 +11,7 @@ layui.use(['jquery', 'form'], function(layim){
         var avatar = getQueryString("avatar");
         var email = getQueryString("email");
         var sex = getQueryString("sex");
-        if (sex == "1") {
+        if (sex === "1") {
             $("#sex").val("男");
         } else {
             $("#sex").val("女");

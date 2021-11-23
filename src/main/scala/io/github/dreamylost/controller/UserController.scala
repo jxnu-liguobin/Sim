@@ -1,10 +1,9 @@
 package io.github.dreamylost.controller
 
 import com.github.pagehelper.PageHelper
-import com.google.gson.Gson
+import io.github.dreamylost.ResultPageSet
+import io.github.dreamylost.ResultSet
 import io.github.dreamylost.constant.SystemConstant
-import io.github.dreamylost.model.ResultPageSet
-import io.github.dreamylost.model.ResultSet
 import io.github.dreamylost.model.domain.UserVo
 import io.github.dreamylost.model.domain._
 import io.github.dreamylost.model.entity.FriendGroup
@@ -13,6 +12,7 @@ import io.github.dreamylost.model.entity.User
 import io.github.dreamylost.service.CookieService
 import io.github.dreamylost.service.UserService
 import io.github.dreamylost.util.FileUtil
+import io.github.dreamylost.util.SecurityUtil
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.slf4j.Logger
@@ -41,9 +41,6 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
 
   private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserController])
 
-  //可省略
-  private final lazy val gson: Gson = new Gson
-
   /**
     * 退出群
     *
@@ -56,12 +53,12 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def leaveOutGroup(
       @RequestParam("groupId") groupId: Integer,
       request: HttpServletRequest
-  ): String = {
+  ): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     val result = userService.leaveOutGroup(groupId, user.id)
     if (result)
-      gson.toJson(ResultSet(c = SystemConstant.SUCCESS, m = SystemConstant.SUCCESS_MESSAGE))
-    else gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.LEAVEOUT_GROUP_ERROR))
+      ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.SUCCESS_MESSAGE)
+    else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.LEAVEOUT_GROUP_ERROR)
   }
 
   /**
@@ -75,10 +72,10 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def removeFriend(
       @RequestParam("friendId") friendId: Integer,
       request: HttpServletRequest
-  ): String = {
+  ): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     val result = userService.removeFriend(friendId, user.id)
-    gson.toJson(new ResultSet(result))
+    ResultSet(result)
   }
 
   /**
@@ -95,11 +92,11 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       @RequestParam("groupId") groupId: Integer,
       @RequestParam("userId") userId: Integer,
       request: HttpServletRequest
-  ): String = {
+  ): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     val result = userService.changeGroup(groupId, userId, user.id)
-    if (result) gson.toJson(ResultSet(result))
-    else gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.ERROR_MESSAGE))
+    if (result) ResultSet(result)
+    else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.ERROR_MESSAGE)
   }
 
   /**
@@ -114,9 +111,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def refuseFriend(
       @RequestParam("messageBoxId") messageBoxId: Integer,
       request: HttpServletRequest
-  ): String = {
+  ): ResultSet = {
     val result = userService.updateAddMessage(messageBoxId, 2)
-    gson.toJson(new ResultSet(result))
+    ResultSet(result)
   }
 
   /**
@@ -136,12 +133,12 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       @RequestParam("group") group: Integer,
       @RequestParam("messageBoxId") messageBoxId: Integer,
       request: HttpServletRequest
-  ): String = {
+  ): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     val result = userService.addFriend(user.id, group, uid, fromGroup, messageBoxId)
     if (!result)
-      gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.ERROR_ADD_REPETITION))
-    else gson.toJson(ResultSet(result))
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.ERROR_ADD_REPETITION)
+    else ResultSet(result)
   }
 
   /**
@@ -153,14 +150,14 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @ResponseBody
   @GetMapping(Array("/findAddInfo"))
-  def findAddInfo(@RequestParam("uid") uid: Int, @RequestParam("page") page: Int): String = {
+  def findAddInfo(@RequestParam("uid") uid: Int, @RequestParam("page") page: Int): ResultPageSet = {
     PageHelper.startPage(page, SystemConstant.ADD_MESSAGE_PAGE)
     val list = userService.findAddInfo(uid)
     val count = userService.countUnHandMessage(uid, null)
     val pages =
       if (count < SystemConstant.ADD_MESSAGE_PAGE) 1
       else count / SystemConstant.ADD_MESSAGE_PAGE + 1
-    gson.toJson(ResultPageSet(list, pages)).replaceAll("Type", "type")
+    ResultPageSet(list, pages)
   }
 
   /**
@@ -177,7 +174,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       @RequestParam(value = "page", defaultValue = "1") page: Int,
       @RequestParam(value = "name", required = false) name: String,
       @RequestParam(value = "sex", required = false) sex: Integer
-  ): String = {
+  ): ResultPageSet = {
     val count = userService.countUsers(name, sex)
     LOGGER.info(s"find users => [total = $count]")
     val pages =
@@ -188,7 +185,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       }
     PageHelper.startPage(page, SystemConstant.USER_PAGE)
     val users = userService.findUsers(name, sex)
-    gson.toJson(ResultPageSet(users, pages))
+    ResultPageSet(users, pages)
   }
 
   /**
@@ -203,7 +200,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def findGroups(
       @RequestParam(value = "page", defaultValue = "1") page: Int,
       @RequestParam(value = "name", required = false) name: String
-  ): String = {
+  ): ResultPageSet = {
     val count = userService.countGroup(name)
     val pages =
       if (count < SystemConstant.USER_PAGE) 1
@@ -213,7 +210,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       }
     PageHelper.startPage(page, SystemConstant.USER_PAGE)
     val groups = userService.findGroup(name)
-    gson.toJson(ResultPageSet(groups, pages))
+    ResultPageSet(groups, pages)
   }
 
   /**
@@ -228,11 +225,11 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def findMyGroups(
       @RequestParam(value = "page", defaultValue = "1") page: Int,
       @RequestParam(value = "createId", required = true) createId: Int
-  ): String = {
+  ): ResultPageSet = {
     val groups: util.List[GroupList] = userService.findGroupsById(createId)
     var result: ResultPageSet = null
     if (groups == null) {
-      return gson.toJson(result)
+      return result
     }
     val groupNews = groups.toArray.filter(x => x.asInstanceOf[GroupList].createId.equals(createId))
     result = ResultPageSet(groupNews, 0)
@@ -244,50 +241,49 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
         else count / SystemConstant.USER_PAGE + 1
       }
     PageHelper.startPage(page, SystemConstant.USER_PAGE)
-    gson.toJson(result.copy(pages = pages))
+    result.copy(pages = pages)
   }
 
   /**
     * 获取聊天记录
     *
    * @param id   与谁的聊天记录id
-    * @param Type 类型，可能是friend或者是group
+    * @param `type` 类型，可能是friend或者是group
     * @return String
     */
   @ResponseBody
   @PostMapping(Array("/chatLog"))
   def chatLog(
       @RequestParam("id") id: Integer,
-      @RequestParam("Type") Type: String,
+      @RequestParam("type") `type`: String,
       @RequestParam("page") page: Int,
-      request: HttpServletRequest,
-      model: Model
-  ): String = {
+      request: HttpServletRequest
+  ): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     PageHelper.startPage(page, SystemConstant.SYSTEM_PAGE)
     //查找聊天记录
-    val historys: util.List[ChatHistory] = userService.findHistoryMessage(user, id, Type)
-    gson.toJson(new ResultSet(historys))
+    val historys: util.List[ChatHistory] = userService.findHistoryMessage(user, id, `type`)
+    ResultSet(historys)
   }
 
   /**
     * 弹出聊天记录页面
     *
    * @param id   与谁的聊天记录id
-    * @param Type 类型，可能是friend或者是group
+    * @param `type` 类型，可能是friend或者是group
     * @return String
     */
   @GetMapping(Array("/chatLogIndex"))
   def chatLogIndex(
       @RequestParam("id") id: Integer,
-      @RequestParam("Type") Type: String,
+      @RequestParam("type") `type`: String,
       model: Model,
       request: HttpServletRequest
   ): String = {
     model.addAttribute("id", id)
-    model.addAttribute("Type", Type)
+    model.addAttribute("type", `type`)
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
-    var pages: Int = userService.countHistoryMessage(user.id, id, Type)
+    var pages: Int = userService.countHistoryMessage(user.id, id, `type`)
     pages =
       if (pages < SystemConstant.SYSTEM_PAGE) pages else pages / SystemConstant.SYSTEM_PAGE + 1
     model.addAttribute("pages", pages)
@@ -301,14 +297,14 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @ResponseBody
   @PostMapping(Array("/getOffLineMessage"))
-  def getOffLineMessage(request: HttpServletRequest): String = {
+  def getOffLineMessage(request: HttpServletRequest): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     LOGGER.info(s"find offline msg [uid = ${user.id}]")
     val users = userService.findOffLineMessage(user.id, 0).asScala.map { receive =>
       val user = userService.findUserById(receive.id)
       user.copy(username = user.username, avatar = user.avatar)
     }
-    gson.toJson(new ResultSet(users)).replaceAll("Type", "type")
+    ResultSet(users)
   }
 
   /**
@@ -319,10 +315,10 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @ResponseBody
   @PostMapping(Array("/updateSign"))
-  def updateSign(request: HttpServletRequest, @RequestParam("sign") sign: String): String = {
+  def updateSign(request: HttpServletRequest, @RequestParam("sign") sign: String): ResultSet = {
     val user: User = request.getSession.getAttribute("user").asInstanceOf[User].copy(sign = sign)
-    if (userService.updateSing(user)) gson.toJson(ResultSet())
-    else gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.ERROR_MESSAGE))
+    if (userService.updateSing(user)) ResultSet()
+    else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.ERROR_MESSAGE)
   }
 
   /**
@@ -348,10 +344,10 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @ResponseBody
   @PostMapping(Array("/register"))
-  def register(@RequestBody user: User, request: HttpServletRequest): String = {
+  def register(@RequestBody user: User, request: HttpServletRequest): ResultSet = {
     if (userService.saveUser(user, request))
-      gson.toJson(ResultSet(c = SystemConstant.SUCCESS, m = SystemConstant.REGISTER_SUCCESS))
-    else gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.REGISTER_FAIL))
+      ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.REGISTER_SUCCESS)
+    else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.REGISTER_FAIL)
   }
 
   /**
@@ -366,19 +362,19 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       @RequestBody user: User,
       request: HttpServletRequest,
       response: HttpServletResponse
-  ): String = {
+  ): ResultSet = {
     val u: User = userService.matchUser(user)
     //未激活
     if (u != null && "nonactivated".equals(u.status)) {
-      gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.NONACTIVED))
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.NONACTIVED)
     } else if (u != null && !"nonactivated".equals(u.status)) {
-      LOGGER.info(s"user login success => [user = $user]")
+      LOGGER.info(s"user login success => [user = $user, u = $u]")
       request.getSession.setAttribute("user", u)
       cookieService.addCookie(user, request, response)
-      gson.toJson(ResultSet(u))
+      ResultSet(u)
     } else {
-      val result = ResultSet(c = SystemConstant.ERROR, m = SystemConstant.LOGGIN_FAIL)
-      gson.toJson(result)
+      val result = ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.LOGGIN_FAIL)
+      result
     }
   }
 
@@ -391,7 +387,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   @ResponseBody
   @ApiOperation("初始化聊天界面数据，分组列表好友信息、群列表")
   @PostMapping(Array("/init/{userId}"))
-  def init(@PathVariable("userId") userId: Int): String = {
+  def init(@PathVariable("userId") userId: Int): ResultSet = {
     //用户信息
     val user = userService.findUserById(userId)
     val data = FriendAndGroupInfo(
@@ -399,7 +395,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       friend = userService.findFriendGroupsById(userId).asScala.toList,
       group = userService.findGroupsById(userId).asScala.toList
     )
-    gson.toJson(ResultSet(data))
+    ResultSet(data)
   }
 
   /**
@@ -410,10 +406,10 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @ResponseBody
   @GetMapping(Array("/getMembers"))
-  def getMembers(@RequestParam("id") id: Int): String = {
+  def getMembers(@RequestParam("id") id: Int): ResultSet = {
     val users = userService.findUserByGroupId(id)
     val friends = FriendList(id = 0, groupname = null, list = users.asScala.toList)
-    gson.toJson(new ResultSet(friends))
+    ResultSet(friends)
   }
 
   /**
@@ -428,9 +424,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def uploadImage(
       @RequestParam("file") file: MultipartFile,
       request: HttpServletRequest
-  ): String = {
+  ): ResultSet = {
     if (file.isEmpty)
-      gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.UPLOAD_FAIL))
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPLOAD_FAIL)
     else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.IMAGE_PATH, path, file)
@@ -438,7 +434,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       //图片的相对路径地址
       result.put("src", src)
       LOGGER.info("图片" + file.getOriginalFilename + "上传成功")
-      gson.toJson(new ResultSet(result))
+      ResultSet(result)
     }
   }
 
@@ -454,9 +450,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def uploadGroupAvatar(
       @RequestParam("avatar") file: MultipartFile,
       request: HttpServletRequest
-  ): String = {
+  ): ResultSet = {
     if (file.isEmpty)
-      gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.UPLOAD_FAIL))
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPLOAD_FAIL)
     else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.GROUP_AVATAR_PATH, path, file)
@@ -464,7 +460,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       //图片的相对路径地址
       result.put("src", src)
       LOGGER.info("图片" + file.getOriginalFilename + "上传成功")
-      gson.toJson(new ResultSet(result))
+      ResultSet(result)
     }
   }
 
@@ -476,17 +472,15 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @PostMapping(Array("/createGroup"))
   @ResponseBody
-  def createGroup(@RequestBody groupList: GroupList): String = {
+  def createGroup(@RequestBody groupList: GroupList): ResultSet = {
     val ret = userService.createGroup(groupList)
     if (ret == -1) {
-      return gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.CREATE_GROUP_ERROR))
+      return ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
     }
     if (userService.addGroupMember(ret, groupList.createId)) {
-      return gson.toJson(
-        ResultSet(c = SystemConstant.SUCCESS, m = SystemConstant.CREATE_GROUP_SUCCCESS)
-      )
+      return ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_GROUP_SUCCCESS)
     }
-    gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.CREATE_GROUP_ERROR))
+    ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
   }
 
   /**
@@ -497,16 +491,12 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @PostMapping(Array("/createUserGroup"))
   @ResponseBody
-  def createUserGroup(@RequestBody friendGroup: FriendGroup): String = {
+  def createUserGroup(@RequestBody friendGroup: FriendGroup): ResultSet = {
     val ret = userService.createFriendGroup(friendGroup.groupname, friendGroup.uid)
     if (!ret) {
-      return gson.toJson(
-        ResultSet(c = SystemConstant.ERROR, m = SystemConstant.CREATE_USER_GROUP_ERROR)
-      )
+      return ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_USER_GROUP_ERROR)
     }
-    gson.toJson(
-      ResultSet(c = SystemConstant.SUCCESS, m = SystemConstant.CREATE_USER_GROUP_SUCCCESS)
-    )
+    ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_USER_GROUP_SUCCCESS)
   }
 
   /**
@@ -518,11 +508,13 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @ResponseBody
   @PostMapping(Array("/upload/file"))
-  def uploadFile(@RequestParam("file") file: MultipartFile, request: HttpServletRequest): String = {
+  def uploadFile(
+      @RequestParam("file") file: MultipartFile,
+      request: HttpServletRequest
+  ): ResultSet = {
     if (file.isEmpty)
-      gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.UPLOAD_FAIL))
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPLOAD_FAIL)
     else {
-      import io.github.dreamylost.util.FileUtil
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.FILE_PATH, path, file)
       val result = new util.HashMap[String, String]
@@ -530,7 +522,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       result.put("src", src)
       result.put("name", file.getOriginalFilename)
       LOGGER.info("文件" + file.getOriginalFilename + "上传成功")
-      gson.toJson(new ResultSet(result))
+      ResultSet(result)
     }
   }
 
@@ -545,14 +537,14 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def updateAvatar(
       @RequestParam("avatar") avatar: MultipartFile,
       request: HttpServletRequest
-  ): String = {
+  ): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     val path = request.getServletContext.getRealPath(SystemConstant.AVATAR_PATH)
     val src = FileUtil.upload(path, avatar)
     userService.updateAvatar(user.id, src)
     val result = new util.HashMap[String, String]
     result.put("src", src)
-    gson.toJson(new ResultSet(result))
+    ResultSet(result)
   }
 
   /**
@@ -563,11 +555,10 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @ResponseBody
   @PostMapping(Array("/updateInfo"))
-  def updateAvatar(@RequestBody user: UserVo, request: HttpServletRequest): String = {
+  def updateAvatar(@RequestBody user: UserVo): ResultSet = {
     if (user == null)
-      gson.toJson(ResultSet(c = SystemConstant.ERROR, m = SystemConstant.UPDATE_INFO_FAIL))
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPDATE_INFO_FAIL)
     else {
-      import io.github.dreamylost.util.SecurityUtil
       val u = userService.findUserById(user.id)
       val sex = if (user.sex.equals("nan")) 1 else 0
       //前台明文传输，有安全问题
@@ -576,11 +567,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
         user.oldpwd == null || user.oldpwd.trim.isEmpty
       ) {
         userService.updateUserInfo(u.copy(sex = sex, sign = user.sign, username = user.username))
-        gson.toJson(ResultSet(c = SystemConstant.SUCCESS, m = SystemConstant.UPDATE_INFO_SUCCESS))
+        ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.UPDATE_INFO_SUCCESS)
       } else if (!SecurityUtil.matchs(user.oldpwd, u.password)) {
-        gson.toJson(
-          ResultSet(c = SystemConstant.ERROR, m = SystemConstant.UPDATE_INFO_PASSWORD_FAIL)
-        )
+        ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPDATE_INFO_PASSWORD_FAIL)
       } else {
         userService.updateUserInfo(
           u.copy(
@@ -590,7 +579,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
             username = user.username
           )
         )
-        gson.toJson(ResultSet(c = SystemConstant.SUCCESS, m = SystemConstant.UPDATE_INFO_SUCCESS))
+        ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.UPDATE_INFO_SUCCESS)
       }
     }
   }
@@ -618,8 +607,8 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @ResponseBody
   @GetMapping(Array("/findUser"))
-  def findUserById(@RequestParam("id") id: Integer): String = {
-    gson.toJson(new ResultSet(userService.findUserById(id)))
+  def findUserById(@RequestParam("id") id: Integer): ResultSet = {
+    ResultSet(userService.findUserById(id))
   }
 
   /**
@@ -630,8 +619,8 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     */
   @ResponseBody
   @PostMapping(Array("/existEmail"))
-  def existEmail(@RequestParam("email") email: String): String = {
-    gson.toJson(new ResultSet(userService.existEmail(email)))
+  def existEmail(@RequestParam("email") email: String): ResultSet = {
+    ResultSet(userService.existEmail(email))
   }
 
 }

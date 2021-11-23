@@ -18,7 +18,7 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
             console.log("before upload!");
         }
         , success: function (res, input) {
-            if (0 == res.code) {
+            if (0 === res.code) {
                 $("#LAY_demo_upload").attr('src', res.data.src);
                 $("#user_avatar").val(res.data.src);
                 layer.msg("修改成功", {time: 2000}, function () {
@@ -40,7 +40,7 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
         $("#repwd").val("");
         $("#sign").val(mine.sign);
         $("#LAY_demo_upload").attr("src", mine.avatar);
-        if (mine.sex == "0") {
+        if (mine.sex === "0") {
             $("input[type='radio']").eq(0).attr("checked", true);
         }
        else{
@@ -58,11 +58,11 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
             type: "POST",
             data: JSON.stringify(d),
             success: function (data) {
-                if (data.code == 1) {
+                if (data.code === 1) {
                     layer.msg(data.msg, {time: 2000}, function () {
                         window.parent.location.reload();//刷新父页面
                     });
-                } else if (data.code == 0) {
+                } else if (data.code === 0) {
                     layer.msg(data.msg, {time: 2000}, function () {
                         window.parent.location.reload();//刷新父页面
                     });
@@ -98,12 +98,12 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
             var oldpwd = $("#oldpwd").val(); //旧密码
             var pwd = $("#pwd").val();
             var repwd = $("#repwd").val();
-            if ('' != oldpwd) {
+            if ('' !== oldpwd) {
                 if ('' === pwd) {
                     layer.tips('新密码不能为空', '#pwd');
                     return;
                 }
-                if ('' != pwd && '' == repwd) {
+                if ('' !== pwd && '' === repwd) {
                     layer.tips('重复密码不能为空', '#repwd');
                     return;
                 }
@@ -111,15 +111,15 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
                     layer.tips('密码必须6到12位', '#oldpwd');
                     return;
                 }
-                if ('' != pwd && '' != repwd && '' == oldpwd) {
+                if ('' !== pwd && '' !== repwd && '' === oldpwd) {
                     layer.tips('必须输入旧密码', '#oldpwd');
                     return;
                 }
-                if ('' != pwd && '' != repwd && '' != oldpwd && pwd != repwd) {
+                if ('' !== pwd && '' !== repwd && '' !== oldpwd && pwd !== repwd) {
                     layer.tips('两次密码不一致', '#pwd');
                     return;
                 }
-                if ('' != pwd && '' != repwd && '' != oldpwd && pwd === repwd) {
+                if ('' !== pwd && '' !== repwd && '' !== oldpwd && pwd === repwd) {
                     if (!/^[\S]{6,12}$/.test(pwd)) {
                         layer.tips('密码必须6到12位', '#pwd');
                         return;

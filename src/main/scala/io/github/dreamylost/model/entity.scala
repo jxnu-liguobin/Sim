@@ -5,6 +5,7 @@ import io.github.dreamylost.model.domain.Mine
 import io.github.dreamylost.model.domain.To
 
 import java.util.Date
+import scala.beans.BeanProperty
 
 /**
   *
@@ -30,17 +31,34 @@ object entity {
     * @param active     激活码
     */
   case class User(
-      id: Int,
-      username: String,
-      password: String,
-      sign: String,
-      avatar: String,
-      email: String,
-      createDate: Date,
-      sex: Int,
-      status: String,
-      active: String
-  )
+      @BeanProperty id: Int,
+      @BeanProperty username: String,
+      @BeanProperty password: String,
+      @BeanProperty sign: String,
+      @BeanProperty avatar: String,
+      @BeanProperty email: String,
+      @BeanProperty createDate: Date,
+      @BeanProperty sex: Int,
+      @BeanProperty status: String,
+      @BeanProperty active: String
+  ) {
+
+    // mybatis 使用
+    def this() = {
+      this(
+        id = 0,
+        username = null,
+        password = null,
+        sign = null,
+        avatar = null,
+        email = null,
+        createDate = null,
+        sex = 0,
+        status = null,
+        active = null
+      )
+    }
+  }
 
   object User {
     def apply(id: Int, status: String): User =
@@ -68,7 +86,7 @@ object entity {
     * @param groupId 如果是添加好友则为from_id的分组id，如果为群组则为群组id
     * @param remark  附言
     * @param agree   0未处理，1同意，2拒绝
-    * @param Type    类型，可能是添加好友或群组
+    * @param `type`    类型，可能是添加好友或群组
     * @param time    申请时间
     */
   case class AddMessage(
@@ -78,9 +96,15 @@ object entity {
       groupId: Int,
       remark: String,
       agree: Int,
-      Type: Int,
+      `type`: Int,
       time: Date
-  )
+  ) {
+    def this() = {
+      this(
+        0, 0, 0, 0, null, 0, 0, null
+      )
+    }
+  }
 
   object AddMessage {
     def apply(id: Int, agree: Int): AddMessage =
@@ -91,7 +115,7 @@ object entity {
         groupId = 0,
         remark = null,
         agree = agree,
-        Type = 0,
+        `type` = 0,
         time = null
       )
 
@@ -100,10 +124,10 @@ object entity {
         toUid: Int,
         groupId: Int,
         remark: String,
-        Type: Int,
+        `type`: Int,
         time: Date
     ): AddMessage =
-      AddMessage(fromUid = 0, toUid = 0, groupId = 0, remark = null, Type = 0, time = null)
+      AddMessage(fromUid = 0, toUid = 0, groupId = 0, remark = null, `type` = 0, time = null)
   }
 
   /**
@@ -113,7 +137,11 @@ object entity {
     * @param uid       用户id，该分组所属的用户ID
     * @param groupname 群组名称
     */
-  case class FriendGroup(uid: Int, groupname: String)
+  case class FriendGroup(uid: Int, groupname: String) {
+    def this() = {
+      this(0, null)
+    }
+  }
 
   /**
     * 群组信息
@@ -125,11 +153,16 @@ object entity {
     * @param createId  创建人ID
     */
   case class GroupList(
-      override val id: Int,
-      override val groupname: String,
-      avatar: String,
-      createId: Int
-  ) extends Group(id, groupname)
+      @BeanProperty override val id: Int,
+      @BeanProperty override val groupname: String,
+      @BeanProperty avatar: String,
+      @BeanProperty createId: Int
+  ) extends Group(id, groupname) {
+    def this() = {
+      this(0, null, null, 0)
+    }
+
+  }
 
   /**
     * 群组成员
@@ -138,17 +171,25 @@ object entity {
     * @param gid 群组编号
     * @param uid 用户编号
     */
-  case class GroupMember(gid: Int, uid: Int)
+  case class GroupMember(gid: Int, uid: Int) {
+    def this() = {
+      this(0, 0)
+    }
+  }
 
   /**
     * 消息
     *
    * @see table:t_message
-    * @param Type 随便定义，用于在服务端区分消息类型
+    * @param `type` 随便定义，用于在服务端区分消息类型
     * @param mine 我的信息
     * @param to   对方信息
     * @param msg  额外的信息
     */
-  case class Message(Type: String, mine: Mine, to: To, msg: String)
+  case class Message(`type`: String, mine: Mine, to: To, msg: String) {
+    def this() = {
+      this(null, null, null, null)
+    }
+  }
 
 }

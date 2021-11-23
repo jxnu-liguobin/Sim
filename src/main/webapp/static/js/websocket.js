@@ -14,7 +14,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
         var ele;
         friends.forEach(function (e) {
             e.list.forEach(function (element) {
-                if (id == element.id) {
+                if (id === element.id) {
                     ele = element;
                 }
             });
@@ -28,7 +28,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
         init: function () {
             if ('WebSocket' in window) {
                 var host = window.location.host
-                if(window.location.post != ""){
+                if(window.location.post !== ""){
                 	host = host + ":" + 18080;
                 }
                 //因为目前不太理解akka stream，先用query params将就一下
@@ -87,7 +87,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 //监测好友在线状态
                 case "checkOnline": {
                     var style;
-                    if (json.status == "在线") {
+                    if (json.status === "在线") {
                         style = "color:#00EE00;";
                     } else {
                         style = "color:#FF5722;";
@@ -286,7 +286,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
     layim.on('chatChange', function (res) {
         var type = res.data.type;
         //如果打开的是好友窗口则监测好友的状态
-        if ("friend" == type) {
+        if ("friend" === type) {
             socket.send(JSON.stringify({
                 type: "checkOnline",
                 mine: null,
@@ -354,7 +354,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                             var group_id = groupElem.val(); //群组id
                             $.post('/user/changeGroup', {'groupId': group_id, 'userId': res.data.id},
                                 function (data) {
-                                    if (0 == data.code) {
+                                    if (0 === data.code) {
                                         layer.msg(data.msg, {time: 1500});
                                         //先从旧组移除，然后加入新组
                                         layim.removeList({
@@ -393,7 +393,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 icon: 3
             }, function () {
                 $.post('/user/removeFriend', {'friendId': friend_id}, function (res) {
-                    if (0 == res.code) {
+                    if (0 === res.code) {
                         layer.msg('删除成功!', {icon: 1, time: 1500});
                         layim.removeList({
                             type: 'friend'
@@ -436,7 +436,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 $.post('/user/leaveOutGroup', {
                     groupId: groupId
                 }, function (res) {
-                    if (res.code == 0) {
+                    if (res.code === 0) {
                         layim.removeList({type: 'group', id: groupId});
                     }
                     layer.msg(res.msg);
@@ -459,7 +459,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 , skin: 'layui-box'
                 , anim: 2
                 , id: 'layui-layim-chatlog'
-                , content: layim.cache().base.chatLog + '?id=' + friend.id + '&Type=friend'
+                , content: layim.cache().base.chatLog + '?id=' + friend.id + '&type=friend'
             });
         }
     }

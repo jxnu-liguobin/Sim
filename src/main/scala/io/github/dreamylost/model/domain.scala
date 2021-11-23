@@ -11,6 +11,8 @@ import entity.User
   */
 object domain {
 
+  import scala.beans.BeanProperty
+
   /**
     * 我发送的消息和我的信息
     *
@@ -30,7 +32,7 @@ object domain {
     * @param sign     签名
     * @param avatar   头像
     * @param status   状态
-    * @param Type     聊天类型，一般分friend和group两种，group即群聊
+    * @param `type`     聊天类型，一般分friend和group两种，group即群聊
     */
   case class To(
       id: Int,
@@ -38,7 +40,7 @@ object domain {
       sign: String,
       avatar: String,
       status: String,
-      Type: String
+      `type`: String
   )
 
   /**
@@ -51,11 +53,11 @@ object domain {
     * @param timestamp 时间
     */
   case class ChatHistory(
-      id: Int,
-      username: String,
-      avatar: String,
-      content: String,
-      timestamp: Long
+      @BeanProperty id: Int,
+      @BeanProperty username: String,
+      @BeanProperty avatar: String,
+      @BeanProperty content: String,
+      @BeanProperty timestamp: Long
   )
 
   /**
@@ -65,7 +67,9 @@ object domain {
     * @param friend 好友列表
     * @param group  群组信息列表
     */
-  case class FriendAndGroupInfo(mine: User, friend: List[FriendList], var group: List[GroupList])
+  case class FriendAndGroupInfo(@BeanProperty mine: User,
+                                @BeanProperty friend: List[FriendList],
+                                @BeanProperty group: List[GroupList])
 
   /**
     * 群组
@@ -73,7 +77,7 @@ object domain {
    * @param id        群组id
     * @param groupname 群组名
     */
-  class Group(val id: Int, val groupname: String)
+  class Group(@BeanProperty val id: Int, @BeanProperty val groupname: String)
 
   /**
     * 好友列表
@@ -86,8 +90,15 @@ object domain {
     * @param groupname 列表名称
     * @param list      用户列表
     */
-  case class FriendList(override val id: Int, override val groupname: String, list: List[User])
-      extends Group(id, groupname)
+  case class FriendList(
+      @BeanProperty override val id: Int,
+      @BeanProperty override val groupname: String,
+      @BeanProperty list: List[User]
+  ) extends Group(id, groupname) {
+    def this() = {
+      this(0, null, null)
+    }
+  }
 
   /**
     * 返回个人信息更新
@@ -113,9 +124,9 @@ object domain {
     *
    * @param groupId 好友列表id或群组id
     * @param remark  附言
-    * @param Type    类型，好友或群组
+    * @param `type`    类型，好友或群组
     */
-  case class Add(groupId: Int, remark: String, Type: Int)
+  case class Add(groupId: Int, remark: String, `type`: Int)
 
   /**
     * 添加好友
@@ -135,7 +146,7 @@ object domain {
     * @param content    消息内容
     * @param from       消息发送者id
     * @param from_group 消息发送者申请加入的群id
-    * @param Type       消息类型
+    * @param `type`       消息类型
     * @param remark     附言
     * @param href       来源，没使用，未知
     * @param read       是否已读
@@ -143,17 +154,17 @@ object domain {
     * @param user       消息发送者
     */
   case class AddInfo(
-      id: Int,
-      uid: Int,
-      content: String,
-      from: Int,
-      from_group: Int,
-      Type: Int,
-      remark: String,
-      href: String,
-      read: Int,
-      time: String,
-      user: User
+      @BeanProperty id: Int,
+      @BeanProperty uid: Int,
+      @BeanProperty content: String,
+      @BeanProperty from: Int,
+      @BeanProperty from_group: Int,
+      @BeanProperty `type`: Int,
+      @BeanProperty remark: String,
+      @BeanProperty href: String,
+      @BeanProperty read: Int,
+      @BeanProperty time: String,
+      @BeanProperty user: User
   )
 
   /**
@@ -163,7 +174,7 @@ object domain {
     * @param id        消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
     * @param username  消息来源用户名
     * @param avatar    消息来源用户头像
-    * @param Type      聊天窗口来源类型，从发送消息传递的to里面获取
+    * @param `type`      聊天窗口来源类型，从发送消息传递的to里面获取
     * @param content   消息内容
     * @param cid       消息id，可不传。除非你要对消息进行一些操作（如撤回）
     * @param mine      是否我发送的消息，如果为true，则会显示在右方
@@ -176,7 +187,7 @@ object domain {
       id: Int,
       username: String,
       avatar: String,
-      Type: String,
+      `type`: String,
       content: String,
       cid: Int,
       mine: Boolean,

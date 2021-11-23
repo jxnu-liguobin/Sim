@@ -12,7 +12,7 @@ layui.use(['layim', 'flow'], function(){
     var renderMsg = function(page, callback){
         //实际部署时，请将下述 getmsg.json 改为你的接口地址
         $.get('/user/findAddInfo?uid=' + uid, { page: page || 1 }, function(res){
-            if(res.code != 0){
+            if(res.code !== 0){
                 return layer.msg(res.msg);
             }
             //记录来源用户信息
@@ -88,7 +88,7 @@ layui.use(['layim', 'flow'], function(){
                         ,group: group //我设定的好友分组
                         ,messageBoxId: messageBoxId
                     }, function(res){
-                        if(res.code != 0){
+                        if(res.code !== 0){
                             return layer.msg(res.msg);
                         }
                         layer.msg(res.msg);
@@ -125,7 +125,7 @@ layui.use(['layim', 'flow'], function(){
                 $.post('/user/refuseFriend', {
                     messageBoxId: messageBoxId
                 }, function(res){
-                    if(res.code != 0){
+                    if(res.code !== 0){
                         return layer.msg(res.msg);
                     }
                     layer.close(index);

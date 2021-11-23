@@ -49,10 +49,10 @@ object WebSocketService {
       val receive = WebSocketService.getReceive(message)
       val key: Integer = message.to.id
       val strMsg = () => {
-        gson.toJson(receive).replaceAll("Type", "type")
+        gson.toJson(receive)
       }
       //聊天类型，可能来自朋友或群组
-      if ("friend" == message.to.Type) {
+      if ("friend" == message.to.`type`) {
         //是否在线
         val receiveMsg = if (WebSocketService.actorRefSessions.containsKey(key)) {
           val actorRef = WebSocketService.actorRefSessions.get(key)
@@ -143,7 +143,7 @@ object WebSocketService {
           toUid = to.id,
           groupId = t.groupId,
           remark = t.remark,
-          Type = 1,
+          `type` = 1,
           time = DateUtil.getDateTime
         )
       )
@@ -170,7 +170,7 @@ object WebSocketService {
         toUid = message.to.id,
         groupId = add.groupId,
         remark = add.remark,
-        Type = add.Type,
+        `type` = add.`type`,
         time = DateUtil.getDateTime
       )
       userService.saveAddMessage(addMessageCopy)
@@ -240,7 +240,7 @@ object WebSocketService {
       id = mine.id,
       username = mine.username,
       avatar = mine.avatar,
-      Type = to.Type,
+      `type` = to.`type`,
       content = mine.content,
       cid = 0,
       mine = false,

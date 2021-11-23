@@ -47,7 +47,7 @@ layui.use(['layim', 'laypage'], function(){
 	  	   		url:"${pageContext.request.contextPath}/user/chatLog",
 	  	   		dataType:"JSON",
 	  	   		type:"POST",
-	  	   		data:{"id":${id},"Type":'${Type}',"page":curr},
+	  	   		data:{"id":${id},"type":'${Type}',"page":curr},
 	  	   		success:function(data) {
 	  	   			if (data.data.length != 0) {	  	   				
 		  	  		  	var html = laytpl(LAY_tpl.value).render({

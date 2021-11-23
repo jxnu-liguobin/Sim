@@ -180,7 +180,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     allEntries = true
   )
   def addFriend(mid: Int, mgid: Int, tid: Int, tgid: Int, messageBoxId: Int): Boolean = {
-    val add = new AddFriends(mid, mgid, tid, tgid)
+    val add = AddFriends(mid, mgid, tid, tgid)
     try {
       if (userRepository.addFriend(add) != 0) updateAddMessage(messageBoxId, 1)
       else false
@@ -242,7 +242,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     val list = userRepository.findAddInfo(uid)
     list.asScala.map { info =>
       {
-        val infoCopy = if (info.Type == 0) {
+        val infoCopy = if (info.`type` == 0) {
           info.copy(content = "申请添加你为好友")
         } else {
           val group: GroupList = userRepository.findGroupById(info.from_group)
@@ -323,13 +323,13 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     *
    * @param uid  消息所属用户id、用户个人id
     * @param mid  来自哪个用户
-    * @param Type 消息类型，可能来自friend或者group
+    * @param `type` 消息类型，可能来自friend或者group
     * @return Int
     */
-  def countHistoryMessage(uid: Int, mid: Int, Type: String): Int = {
-    Type match {
-      case "friend" => userRepository.countHistoryMessage(uid, mid, Type)
-      case "group" => userRepository.countHistoryMessage(null, mid, Type)
+  def countHistoryMessage(uid: Int, mid: Int, `type`: String): Int = {
+    `type` match {
+      case "friend" => userRepository.countHistoryMessage(uid, mid, `type`)
+      case "group" => userRepository.countHistoryMessage(null, mid, `type`)
     }
   }
 
@@ -338,18 +338,17 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     *
    * @param user 所属用户、用户个人
     * @param mid  来自哪个用户
-    * @param Type 消息类型，可能来自friend或者group
+    * @param `type` 消息类型，可能来自friend或者group
     * @see User.scala
     * @return List[ChatHistory]
     */
-  def findHistoryMessage(user: User, mid: Int, Type: String): util.List[ChatHistory] = {
+  def findHistoryMessage(user: User, mid: Int, `type`: String): util.List[ChatHistory] = {
     //单人聊天记录
-    val list = if ("friend".equals(Type)) {
+    val list = if ("friend".equals(`type`)) {
       //查找聊天记录
-      val historys: util.List[Receive] = userRepository.findHistoryMessage(user.id, mid, Type)
+      val historys: util.List[Receive] = userRepository.findHistoryMessage(user.id, mid, `type`)
       val toUser = findUserById(mid)
       historys.asScala.map { history =>
-        {
           if (history.id == mid) {
             ChatHistory(
               history.id,
@@ -361,20 +360,17 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
           } else {
             ChatHistory(history.id, user.username, user.avatar, history.content, history.timestamp)
           }
-        }
       }
-    } else if ("group".equals(Type)) {
+    } else if ("group".equals(`type`)) {
       //群聊天记录
       //查找聊天记录
-      val historys = userRepository.findHistoryMessage(null, mid, Type)
+      val historys = userRepository.findHistoryMessage(null, mid, `type`)
       historys.asScala.map { history =>
-        {
           val u = findUserById(history.fromid)
           if (history.fromid.equals(user.id)) {
             ChatHistory(user.id, user.username, user.avatar, history.content, history.timestamp)
           } else {
             ChatHistory(history.id, u.username, u.avatar, history.content, history.timestamp)
-          }
         }
       }
     } else Nil
@@ -447,7 +443,6 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     if (user == null || user.email == null)
       null
     else {
-      import io.github.dreamylost.util.SecurityUtil
       val u: User = userRepository.matchUser(user.email)
       //密码不匹配
       if (u == null || !SecurityUtil.matchs(user.password, u.password)) {
@@ -479,9 +474,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     //封装分组列表下的好友信息
     friends.asScala
       .map { friend: FriendList =>
-        {
           friend.copy(list = userRepository.findUsersByFriendGroupIds(friend.id).asScala.toList)
-        }
       }
       .toList
       .asJava

@@ -24,7 +24,7 @@ layui.use([ 'element', 'jquery', 'layer', 'form', 'upload', 'flow'],function() {
                     type:"addFriend",
                     mine:mine,
                     to:{"id":id},
-                    msg:JSON.stringify({"groupId":group,"remark":remark,"Type":"0"})
+                    msg:JSON.stringify({"groupId":group,"remark":remark,"type":"0"})
                 }));
                 layer.msg('申请已发送，请等待对方确认', {icon: 1,shade: 0.5}, function(){layer.close(index);});
             }
@@ -71,7 +71,7 @@ layui.use([ 'element', 'jquery', 'layer', 'form', 'upload', 'flow'],function() {
                     type:"addGroup",
                     mine:mine,
                     to:{"id":id},
-                    msg:JSON.stringify({"groupId":groupId,"remark":remark,"Type":"0"})
+                    msg:JSON.stringify({"groupId":groupId,"remark":remark,"type":"0"})
                 }));
                 layer.msg('申请已发送，请等待对方确认', {icon: 1,shade: 0.5}, function(){layer.close(index);});
             }

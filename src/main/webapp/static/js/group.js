@@ -10,7 +10,7 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
             console.log("before upload!");
         },
         success: function (res) {
-            if (0 == res.code) {
+            if (0 === res.code) {
                 $("#LAY_demo_upload").attr('src', res.data.src);
                 $("#group_avatar").val(res.data.src);
                 layer.msg("上传成功", {time: 2000});
@@ -60,11 +60,11 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
                 type: "POST",
                 data: JSON.stringify(d),
                 success: function (data) {
-                    if (data.code == 1) {
+                    if (data.code === 1) {
                         layer.msg(data.msg, {time: 2000}, function () {
                             window.parent.location.reload();//刷新父页面
                         });
-                    } else if (data.code == 0) {
+                    } else if (data.code === 0) {
                         layer.msg(data.msg, {time: 2000}, function () {
                             window.parent.parent.location.reload();//刷新主页面,简单粗暴的方法,否则应该操作表单元素太麻烦
                         });
@@ -99,11 +99,11 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
                 type: "POST",
                 data: JSON.stringify(d),
                 success: function (data) {
-                    if (data.code == 1) {
+                    if (data.code === 1) {
                         layer.msg(data.msg, {time: 2000}, function () {
                             window.parent.location.reload();//刷新父页面
                         });
-                    } else if (data.code == 0) {
+                    } else if (data.code === 0) {
                         layer.msg(data.msg, {time: 2000}, function () {
                             window.parent.parent.location.reload();//刷新主页面
                         });

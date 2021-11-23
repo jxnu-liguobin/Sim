@@ -190,7 +190,7 @@ trait UserRepository {
     */
   @Insert(
     Array(
-      "insert into t_add_message(from_uid,to_uid,group_id,remark,agree,type,time) values (#{fromUid},#{toUid},#{groupId},#{remark},#{agree},#{Type},#{time}) ON DUPLICATE KEY UPDATE remark=#{remark},time=#{time},agree=#{agree};"
+      "insert into t_add_message(from_uid,to_uid,group_id,remark,agree,type,time) values (#{fromUid},#{toUid},#{groupId},#{remark},#{agree},#{type},#{time}) ON DUPLICATE KEY UPDATE remark=#{remark},time=#{time},agree=#{agree};"
     )
   )
   def saveAddMessage(addMessage: AddMessage): Int
@@ -268,14 +268,14 @@ trait UserRepository {
     */
   @Select(
     Array(
-      "<script> select count(*) from t_message where type = #{Type} and " +
+      "<script> select count(*) from t_message where type = #{type} and " +
         "<choose><when test='uid!=null and mid !=null'>(toid = #{uid} and mid = #{mid}) or (toid = #{mid} and mid = #{uid}) </when><when test='mid != null'> mid = #{mid} </when></choose> order by timestamp </script>"
     )
   )
   def countHistoryMessage(
       @Param("uid") uid: Integer,
       @Param("mid") mid: Int,
-      @Param("Type") Type: String
+      @Param("type") `type`: String
   ): Int
 
   /**
@@ -289,14 +289,14 @@ trait UserRepository {
   @Results(value = Array(new Result(property = "id", column = "mid")))
   @Select(
     Array(
-      "<script> select toid,fromid,mid,content,type,timestamp,status from t_message where type = #{Type} and " +
+      "<script> select toid,fromid,mid,content,type,timestamp,status from t_message where type = #{type} and " +
         "<choose><when test='uid!=null and mid !=null'>(toid = #{uid} and mid = #{mid}) or (toid = #{mid} and mid = #{uid}) </when><when test='mid != null'> mid = #{mid} </when></choose> order by timestamp </script>"
     )
   )
   def findHistoryMessage(
       @Param("uid") uid: Integer,
       @Param("mid") mid: Int,
-      @Param("Type") Type: String
+      @Param("type") `type`: String
   ): util.List[Receive]
 
   /**
@@ -458,7 +458,7 @@ trait UserRepository {
     */
   @Select(
     Array(
-      "select id,username,email,avatar,sex,sign,password,status,active from t_user where email = #{email}"
+      "select id,username,email,avatar,sex,sign,password,status,active,create_date from t_user where email = #{email}"
     )
   )
   def matchUser(email: String): User

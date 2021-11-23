@@ -77,7 +77,11 @@ object domain {
    * @param id        群组id
     * @param groupname 群组名
     */
-  class Group(@BeanProperty val id: Int, @BeanProperty val groupname: String)
+  class Group(@BeanProperty val id: Int, @BeanProperty val groupname: String) {
+    def this() = {
+      this(0, null)
+    }
+  }
 
   /**
     * 好友列表

@@ -2,8 +2,11 @@ package io.github.dreamylost.websocket.actor
 
 import akka.actor.Actor
 import akka.actor.ActorLogging
+import io.github.dreamylost.websocket.Protocols._
 import io.github.dreamylost.websocket.WebSocketService
-import io.github.dreamylost.websocket.actor.ActorMessage.OnlineUserMessage
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Scope
+import org.springframework.stereotype.Component
 
 /** 定时获取在线用户数
   *
@@ -11,13 +14,17 @@ import io.github.dreamylost.websocket.actor.ActorMessage.OnlineUserMessage
   * @since 2020-01-27
   * @version v1.0
   */
+@Component("scheduleJobActor")
+@Scope("prototype")
 class ScheduleJobActor extends Actor with ActorLogging {
-  def receive: Receive = {
-    case OnlineUserMessage => {
-      val onlineTotal = WebSocketService.getConnections
-      //使用websocket展现到页面？
-      log.info(s"Online user total => [total User = $onlineTotal]")
-    }
+
+  @Autowired
+  private var wsService: WebSocketService = _
+
+  def receive: Receive = { case OnlineUserMessage =>
+    val onlineTotal = wsService.getConnections
+    //使用websocket展现到页面？
+    log.info(s"Online user total => [total User = $onlineTotal]")
   }
 
   override def unhandled(message: Any): Unit = {

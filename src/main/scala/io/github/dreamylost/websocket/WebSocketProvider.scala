@@ -1,7 +1,7 @@
 package io.github.dreamylost.websocket
 
 import akka.actor.ActorRef
-import akka.actor.Props
+import akka.actor.ActorSystem
 import akka.actor.Status
 import akka.http.scaladsl.model.ws.Message
 import akka.http.scaladsl.model.ws.TextMessage
@@ -13,11 +13,10 @@ import akka.stream.scaladsl.Source
 import akka.Done
 import akka.NotUsed
 import io.github.dreamylost.constant.SystemConstant
-import io.github.dreamylost.websocket.ActorCommon._
-import io.github.dreamylost.websocket.actor.ActorMessage._
-import io.github.dreamylost.websocket.actor.MessageHandleActor
-import io.github.dreamylost.websocket.actor.ScheduleJobActor
-import io.github.dreamylost.websocket.actor.UserStatusChangeActor
+import akka.stream.ActorMaterializer
+import akka.stream.Materializer
+import io.github.dreamylost.websocket.Protocols._
+import io.github.dreamylost.websocket.SpringExtension.SpringExtProvider
 import org.reactivestreams.Publisher
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -25,8 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.DependsOn
 import org.springframework.stereotype.Component
 
-import scala.collection.JavaConverters._
+import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration._
+import scala.jdk.CollectionConverters._
 import scala.language.postfixOps
 
 /** 基于 akka stream 和 akka http的 websocket
@@ -37,13 +37,21 @@ import scala.language.postfixOps
   */
 @Component
 @DependsOn(Array("redisService"))
-class WebSocketProvider @Autowired() (redisService: RedisService) {
+class WebSocketProvider @Autowired() (redisService: RedisService, wsService: WebSocketService)(
+    implicit system: ActorSystem
+) {
+
+  implicit val ec: ExecutionContextExecutor = system.dispatcher
+  implicit val mat: Materializer = ActorMaterializer()
 
   private final lazy val log: Logger = LoggerFactory.getLogger(classOf[WebSocketProvider])
-  private final lazy val wsConnections = WebSocketService.actorRefSessions
-  private lazy val msgActor = system.actorOf(Props(classOf[MessageHandleActor]))
-  private lazy val jobActor = system.actorOf(Props(classOf[ScheduleJobActor]))
-  private lazy val userStatusActor = system.actorOf(Props(classOf[UserStatusChangeActor]))
+  private final lazy val wsConnections = wsService.actorRefSessions
+  private lazy val msgActor =
+    system.actorOf(SpringExtProvider.get(system).props(ActorNames.MESSAGE_HANDLE_ACTOR))
+  private lazy val jobActor =
+    system.actorOf(SpringExtProvider.get(system).props(ActorNames.SCHEDULE_JOB_ACTOR))
+  private lazy val userStatusActor =
+    system.actorOf(SpringExtProvider.get(system).props(ActorNames.USER_STATUS_CHANGE_ACTOR))
 
   //重连是3秒
   system.scheduler.schedule(5000 milliseconds, 10000 milliseconds, jobActor, OnlineUserMessage)

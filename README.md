@@ -36,6 +36,7 @@ LayIM
        │    │    └─ schema.sql                            - 初始化表结构
        │    ├─ scala
        │    │    └─ io.github.dreamylost                  - 代码实现   
+       │    │    └─ io.github.dreamylost.websocket        - websocket代码实现
        │    └─ webapp
        │           ├─ WEB-INF                             - 聊天记录和背景页
        │           ├─ index.html                          - 首页  
@@ -62,6 +63,7 @@ LayIM
 ### 部署
 
 ```shell
+# 在LayIM目录执行
 # 里面的jar包版本号需要改
 bash deploy.sh
 ```

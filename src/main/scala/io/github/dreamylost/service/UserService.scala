@@ -227,19 +227,16 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     val list = userRepository.findAddInfo(uid)
     val ret = new util.ArrayList[AddInfo](list.size())
     list.asScala.foreach { info =>
-      {
-        val infoCopy = if (info.`type` == 0) {
-          info.copy(content = "申请添加你为好友")
-        } else {
-          val group: GroupList = userRepository.findGroupById(info.from_group)
-          if (group != null) {
-            info.copy(content = "申请加入 '" + group.groupname + "' 群聊中!")
-          } else info
-        }
-        LOGGER.info(infoCopy.toString)
-        infoCopy.copy(href = null, user = findUserById(infoCopy.from))
+      val infoCopy = if (info.`type` == 0) {
+        info.copy(content = "申请添加你为好友")
+      } else {
+        val group: GroupList = userRepository.findGroupById(info.from_group)
+        if (group != null) {
+          info.copy(content = "申请加入 '" + group.groupname + "' 群聊中!")
+        } else info
       }
-      ret.add(info)
+      LOGGER.info(infoCopy.toString)
+      ret.add(infoCopy.copy(href = null, user = findUserById(infoCopy.from)))
     }
     ret
   }

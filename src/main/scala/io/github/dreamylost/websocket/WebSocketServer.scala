@@ -1,5 +1,6 @@
 package io.github.dreamylost.websocket
 
+import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.settings.ServerSettings
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component
 import java.util.concurrent.atomic.AtomicInteger
 import scala.concurrent.Future
 import scala.io.StdIn
+import scala.concurrent.ExecutionContextExecutor
 
 /** akka-http websocket server
   *
@@ -23,10 +25,13 @@ import scala.io.StdIn
   * @version 1.0,2020/1/22
   */
 @Component
-class WebSocketServer @Autowired() (redisService: RedisService, akkaService: WebSocketProvider) {
+class WebSocketServer @Autowired() (redisService: RedisService, akkaService: WebSocketProvider)(
+    implicit system: ActorSystem
+) {
 
-  import ActorCommon._
   import Directives._
+
+  implicit val ec: ExecutionContextExecutor = system.dispatcher
 
   private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[WebSocketServer])
   private val host = ConfigFactory.load("application.conf").getString("akka-http-server.host")
@@ -58,7 +63,7 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
   def startUp(): Unit = {
     val bindingFuture = Http().bindAndHandle(imRoute, host, port, settings = imServerSettings)
     bindingFuture.failed.foreach { ex =>
-      LOGGER.error(s"Failed to bind to $host:$port!")
+      LOGGER.error(s"Failed to bind to $host:$port!", ex)
     }
     LOGGER.info(
       """
@@ -70,7 +75,7 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
         |       \/       \/    \/        \/            \/     \/    \/               \/     \/                 \/
         |""".stripMargin
     )
-    LOGGER.info(s"websocket listener on [$host:$port]")
+    LOGGER.info(s"Websocket listening on [$host:$port]")
     StdIn.readLine()
     bindingFuture.flatMap(_.unbind()).onComplete(_ => system.terminate())
   }

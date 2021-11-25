@@ -1,8 +1,8 @@
 package io.github.dreamylost.websocket
 
 import akka.actor.ActorRef
-import com.google.gson.Gson
-import io.github.dreamylost.Application
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.scala.ScalaObjectMapper
 import io.github.dreamylost.constant.SystemConstant
 import io.github.dreamylost.model.domain.Add
 import io.github.dreamylost.model.domain.Receive
@@ -11,9 +11,10 @@ import io.github.dreamylost.model.entity.Message
 import io.github.dreamylost.model.entity.User
 import io.github.dreamylost.service.UserService
 import io.github.dreamylost.util.DateUtil
-import io.github.dreamylost.websocket.Domain.AgreeAddGroup
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
 import java.util
 import java.util.concurrent.ConcurrentHashMap
@@ -25,15 +26,15 @@ import scala.jdk.CollectionConverters._
   * @author 梦境迷离
   * @version 1.2
   */
-object WebSocketService {
+@Service
+class WebSocketService @Autowired() (
+    userService: UserService,
+    redisService: RedisService,
+    objectMapper: ObjectMapper with ScalaObjectMapper
+) {
 
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(WebSocketService.getClass)
-  private final lazy val application = Application.getApplicationContext()
+  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[WebSocketService])
   final val actorRefSessions = new ConcurrentHashMap[Integer, ActorRef]
-  private lazy val userService: UserService = application.getBean(classOf[UserService])
-  private lazy val redisService: RedisService = application.getBean(classOf[RedisService])
-
-  private lazy final val gson: Gson = new Gson
 
   /** 发送消息
     *
@@ -44,17 +45,17 @@ object WebSocketService {
       LOGGER.debug(s"好友消息或群消息 => [msg = $message]")
       //封装返回消息格式
       val gid = message.to.id
-      val receive = WebSocketService.getReceive(message)
+      val receive = getReceive(message)
       val key = message.to.id
       val strMsg = () => {
-        gson.toJson(receive)
+        objectMapper.writeValueAsString(receive)
       }
       //聊天类型，可能来自朋友或群组
       if ("friend" == message.to.`type`) {
         //是否在线
-        val receiveMsg = if (WebSocketService.actorRefSessions.containsKey(key)) {
-          val actorRef = WebSocketService.actorRefSessions.get(key)
-          WebSocketService.sendMessage(strMsg(), actorRef)
+        val receiveMsg = if (actorRefSessions.containsKey(key)) {
+          val actorRef = actorRefSessions.get(key)
+          sendMessage(strMsg(), actorRef)
           receive.copy(status = 1)
         } else receive
         //保存为离线消息,默认为离线消息
@@ -69,9 +70,9 @@ object WebSocketService {
           .foreach { user =>
             {
               //是否在线
-              val receiveMsgCopy = if (WebSocketService.actorRefSessions.containsKey(user.id)) {
-                val actorRef = WebSocketService.actorRefSessions.get(user.id)
-                WebSocketService.sendMessage(strMsg(), actorRef)
+              val receiveMsgCopy = if (actorRefSessions.containsKey(user.id)) {
+                val actorRef = actorRefSessions.get(user.id)
+                sendMessage(strMsg(), actorRef)
                 receiveMsg.copy(status = 1)
               } else {
                 receiveMsg.copy(id = key)
@@ -89,7 +90,7 @@ object WebSocketService {
     */
   def agreeAddGroup(msg: Message): Unit = {
     LOGGER.debug(s"同意入群消息 => [msg = $msg]")
-    val agree = gson.fromJson(msg.msg, classOf[AgreeAddGroup])
+    val agree = objectMapper.readValue[Protocols.AgreeAddGroup](msg.msg)
     userService.addGroupMember(agree.groupId, agree.toUid, agree.messageBoxId)
   }
 
@@ -99,7 +100,7 @@ object WebSocketService {
     */
   def refuseAddGroup(msg: Message): Unit = {
     LOGGER.debug(s"拒绝入群消息 => [msg = $msg]")
-    val refuse = gson.fromJson(msg.msg, classOf[Domain.AgreeAddGroup])
+    val refuse = objectMapper.readValue[Protocols.AgreeAddGroup](msg.msg)
     userService.updateAddMessage(refuse.messageBoxId, 2)
   }
 
@@ -108,7 +109,7 @@ object WebSocketService {
     * @param uId      我的id
     * @param friendId 对方Id
     */
-  def removeFriend(uId: Integer, friendId: Integer) =
+  def removeFriend(uId: Integer, friendId: Integer): Unit =
     synchronized {
       LOGGER.debug(s"删除好友通知消息 => [uId = $uId, friendId = $friendId ]")
       //对方是否在线，在线则处理，不在线则不处理
@@ -116,7 +117,7 @@ object WebSocketService {
       if (actorRefSessions.get(friendId) != null) {
         result.put("type", "delFriend")
         result.put("uId", uId + "")
-        WebSocketService.sendMessage(gson.toJson(result), actorRefSessions.get(friendId))
+        sendMessage(objectMapper.writeValueAsString(result), actorRefSessions.get(friendId))
       }
     }
 
@@ -130,7 +131,7 @@ object WebSocketService {
       LOGGER.debug(s"加群消息 => [uId = $uId, msg = $message ]")
       val mine = message.mine
       val to = message.to
-      val t = gson.fromJson(message.msg, classOf[Domain.Group])
+      val t = objectMapper.readValue[Protocols.Group](message.msg)
       userService.saveAddMessage(
         AddMessage(
           fromUid = mine.id,
@@ -144,7 +145,7 @@ object WebSocketService {
       val result = new util.HashMap[String, String]
       if (actorRefSessions.get(to.id) != null) {
         result.put("type", "addGroup")
-        sendMessage(gson.toJson(result), actorRefSessions.get(to.id))
+        sendMessage(objectMapper.writeValueAsString(result), actorRefSessions.get(to.id))
       }
     }
 
@@ -157,7 +158,7 @@ object WebSocketService {
     synchronized {
       LOGGER.debug(s"加好友消息 => [uId = $uId, msg = $message ]")
       val mine = message.mine
-      val add = gson.fromJson(message.msg, classOf[Add])
+      val add = objectMapper.readValue[Add](message.msg)
       val addMessageCopy = AddMessage(
         fromUid = mine.id,
         toUid = message.to.id,
@@ -171,7 +172,10 @@ object WebSocketService {
       //如果对方在线，则推送给对方
       if (actorRefSessions.get(message.to.id) != null) {
         result.put("type", "addFriend")
-        sendMessage(gson.toJson(result), actorRef = actorRefSessions.get(message.to.id))
+        sendMessage(
+          objectMapper.writeValueAsString(result),
+          actorRef = actorRefSessions.get(message.to.id)
+        )
       }
     }
 
@@ -265,5 +269,5 @@ object WebSocketService {
 
   //用于统计实时在线的人数，根据ConcurrentHashMap特性，该人数不会很准确
   //重连之后会重新加入进来，但与Redis还是有差异
-  @volatile def getConnections = actorRefSessions.size()
+  @volatile def getConnections: Int = actorRefSessions.size()
 }

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+import io.github.dreamylost.util.Jackson
 
 /** SpringMVC配置
   *
@@ -26,6 +27,7 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
   //在SpringBoot2.0及Spring 5.0 WebMvcConfigurerAdapter已被废弃
   //    1.直接实现WebMvcConfigurer （官方推荐）
   //    2.直接继承WebMvcConfigurationSupport
+
   /** 重写addViewControllers方法配置默认主页
     *
     * @param registry
@@ -75,11 +77,6 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
   @Primary
   @ConditionalOnMissingBean(Array(classOf[ObjectMapper]))
   def jacksonObjectMapper(): ObjectMapper = {
-    val objectMapper = new ObjectMapper() with ScalaObjectMapper
-    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false)
-    objectMapper.registerModule(DefaultScalaModule)
-    objectMapper
+    Jackson.mapper
   }
 }

@@ -2,8 +2,13 @@ package io.github.dreamylost.websocket.actor
 
 import akka.actor.Actor
 import akka.actor.ActorLogging
+import io.github.dreamylost.util.Jackson
+import io.github.dreamylost.websocket.Protocols._
+import io.github.dreamylost.websocket.Protocols
 import io.github.dreamylost.websocket.WebSocketService
-import io.github.dreamylost.websocket.actor.ActorMessage._
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Scope
+import org.springframework.stereotype.Component
 
 import java.util
 
@@ -13,54 +18,47 @@ import java.util
   * @since 2020-01-24
   * @version v1.2
   */
+@Component("messageHandleActor")
+@Scope("prototype")
 class MessageHandleActor extends Actor with ActorLogging {
+
+  @Autowired
+  private var wsService: WebSocketService = _
+
   override def receive: Receive = { case tm: TransmitMessage =>
     log.info(s"来自客户端的消 => [msg = $tm]")
-    tm.getMessage.`type` match {
-      case "readOfflineMessage" => {
-        WebSocketService.readOfflineMessage(tm.getMessage)
-      }
-      case "message" => {
-        WebSocketService.sendMessage(tm.getMessage)
-      }
-      case "checkOnline" => {
+    val protocol = Protocols.ImProtocol.unStringify(tm.getMessage.`type`)
+    protocol match {
+      case ImProtocol.readOfflineMessage =>
+        wsService.readOfflineMessage(tm.getMessage)
+      case ImProtocol.message =>
+        wsService.sendMessage(tm.getMessage)
+      case ImProtocol.checkOnline =>
         val result: util.HashMap[String, String] =
-          WebSocketService.checkOnline(tm.getMessage, tm.originActorRef)
-        WebSocketService.sendMessage(gson.toJson(result), tm.originActorRef)
-      }
-      case "addGroup" => {
-        WebSocketService.addGroup(tm.uId, tm.getMessage)
-      }
-      case "changOnline" => {
-        WebSocketService.changeOnline(tm.uId, tm.getMessage.msg)
-      }
-      case "addFriend" => {
-        WebSocketService.addFriend(tm.uId, tm.getMessage)
-      }
-      case "agreeAddFriend" => {
-        if (WebSocketService.actorRefSessions.get(tm.getMessage.to.id) != null) {
-          WebSocketService.sendMessage(
-            tm.msg,
-            WebSocketService.actorRefSessions.get(tm.getMessage.to.id)
-          )
+          wsService.checkOnline(tm.getMessage, tm.originActorRef)
+        wsService.sendMessage(Jackson.mapper.writeValueAsString(result), tm.originActorRef)
+      case ImProtocol.addGroup =>
+        wsService.addGroup(tm.uId, tm.getMessage)
+      case ImProtocol.changOnline =>
+        wsService.changeOnline(tm.uId, tm.getMessage.msg)
+      case ImProtocol.addFriend =>
+        wsService.addFriend(tm.uId, tm.getMessage)
+      case ImProtocol.agreeAddFriend =>
+        val actor = wsService.actorRefSessions.get(tm.getMessage.to.id)
+        if (actor != null) {
+          wsService.sendMessage(tm.msg, actor)
         }
-      }
-      case "agreeAddGroup" => {
-        WebSocketService.agreeAddGroup(tm.getMessage)
-      }
-      case "refuseAddGroup" => {
-        WebSocketService.refuseAddGroup(tm.getMessage)
-      }
-      case "unHandMessage" => {
-        val result = WebSocketService.countUnHandMessage(tm.uId)
-        WebSocketService.sendMessage(gson.toJson(result), tm.originActorRef)
-      }
-      case "delFriend" => {
-        WebSocketService.removeFriend(tm.uId, tm.getMessage.to.id)
-      }
-      case _ => {
+      case ImProtocol.agreeAddGroup =>
+        wsService.agreeAddGroup(tm.getMessage)
+      case ImProtocol.refuseAddGroup =>
+        wsService.refuseAddGroup(tm.getMessage)
+      case ImProtocol.unHandMessage =>
+        val result = wsService.countUnHandMessage(tm.uId)
+        wsService.sendMessage(Jackson.mapper.writeValueAsString(result), tm.originActorRef)
+      case ImProtocol.delFriend =>
+        wsService.removeFriend(tm.uId, tm.getMessage.to.id)
+      case _ =>
         log.warning("No Mapping Message!")
-      }
     }
   }
 

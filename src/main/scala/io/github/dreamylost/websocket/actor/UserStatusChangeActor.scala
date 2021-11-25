@@ -2,8 +2,11 @@ package io.github.dreamylost.websocket.actor
 
 import akka.actor.Actor
 import akka.actor.ActorLogging
+import io.github.dreamylost.websocket.Protocols._
 import io.github.dreamylost.websocket.WebSocketService
-import io.github.dreamylost.websocket.actor.ActorMessage.UserStatusChange
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Scope
+import org.springframework.stereotype.Component
 
 /** 用户在线状态切换&持久化
   *
@@ -14,10 +17,15 @@ import io.github.dreamylost.websocket.actor.ActorMessage.UserStatusChange
   * @author 梦境迷离
   * @version 1.0,2020/6/1
   */
+@Component("userStatusChangeActor")
+@Scope("prototype")
 class UserStatusChangeActor extends Actor with ActorLogging {
+
+  @Autowired
+  private var wsService: WebSocketService = _
 
   def receive: Receive = { case userStatusChange @ UserStatusChange(uId, typ) =>
     log.info(s"User status change => [$userStatusChange]")
-    WebSocketService.changeOnline(uId, typ)
+    wsService.changeOnline(uId, typ)
   }
 }

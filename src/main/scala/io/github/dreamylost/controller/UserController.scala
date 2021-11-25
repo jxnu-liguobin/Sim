@@ -369,7 +369,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     //用户信息
     val user = userService.findUserById(userId)
     val data = FriendAndGroupInfo(
-      mine = user.copy(status = "online"),
+      mine = user.copy(status = "online"), // 怎么区分主动刷新？这样如果主动刷新会将隐式重置为在线
       friend = userService.findFriendGroupsById(userId).asScala.toList,
       group = userService.findGroupsById(userId).asScala.toList
     )

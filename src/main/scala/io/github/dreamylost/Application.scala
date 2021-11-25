@@ -20,12 +20,10 @@ class Config
 object Application extends SpringBootServletInitializer {
 
   @BeanProperty
-  var applicationContext: ApplicationContext = null
+  var applicationContext: ApplicationContext = _
 
   def main(args: Array[String]): Unit =
-    applicationContext = {
-      SpringApplication.run(classOf[Config])
-    }
+    applicationContext = SpringApplication.run(classOf[Config])
 
   override protected def configure(builder: SpringApplicationBuilder): SpringApplicationBuilder =
     builder.sources(Application)

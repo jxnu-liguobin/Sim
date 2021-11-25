@@ -10,8 +10,7 @@ import org.springframework.context.ApplicationContext
 
 import scala.beans.BeanProperty
 
-/**
-  * IDEA添加 vm参数 -Dspring.output.ansi.enabled=ALWAYS  打印彩色控制台
+/** IDEA添加 vm参数 -Dspring.output.ansi.enabled=ALWAYS  打印彩色控制台
   */
 @SpringBootApplication
 @EntityScan(Array("io.github.dreamylost.model"))

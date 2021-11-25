@@ -2,18 +2,16 @@ package io.github.dreamylost.util
 
 import javax.servlet.http.HttpServletRequest
 
-/**
-  * web工具
+/** web工具
   *
- * @since 2018年9月8日
+  * @since 2018年9月8日
   * @author 梦境迷离
   */
 object WebUtil {
 
-  /**
-    * 获取服务器IP
+  /** 获取服务器IP
     *
-   * @param request
+    * @param request
     * @return String
     */
   def getServerIpAdder(request: HttpServletRequest): String = {
@@ -22,10 +20,9 @@ object WebUtil {
     else addr + ":" + request.getServerPort
   }
 
-  /**
-    * 获取客户端真实IP
+  /** 获取客户端真实IP
     *
-   * @param request
+    * @param request
     * @return String
     */
   def getClientIpAddr(request: HttpServletRequest): String = {

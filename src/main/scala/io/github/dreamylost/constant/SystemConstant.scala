@@ -1,7 +1,6 @@
 package io.github.dreamylost.constant
 
-/**
-  * 系统常量
+/** 系统常量
   */
 object SystemConstant {
 

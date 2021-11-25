@@ -10,18 +10,16 @@ import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 
-/**
-  * swagger2
+/** swagger2
   *
- * @author 梦境迷离
+  * @author 梦境迷离
   * @since 2018-10-08
   */
 @Configuration
 @EnableSwagger2
 class Swagger2Config {
 
-  /**
-    * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
+  /** swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
     */
   @Bean
   def createRestApi(): Docket =
@@ -34,7 +32,7 @@ class Swagger2Config {
 
   private lazy val apiInfo: () => ApiInfo = () =>
     new ApiInfoBuilder()
-    // 页面标题
+      // 页面标题
       .title("LayIM")
       // 创建人
       .description("梦境迷离：https://github.com/jxnu-liguobin")

@@ -5,10 +5,9 @@ import akka.actor.ActorLogging
 import io.github.dreamylost.websocket.WebSocketService
 import io.github.dreamylost.websocket.actor.ActorMessage.OnlineUserMessage
 
-/**
-  * 定时获取在线用户数
+/** 定时获取在线用户数
   *
- * @author 梦境迷离
+  * @author 梦境迷离
   * @since 2020-01-27
   * @version v1.0
   */

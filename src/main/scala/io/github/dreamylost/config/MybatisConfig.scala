@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Configuration
 
 import java.util.Properties
 
-/**
-  * Mybatis的分页插件
+/** Mybatis的分页插件
   *
- * @since 2018年9月8日
+  * @since 2018年9月8日
   * @author 梦境迷离
   */
 @Configuration

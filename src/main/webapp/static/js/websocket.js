@@ -333,7 +333,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
 
             var friend_id = othis.parent().attr('data-id');
             $.getJSON('/user/findUser?id=' + friend_id.substring(12), function (res) {
-                if (0 == res.code) {
+                if (0 === res.code) {
                     var index = layer.open({
                         type: 1,
                         skin: 'layui-layer-rim', //加上边框

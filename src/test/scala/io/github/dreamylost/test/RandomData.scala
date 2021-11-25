@@ -36,10 +36,9 @@ object RandomData {
 //
 //  }
 
-  /**
-    * 随机生成电话号码
+  /** 随机生成电话号码
     *
-   * @return 电话号码
+    * @return 电话号码
     */
   def getTel(): String = {
     val index = getNum(0, teleFirst.length - 1)
@@ -49,10 +48,9 @@ object RandomData {
     first + second + third + email_suffix(new Random().nextInt(email_suffix.length - 1))
   }
 
-  /**
-    * 随机生成中文名字
+  /** 随机生成中文名字
     *
-   * @return 中文名
+    * @return 中文名
     */
   def getChineseName(): String = {
     var index = getNum(0, firstName.length() - 1)
@@ -75,10 +73,9 @@ object RandomData {
     first + second + third
   }
 
-  /**
-    * 获取范围内的随机数字
+  /** 获取范围内的随机数字
     *
-   * @param start
+    * @param start
     * @param end
     * @return 随机数
     */
@@ -86,10 +83,9 @@ object RandomData {
     (Math.random() * (end - start + 1) + start).toInt
   }
 
-  /**
-    * 随机生成时间
+  /** 随机生成时间
     *
-   * @return 时间
+    * @return 时间
     */
   def getDate(): String = {
     val rand = new Random()

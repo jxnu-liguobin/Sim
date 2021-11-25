@@ -19,10 +19,9 @@ import java.util
 import java.util.concurrent.ConcurrentHashMap
 import scala.collection.JavaConverters._
 
-/**
-  * WebSocket 单例
+/** WebSocket 单例
   *
- * @since 2020年01月23日
+  * @since 2020年01月23日
   * @author 梦境迷离
   * @version 1.2
   */
@@ -36,10 +35,9 @@ object WebSocketService {
 
   private lazy final val gson: Gson = new Gson
 
-  /**
-    * 发送消息
+  /** 发送消息
     *
-   * @param message
+    * @param message
     */
   def sendMessage(message: Message): Unit =
     synchronized {
@@ -47,7 +45,7 @@ object WebSocketService {
       //封装返回消息格式
       val gid = message.to.id
       val receive = WebSocketService.getReceive(message)
-      val key: Integer = message.to.id
+      val key = message.to.id
       val strMsg = () => {
         gson.toJson(receive)
       }
@@ -85,10 +83,9 @@ object WebSocketService {
       }
     }
 
-  /**
-    * 同意添加成员
+  /** 同意添加成员
     *
-   * @param msg
+    * @param msg
     */
   def agreeAddGroup(msg: Message): Unit = {
     LOGGER.debug(s"同意入群消息 => [msg = $msg]")
@@ -96,10 +93,9 @@ object WebSocketService {
     userService.addGroupMember(agree.groupId, agree.toUid, agree.messageBoxId)
   }
 
-  /**
-    * 拒绝添加群
+  /** 拒绝添加群
     *
-   * @param msg
+    * @param msg
     */
   def refuseAddGroup(msg: Message): Unit = {
     LOGGER.debug(s"拒绝入群消息 => [msg = $msg]")
@@ -107,10 +103,9 @@ object WebSocketService {
     userService.updateAddMessage(refuse.messageBoxId, 2)
   }
 
-  /**
-    * 通知对方删除好友
+  /** 通知对方删除好友
     *
-   * @param uId      我的id
+    * @param uId      我的id
     * @param friendId 对方Id
     */
   def removeFriend(uId: Integer, friendId: Integer) =
@@ -125,10 +120,9 @@ object WebSocketService {
       }
     }
 
-  /**
-    * 添加群组
+  /** 添加群组
     *
-   * @param uId
+    * @param uId
     * @param message
     */
   def addGroup(uId: Integer, message: Message): Unit =
@@ -154,10 +148,9 @@ object WebSocketService {
       }
     }
 
-  /**
-    * 添加好友
+  /** 添加好友
     *
-   * @param uId
+    * @param uId
     * @param message
     */
   def addFriend(uId: Int, message: Message): Unit =
@@ -182,10 +175,9 @@ object WebSocketService {
       }
     }
 
-  /**
-    * 统计离线消息数量
+  /** 统计离线消息数量
     *
-   * @param uId
+    * @param uId
     * @return HashMap[String, String]
     */
   def countUnHandMessage(uId: Int): util.HashMap[String, String] =
@@ -199,10 +191,9 @@ object WebSocketService {
       result
     }
 
-  /**
-    * 检测某个用户的离线或者在线
+  /** 检测某个用户的离线或者在线
     *
-   * @param message
+    * @param message
     * @return HashMap[String, String]
     */
   def checkOnline(message: Message, actorRef: ActorRef): util.HashMap[String, String] =
@@ -216,10 +207,9 @@ object WebSocketService {
       result
     }
 
-  /**
-    * 发送消息
+  /** 发送消息
     *
-   * @param message
+    * @param message
     * @param actorRef
     */
   def sendMessage(message: String, actorRef: ActorRef): Unit =
@@ -227,10 +217,9 @@ object WebSocketService {
       actorRef ! message
     }
 
-  /**
-    * 封装返回消息格式
+  /** 封装返回消息格式
     *
-   * @param message
+    * @param message
     * @return Receive
     */
   private def getReceive(message: Message): Receive = {
@@ -251,10 +240,9 @@ object WebSocketService {
     )
   }
 
-  /**
-    * 用户在线切换状态
+  /** 用户在线切换状态
     *
-   * @param uId    用户id
+    * @param uId    用户id
     * @param status 状态
     */
   def changeOnline(uId: Integer, status: String): Boolean =
@@ -265,10 +253,9 @@ object WebSocketService {
       userService.updateUserStatus(User(uId, status))
     }
 
-  /**
-    * 已读，先简单实现，打开对话框时，与该好友的所有信息置为已读
+  /** 已读，先简单实现，打开对话框时，与该好友的所有信息置为已读
     *
-   * @param message
+    * @param message
     */
   def readOfflineMessage(message: Message): Unit = {
     synchronized {

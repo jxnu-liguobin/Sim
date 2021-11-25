@@ -13,19 +13,16 @@ import org.apache.ibatis.annotations._
 
 import java.util
 
-/**
-  * User Dao
+/** User Dao
   *
- * @since 2018年9月8日
+  * @since 2018年9月8日
   * @author 梦境迷离
-  *
- */
+  */
 trait UserRepository {
 
-  /**
-    * 创建群
+  /** 创建群
     *
-   * @param groupList 群组对象
+    * @param groupList 群组对象
     * @return Int
     */
   @Insert(
@@ -42,39 +39,35 @@ trait UserRepository {
   )
   def createGroupList(groupList: GroupList): Int
 
-  /**
-    * 删除群
+  /** 删除群
     *
-   * @param id 群id
+    * @param id 群id
     * @return
     */
   @Delete(Array("delete from t_group where id = #{id}"))
   def deleteGroup(id: Int): Int
 
-  /**
-    * 退出群
+  /** 退出群
     *
-   * @param groupMember 群成员对象
+    * @param groupMember 群成员对象
     * @see GroupMember.scala
     * @return Int
     */
   @Delete(Array("delete from t_group_members where gid=#{gid} and uid=#{uid}"))
   def leaveOutGroup(groupMember: GroupMember): Int
 
-  /**
-    * 添加群成员
+  /** 添加群成员
     *
-   * @param groupMember 群成员对象
+    * @param groupMember 群成员对象
     * @see GroupMember.scala
     * @return Int
     */
   @Insert(Array("insert into t_group_members(gid,uid) values(#{gid},#{uid})"))
   def addGroupMember(groupMember: GroupMember): Int
 
-  /**
-    * 删除好友
+  /** 删除好友
     *
-   * @param friendId 好友Id
+    * @param friendId 好友Id
     * @param uId      个人Id
     * @return Int
     */
@@ -85,20 +78,18 @@ trait UserRepository {
   )
   def removeFriend(@Param("friendId") friendId: Int, @Param("uId") uId: Int): Int
 
-  /**
-    * 更新用户头像
+  /** 更新用户头像
     *
-   * @param userId 用户id
+    * @param userId 用户id
     * @param avatar 用户头像
     * @return Int
     */
   @Update(Array("update t_user set avatar=#{avatar} where id=#{userId}"))
   def updateAvatar(@Param("userId") userId: Int, @Param("avatar") avatar: String): Int
 
-  /**
-    * 移动好友分组
+  /** 移动好友分组
     *
-   * @param groupId 新的分组id
+    * @param groupId 新的分组id
     * @param uId     被移动的好友id
     * @param mId     我的id
     * @return Int
@@ -114,10 +105,9 @@ trait UserRepository {
       @Param("mId") mId: Int
   ): Int
 
-  /**
-    * 添加好友操作
+  /** 添加好友操作
     *
-   * @param addFriends 添加朋友对象
+    * @param addFriends 添加朋友对象
     * @see AddFriends.scala
     * @return Int
     */
@@ -126,10 +116,9 @@ trait UserRepository {
   )
   def addFriend(addFriends: AddFriends): Int
 
-  /**
-    * 统计未处理的消息
+  /** 统计未处理的消息
     *
-   * @param uid
+    * @param uid
     * @param agree
     * @return Int
     */
@@ -140,10 +129,9 @@ trait UserRepository {
   )
   def countUnHandMessage(@Param("uid") uid: Int, @Param("agree") agree: Integer): Int
 
-  /**
-    * 查询添加好友、群组信息
+  /** 查询添加好友、群组信息
     *
-   * @param uid
+    * @param uid
     * @return List[AddInfo]
     */
   @Select(Array("select * from t_add_message where to_uid = #{uid} order by time desc"))
@@ -157,20 +145,18 @@ trait UserRepository {
   )
   def findAddInfo(@Param("uid") uid: Int): util.List[AddInfo]
 
-  /**
-    * 更新好友、群组信息请求
+  /** 更新好友、群组信息请求
     *
-   * @param addMessage 添加好友、群组信息对象
+    * @param addMessage 添加好友、群组信息对象
     * @see AddMessage.scala
     * @return Int
     */
   @Update(Array("update t_add_message set agree = #{agree} where id = #{id}"))
   def updateAddMessage(addMessage: AddMessage): Int
 
-  /**
-    * 置为已读
+  /** 置为已读
     *
-   * @param mine 我的id
+    * @param mine 我的id
     * @param to   对方的id
     * @param typ  对方的id
     * @return Int
@@ -180,11 +166,10 @@ trait UserRepository {
   )
   def readMessage(@Param("mine") mine: Int, @Param("to") to: Int, @Param("typ") typ: String): Int
 
-  /**
-    * 添加好友、群组信息请求
+  /** 添加好友、群组信息请求
     * ON DUPLICATE KEY UPDATE 首先这个语法的目的是为了解决重复性，当数据库中存在某个记录时，执行这条语句会更新它，而不存在这条记录时，会插入它。
     *
-   * @param addMessage 添加好友、群组信息对象
+    * @param addMessage 添加好友、群组信息对象
     * @see AddMessage.scala
     * @return Int
     */
@@ -195,10 +180,9 @@ trait UserRepository {
   )
   def saveAddMessage(addMessage: AddMessage): Int
 
-  /**
-    * 根据群名模糊统计
+  /** 根据群名模糊统计
     *
-   * @param groupName 群组名
+    * @param groupName 群组名
     * @return Int
     */
   @Select(
@@ -208,10 +192,9 @@ trait UserRepository {
   )
   def countGroup(@Param("groupName") groupName: String): Int
 
-  /**
-    * 根据群名模糊查询群
+  /** 根据群名模糊查询群
     *
-   * @param groupName 群组名
+    * @param groupName 群组名
     * @return Int
     */
   @Select(
@@ -221,19 +204,17 @@ trait UserRepository {
   )
   def findGroup(@Param("groupName") groupName: String): util.List[GroupList]
 
-  /**
-    * 根据群id查询群信息
+  /** 根据群id查询群信息
     *
-   * @param gid 群组id
+    * @param gid 群组id
     * @return GroupList
     */
   @Select(Array("select id,group_name,avatar,create_id from t_group where id = #{gid}"))
   def findGroupById(@Param("gid") gid: Int): GroupList
 
-  /**
-    * 根据用户名和性别统计用户
+  /** 根据用户名和性别统计用户
     *
-   * @param username 用户名
+    * @param username 用户名
     * @param sex      性别
     * @return Int
     */
@@ -244,10 +225,9 @@ trait UserRepository {
   )
   def countUser(@Param("username") username: String, @Param("sex") sex: Integer): Int
 
-  /**
-    * 根据用户名和性别查询用户
+  /** 根据用户名和性别查询用户
     *
-   * @param username 用户名
+    * @param username 用户名
     * @param sex      性别
     * @return List[User]
     */
@@ -258,10 +238,9 @@ trait UserRepository {
   )
   def findUsers(@Param("username") username: String, @Param("sex") sex: Integer): util.List[User]
 
-  /**
-    * 统计查询消息
+  /** 统计查询消息
     *
-   * @param uid  消息所属用户
+    * @param uid  消息所属用户
     * @param mid  来自哪个用户
     * @param Type 消息类型，可能来自friend或者group
     * @return Int
@@ -278,10 +257,9 @@ trait UserRepository {
       @Param("type") `type`: String
   ): Int
 
-  /**
-    * 查询消息
+  /** 查询消息
     *
-   * @param uid  消息所属用户
+    * @param uid  消息所属用户
     * @param mid  来自哪个用户
     * @param Type 消息类型，可能来自friend或者group
     * @return List[Receive]
@@ -299,10 +277,9 @@ trait UserRepository {
       @Param("type") `type`: String
   ): util.List[Receive]
 
-  /**
-    * 查询消息
+  /** 查询消息
     *
-   * @param uid
+    * @param uid
     * @param status 历史消息还是离线消息 0代表离线 1表示已读
     * @return List[Receive]
     */
@@ -314,10 +291,9 @@ trait UserRepository {
   )
   def findOffLineMessage(@Param("uid") uid: Int, @Param("status") status: Int): util.List[Receive]
 
-  /**
-    * 保存用户聊天记录
+  /** 保存用户聊天记录
     *
-   * @param receive 聊天记录信息
+    * @param receive 聊天记录信息
     * @see Receive.scala
     * @return Int
     */
@@ -328,20 +304,18 @@ trait UserRepository {
   )
   def saveMessage(receive: Receive): Int
 
-  /**
-    * 更新签名
+  /** 更新签名
     *
-   * @param sign 签名
+    * @param sign 签名
     * @param uid  用户id
     * @return Int
     */
   @Update(Array("update t_user set sign = #{sign} where id = #{uid}"))
   def updateSign(@Param("sign") sign: String, @Param("uid") uid: Int): Int
 
-  /**
-    * 更新用户信息
+  /** 更新用户信息
     *
-   * @param user 用户
+    * @param user 用户
     * @return Int
     */
   @Update(
@@ -351,10 +325,9 @@ trait UserRepository {
   )
   def updateUserInfo(user: User): Int
 
-  /**
-    * 更新用户状态
+  /** 更新用户状态
     *
-   * @param user 用户
+    * @param user 用户
     * @return Int
     */
   @Update(
@@ -364,19 +337,17 @@ trait UserRepository {
   )
   def updateUserStatus(user: User): Int
 
-  /**
-    * 激活用户账号
+  /** 激活用户账号
     *
-   * @param activeCode 激活码
+    * @param activeCode 激活码
     * @return List[User]
     */
   @Update(Array("update t_user set status = 'offline' where active = #{activeCode}"))
   def activeUser(@Param("activeCode") activeCode: String): Int
 
-  /**
-    * 根据群组ID查询群里用户的信息
+  /** 根据群组ID查询群里用户的信息
     *
-   * @param gid 群组id
+    * @param gid 群组id
     * @return List[User]
     */
   @Select(
@@ -386,10 +357,9 @@ trait UserRepository {
   )
   def findUserByGroupId(gid: Int): util.List[User]
 
-  /**
-    * 根据ID查询用户信息
+  /** 根据ID查询用户信息
     *
-   * @param id 用户id
+    * @param id 用户id
     * @return User
     */
   @Select(
@@ -399,10 +369,9 @@ trait UserRepository {
   )
   def findUserById(id: Int): User
 
-  /**
-    * 根据ID查询用户群组列表，不管是自己创建的还是别人创建的
+  /** 根据ID查询用户群组列表，不管是自己创建的还是别人创建的
     *
-   * @param uid 用户ID
+    * @param uid 用户ID
     * @return List[GroupList]
     */
   @Results(value = Array(new Result(property = "createId", column = "create_id")))
@@ -413,19 +382,17 @@ trait UserRepository {
   )
   def findGroupsById(uid: Int): util.List[GroupList]
 
-  /**
-    * 根据ID查询该用户的好友分组的列表
+  /** 根据ID查询该用户的好友分组的列表
     *
-   * @param uid 用户ID
+    * @param uid 用户ID
     * @return List[FriendList]
     */
   @Select(Array("select id, group_name from t_friend_group where uid = #{uid}"))
   def findFriendGroupsById(uid: Int): util.List[FriendList]
 
-  /**
-    * 根据好友列表ID查询用户信息列表
+  /** 根据好友列表ID查询用户信息列表
     *
-   * @param fgid 好友分组id
+    * @param fgid 好友分组id
     * @return List[User]
     */
   @Select(
@@ -435,10 +402,9 @@ trait UserRepository {
   )
   def findUsersByFriendGroupIds(fgid: Int): util.List[User]
 
-  /**
-    * 保存用户信息
+  /** 保存用户信息
     *
-   * @param user 用户对象
+    * @param user 用户对象
     * @see User.scala
     * @return Int 新增用户id
     */
@@ -450,10 +416,9 @@ trait UserRepository {
   @Options(useGeneratedKeys = true, keyProperty = "id")
   def saveUser(user: User): Int = user.id
 
-  /**
-    * 根据邮箱匹配用户
+  /** 根据邮箱匹配用户
     *
-   * @param email 邮箱
+    * @param email 邮箱
     * @return User
     */
   @Select(
@@ -463,10 +428,9 @@ trait UserRepository {
   )
   def matchUser(email: String): User
 
-  /**
-    * 创建好友分组记录
+  /** 创建好友分组记录
     *
-   * @param friendGroup 好友分组
+    * @param friendGroup 好友分组
     * @return Int
     */
   @Insert(Array("insert into t_friend_group(group_name,uid) values(#{groupname},#{uid})"))

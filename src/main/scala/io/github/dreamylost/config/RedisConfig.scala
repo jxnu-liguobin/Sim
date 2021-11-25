@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
 import redis.clients.jedis.JedisPoolConfig
 
-/**
-  * redis连接配置
+/** redis连接配置
   *
- * @date 2018年9月8日
+  * @date 2018年9月8日
   * @author 梦境迷离
   */
 @Configuration
@@ -46,10 +45,9 @@ class RedisConfig {
   @Value("${spring.redis.pool.max-wait}")
   private var maxWait: Int = _
 
-  /**
-    * Jedis数据源配置
+  /** Jedis数据源配置
     *
-   * @return JedisPoolConfig
+    * @return JedisPoolConfig
     */
   @Bean
   def jedisPoolConfig(): JedisPoolConfig = {
@@ -61,10 +59,9 @@ class RedisConfig {
     jedisPoolConfig
   }
 
-  /**
-    * Jedis数据连接工厂
+  /** Jedis数据连接工厂
     *
-   * @return JedisConnectionFactory
+    * @return JedisConnectionFactory
     */
   @Bean
   def redisConnectionFactory(poolConfig: JedisPoolConfig): JedisConnectionFactory = {

@@ -91,7 +91,7 @@ layui.use([ 'element', 'jquery', 'layer', 'form', 'upload', 'flow'],function() {
                     params += "&createId=" + createId;
                 }
                 $.get('/user/findMyGroups?' + params , function(res){
-                    res = eval("(" + res + ")");
+                    // res = eval("(" + res + ")");
                     layui.each(res.data, function(index, item){
                         var img = '<img style="width: 40px; height: 40px; border-radius: 100%;" src ="' + item.avatar + '"/>';
                         var cite = '<cite style="display: block;padding-top:10px; font-size: 14px;">' + item.groupname + '</cite>';
@@ -119,7 +119,7 @@ layui.use([ 'element', 'jquery', 'layer', 'form', 'upload', 'flow'],function() {
                     params += "&name=" + name;
                 }
                 $.get('/user/findUsers?' + params + '&page='+page, function(res){
-                    res = eval("(" + res + ")");
+                    // res = eval("(" + res + ")");
                     layui.each(res.data, function(index, item){
                         var img = '<img style="width: 40px; height: 40px; border-radius: 100%;" src ="' + item.avatar + '"/>';
                         var cite = '<cite style="display: block;padding-top:10px; font-size: 14px;">' + item.username + '</cite>';
@@ -146,7 +146,7 @@ layui.use([ 'element', 'jquery', 'layer', 'form', 'upload', 'flow'],function() {
                     params += "&name=" + name;
                 }
                 $.get('/user/findGroups?' + params , function(res){
-                    res = eval("(" + res + ")");
+                    // res = eval("(" + res + ")");
                     layui.each(res.data, function(index, item){
                         var img = '<img style="width: 40px; height: 40px; border-radius: 100%;" src ="' + item.avatar + '"/>';
                         var cite = '<cite style="display: block;padding-top:10px; font-size: 14px;">' + item.groupname + '</cite>';

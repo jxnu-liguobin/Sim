@@ -1,24 +1,20 @@
 package io.github.dreamylost.model
 
-import io.github.dreamylost.model.domain.Group
 import io.github.dreamylost.model.domain.Mine
 import io.github.dreamylost.model.domain.To
 
 import java.util.Date
 import scala.beans.BeanProperty
 
-/**
-  *
- * @author 梦境迷离
+/** @author 梦境迷离
   * @since 2021/11/21
   * @version 1.0
   */
 object entity {
 
-  /**
-    * 用户
+  /** 用户
     *
-   * @see table:t_user
+    * @see table:t_user
     * @param id
     * @param username   用户名
     * @param password   密码
@@ -76,10 +72,9 @@ object entity {
       )
   }
 
-  /**
-    * 添加消息
+  /** 添加消息
     *
-   * @see table:t_add_message
+    * @see table:t_add_message
     * @param id
     * @param fromUid 谁发起的请求
     * @param toUid   发送给谁的申请,可能是群，那么就是创建该群组的用户
@@ -127,13 +122,12 @@ object entity {
         `type`: Int,
         time: Date
     ): AddMessage =
-      AddMessage(fromUid = 0, toUid = 0, groupId = 0, remark = null, `type` = 0, time = null)
+      AddMessage(0, fromUid, toUid, groupId, remark, `type`, 0, time)
   }
 
-  /**
-    * 用户创建的好友列表
+  /** 用户创建的好友列表
     *
-   * @see table:t_friend_group
+    * @see table:t_friend_group
     * @param uid       用户id，该分组所属的用户ID
     * @param groupname 群组名称
     */
@@ -143,10 +137,9 @@ object entity {
     }
   }
 
-  /**
-    * 群组信息
+  /** 群组信息
     *
-   * @see table:t_group
+    * @see table:t_group
     * @param id        群组id
     * @param groupname 群组名称
     * @param avatar    头像
@@ -164,10 +157,9 @@ object entity {
 
   }
 
-  /**
-    * 群组成员
+  /** 群组成员
     *
-   * @see table:t_group_members
+    * @see table:t_group_members
     * @param gid 群组编号
     * @param uid 用户编号
     */
@@ -177,10 +169,9 @@ object entity {
     }
   }
 
-  /**
-    * 消息
+  /** 消息
     *
-   * @see table:t_message
+    * @see table:t_message
     * @param `type` 随便定义，用于在服务端区分消息类型
     * @param mine 我的信息
     * @param to   对方信息

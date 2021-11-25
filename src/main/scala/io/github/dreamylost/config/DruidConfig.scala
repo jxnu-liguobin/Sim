@@ -9,19 +9,17 @@ import org.springframework.context.annotation.Configuration
 
 import scala.collection.JavaConverters._
 
-/**
-  * Alibaba Druid数据源配置
+/** Alibaba Druid数据源配置
   *
- * @since 2018年9月8日
+  * @since 2018年9月8日
   * @author 梦境迷离
   */
 @Configuration
 class DruidConfig {
 
-  /**
-    * druid配置访问路径和用户名密码
+  /** druid配置访问路径和用户名密码
     *
-   * @return ServletRegistrationBean
+    * @return ServletRegistrationBean
     */
   @Bean
   def statViewServlet(): ServletRegistrationBean = {
@@ -38,10 +36,9 @@ class DruidConfig {
     druid
   }
 
-  /**
-    * 拦截器配置
+  /** 拦截器配置
     *
-   * @return FilterRegistrationBean
+    * @return FilterRegistrationBean
     */
   @Bean
   def webStatFilter(): FilterRegistrationBean = {

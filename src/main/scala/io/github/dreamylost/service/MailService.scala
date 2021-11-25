@@ -13,13 +13,11 @@ import org.springframework.stereotype.Service
 import java.io.File
 import javax.mail.MessagingException
 
-/**
-  * 邮件发送相关服务
+/** 邮件发送相关服务
   *
- * @date 2018年9月9日
+  * @date 2018年9月9日
   * @author 梦境迷离
-  *
- */
+  */
 @Service
 class MailService @Autowired() (sender: JavaMailSender) {
 
@@ -28,10 +26,9 @@ class MailService @Autowired() (sender: JavaMailSender) {
   @Value("${spring.mail.username}")
   private var username: String = _
 
-  /**
-    * 发送纯文本的简单邮件
+  /** 发送纯文本的简单邮件
     *
-   * @param to      邮件接收者
+    * @param to      邮件接收者
     * @param subject 主题
     * @param content 内容
     */
@@ -51,10 +48,9 @@ class MailService @Autowired() (sender: JavaMailSender) {
     }
   }
 
-  /**
-    * 发送html格式的邮件
+  /** 发送html格式的邮件
     *
-   * @param to      邮件接收者
+    * @param to      邮件接收者
     * @param subject 主题
     * @param content 内容
     */
@@ -75,10 +71,9 @@ class MailService @Autowired() (sender: JavaMailSender) {
     }
   }
 
-  /**
-    * 发送带附件的邮件
+  /** 发送带附件的邮件
     *
-   * @param to       邮件接收者
+    * @param to       邮件接收者
     * @param subject  主题
     * @param content  内容
     * @param filePath 附件路径
@@ -103,10 +98,9 @@ class MailService @Autowired() (sender: JavaMailSender) {
     }
   }
 
-  /**
-    * 发送嵌入静态资源（一般是图片）的邮件
+  /** 发送嵌入静态资源（一般是图片）的邮件
     *
-   * @param to      邮件接收者
+    * @param to      邮件接收者
     * @param subject 主题
     * @param content 邮件内容，需要包括一个静态资源的id，比如：<img src=\"cid:rscId01\" >
     * @param rscPath 静态资源路径和文件名

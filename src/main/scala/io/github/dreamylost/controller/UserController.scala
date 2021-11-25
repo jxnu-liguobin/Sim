@@ -28,10 +28,9 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import scala.collection.JavaConverters._
 
-/**
-  * 用户接口
+/** 用户接口
   *
- * @date 2018年9月9日
+  * @since 2018年9月9日
   * @author 梦境迷离
   */
 @Controller
@@ -41,10 +40,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
 
   private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserController])
 
-  /**
-    * 退出群
+  /** 退出群
     *
-   * @param groupId 群编号
+    * @param groupId 群编号
     * @param request
     * @return String
     */
@@ -61,10 +59,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.LEAVEOUT_GROUP_ERROR)
   }
 
-  /**
-    * 删除好友
+  /** 删除好友
     *
-   * @param friendId
+    * @param friendId
     * @return String
     */
   @ResponseBody
@@ -78,10 +75,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultSet(result)
   }
 
-  /**
-    * 移动好友分组
+  /** 移动好友分组
     *
-   * @param groupId 新的分组id
+    * @param groupId 新的分组id
     * @param userId  被移动的好友id
     * @param request
     * @return String
@@ -99,10 +95,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.ERROR_MESSAGE)
   }
 
-  /**
-    * 拒绝添加好友
+  /** 拒绝添加好友
     *
-   * @param request
+    * @param request
     * @param messageBoxId 消息盒子的消息id
     * @return String
     */
@@ -116,10 +111,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultSet(result)
   }
 
-  /**
-    * 同意添加好友
+  /** 同意添加好友
     *
-   * @param uid          对方用户ID
+    * @param uid          对方用户ID
     * @param fromGroup    对方设定的好友分组
     * @param group        我设定的好友分组
     * @param messageBoxId 消息盒子的消息id
@@ -141,10 +135,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     else ResultSet(result)
   }
 
-  /**
-    * 查询消息盒子信息
+  /** 查询消息盒子信息
     *
-   * @param uid
+    * @param uid
     * @param page
     * @return String
     */
@@ -160,10 +153,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultPageSet(list, pages)
   }
 
-  /**
-    * 分页查找好友
+  /** 分页查找好友
     *
-   * @param page 第几页
+    * @param page 第几页
     * @param name 好友名字
     * @param sex  性别
     * @return String
@@ -188,10 +180,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultPageSet(users, pages)
   }
 
-  /**
-    * 分页查找群组
+  /** 分页查找群组
     *
-   * @param page 第几页
+    * @param page 第几页
     * @param name 群名称
     * @return String
     */
@@ -213,10 +204,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultPageSet(groups, pages)
   }
 
-  /**
-    * 分页查询我的创建的群组
+  /** 分页查询我的创建的群组
     *
-   * @param page
+    * @param page
     * @param createId
     * @return
     */
@@ -244,10 +234,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     result.copy(pages = pages)
   }
 
-  /**
-    * 获取聊天记录
+  /** 获取聊天记录
     *
-   * @param id   与谁的聊天记录id
+    * @param id   与谁的聊天记录id
     * @param `type` 类型，可能是friend或者是group
     * @return String
     */
@@ -266,10 +255,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultSet(historys)
   }
 
-  /**
-    * 弹出聊天记录页面
+  /** 弹出聊天记录页面
     *
-   * @param id   与谁的聊天记录id
+    * @param id   与谁的聊天记录id
     * @param `type` 类型，可能是friend或者是group
     * @return String
     */
@@ -290,10 +278,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     "chatLog"
   }
 
-  /**
-    * 获取离线消息
+  /** 获取离线消息
     *
-   * @return String
+    * @return String
     */
   @ResponseBody
   @PostMapping(Array("/getOffLineMessage"))
@@ -307,10 +294,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultSet(users)
   }
 
-  /**
-    * 更新签名
+  /** 更新签名
     *
-   * @param sign
+    * @param sign
     * @return String
     */
   @ResponseBody
@@ -321,13 +307,11 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.ERROR_MESSAGE)
   }
 
-  /**
-    * 激活
+  /** 激活
     *
-   * @param activeCode
+    * @param activeCode
     * @return String
-    *
-   */
+    */
   @GetMapping(Array("/active/{activeCode}"))
   def activeUser(@PathVariable("activeCode") activeCode: String): String = {
     if (userService.activeUser(activeCode) == 1)
@@ -336,10 +320,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     //http://localhost/user/active/1ade893a1b1940a5bb8dc8447538a6a6a18ad80bcf84437a8cfb67213337202d
   }
 
-  /**
-    * 注册
+  /** 注册
     *
-   * @param user
+    * @param user
     * @return String
     */
   @ResponseBody
@@ -350,10 +333,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.REGISTER_FAIL)
   }
 
-  /**
-    * 登录
+  /** 登录
     *
-   * @param user
+    * @param user
     * @return String
     */
   @ResponseBody
@@ -378,10 +360,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     }
   }
 
-  /**
-    * 初始化主界面数据
+  /** 初始化主界面数据
     *
-   * @param userId
+    * @param userId
     * @return String
     */
   @ResponseBody
@@ -398,24 +379,22 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultSet(data)
   }
 
-  /**
-    * 获取群成员
+  /** 获取群成员
     *
-   * @param id
+    * @param id
     * @return String
     */
   @ResponseBody
   @GetMapping(Array("/getMembers"))
   def getMembers(@RequestParam("id") id: Int): ResultSet = {
     val users = userService.findUserByGroupId(id)
-    val friends = FriendList(id = 0, groupname = null, list = users.asScala.toList)
+    val friends = FriendList(id = 0, groupname = null, list = users)
     ResultSet(friends)
   }
 
-  /**
-    * 客户端上传图片
+  /** 客户端上传图片
     *
-   * @param file
+    * @param file
     * @param request
     * @return String
     */
@@ -438,10 +417,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     }
   }
 
-  /**
-    * 上传群组头像
+  /** 上传群组头像
     *
-   * @param file
+    * @param file
     * @param request
     * @return String
     */
@@ -464,10 +442,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     }
   }
 
-  /**
-    * 用户创建群组
+  /** 用户创建群组
     *
-   * @param groupList 群组
+    * @param groupList 群组
     * @return String
     */
   @PostMapping(Array("/createGroup"))
@@ -483,10 +460,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
   }
 
-  /**
-    * 用户创建好友分组
+  /** 用户创建好友分组
     *
-   * @param friendGroup 好友分组
+    * @param friendGroup 好友分组
     * @return String
     */
   @PostMapping(Array("/createUserGroup"))
@@ -499,10 +475,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_USER_GROUP_SUCCCESS)
   }
 
-  /**
-    * 客户端上传文件
+  /** 客户端上传文件
     *
-   * @param file
+    * @param file
     * @param request
     * @return String
     */
@@ -526,10 +501,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     }
   }
 
-  /**
-    * 用户更新头像
+  /** 用户更新头像
     *
-   * @param avatar
+    * @param avatar
     * @return String
     */
   @ResponseBody
@@ -547,10 +521,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultSet(result)
   }
 
-  /**
-    * 更新信息个人信息
+  /** 更新信息个人信息
     *
-   * @param user
+    * @param user
     * @return String
     */
   @ResponseBody
@@ -584,10 +557,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     }
   }
 
-  /**
-    * 跳转主页
+  /** 跳转主页
     *
-   * @param model
+    * @param model
     * @param request
     * @return String
     */
@@ -599,10 +571,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     "index"
   }
 
-  /**
-    * 根据id查找用户信息
+  /** 根据id查找用户信息
     *
-   * @param id
+    * @param id
     * @return String
     */
   @ResponseBody
@@ -611,10 +582,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     ResultSet(userService.findUserById(id))
   }
 
-  /**
-    * 判断邮件是否存在
+  /** 判断邮件是否存在
     *
-   * @param email
+    * @param email
     * @return String
     */
   @ResponseBody

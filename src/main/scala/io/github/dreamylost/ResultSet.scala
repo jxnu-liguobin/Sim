@@ -2,10 +2,9 @@ package io.github.dreamylost
 
 import io.github.dreamylost.constant.SystemConstant
 
-/**
-  * 结果集
+/** 结果集
   *
- * @param code 状态，0表示成功，其他表示失败
+  * @param code 状态，0表示成功，其他表示失败
   * @param msg 额外信息
   * @since 2021年11月21日
   * @author 梦境迷离

@@ -29,10 +29,9 @@ import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
-/**
-  * 基于 akka stream 和 akka http的 websocket
+/** 基于 akka stream 和 akka http的 websocket
   *
- * @since 2020年01月27日
+  * @since 2020年01月27日
   * @author 梦境迷离
   * @version 1.2
   */
@@ -49,10 +48,9 @@ class WebSocketProvider @Autowired() (redisService: RedisService) {
   //重连是3秒
   system.scheduler.schedule(5000 milliseconds, 10000 milliseconds, jobActor, OnlineUserMessage)
 
-  /**
-    * 处理连接与消息处理
+  /** 处理连接与消息处理
     *
-   * @param uId
+    * @param uId
     * @return
     */
   def openConnection(uId: Integer): Flow[Message, Message, NotUsed] = {
@@ -83,10 +81,9 @@ class WebSocketProvider @Autowired() (redisService: RedisService) {
     Flow.fromSinkAndSource(in, out)
   }
 
-  /**
-    * 关闭websocket
+  /** 关闭websocket
     *
-   * @param id
+    * @param id
     */
   def closeConnection(id: Integer) = {
     wsConnections.asScala.get(id).foreach { ar =>

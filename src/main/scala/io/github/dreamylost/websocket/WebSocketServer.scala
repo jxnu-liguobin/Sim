@@ -15,12 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger
 import scala.concurrent.Future
 import scala.io.StdIn
 
-/**
-  * akka-http websocket server
+/** akka-http websocket server
   *
- * BUG：前端初始化总会抛一个异常
+  * BUG：前端初始化总会抛一个异常
   *
- * @author 梦境迷离
+  * @author 梦境迷离
   * @version 1.0,2020/1/22
   */
 @Component

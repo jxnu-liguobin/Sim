@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** Alibaba Druid数据源配置
   *

@@ -17,6 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -47,7 +48,7 @@ class CacheConfig extends CachingConfigurerSupport {
     val cacheManager = new RedisCacheManager(redisTemplate)
     //设置key-value过期时间
     cacheManager.setDefaultExpiration(timeout)
-    LOGGER.info("初始化Redis缓存管理器完成!")
+    LOGGER.info("Init the CacheManager Finished")
     cacheManager
   }
 
@@ -79,16 +80,18 @@ class CacheConfig extends CachingConfigurerSupport {
   }
 
   private def setSerializer(template: StringRedisTemplate): Unit = {
-    import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
     val objectMapper = new ObjectMapper() with ScalaObjectMapper
     objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false)
     objectMapper.registerModule(DefaultScalaModule)
-     objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.EVERYTHING)
+    objectMapper.activateDefaultTyping(
+      LaissezFaireSubTypeValidator.instance,
+      ObjectMapper.DefaultTyping.EVERYTHING
+    )
 
-    // 必须使用这个序列化Scala+List
+    // 必须使用这个序列化Scala+java.util.List
     val genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer(objectMapper)
     template.setKeySerializer(new StringRedisSerializer())
     template.setDefaultSerializer(genericJackson2JsonRedisSerializer)

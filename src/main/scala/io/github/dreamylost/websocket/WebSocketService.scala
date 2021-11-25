@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory
 
 import java.util
 import java.util.concurrent.ConcurrentHashMap
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** WebSocket 单例
   *

@@ -10,7 +10,7 @@ import redis.clients.jedis.JedisPoolConfig
 
 /** redis连接配置
   *
-  * @date 2018年9月8日
+  * @since 2018年9月8日
   * @author 梦境迷离
   */
 @Configuration

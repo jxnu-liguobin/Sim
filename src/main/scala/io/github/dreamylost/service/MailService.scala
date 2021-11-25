@@ -15,7 +15,7 @@ import javax.mail.MessagingException
 
 /** 邮件发送相关服务
   *
-  * @date 2018年9月9日
+  * @since 2018年9月9日
   * @author 梦境迷离
   */
 @Service
@@ -32,7 +32,7 @@ class MailService @Autowired() (sender: JavaMailSender) {
     * @param subject 主题
     * @param content 内容
     */
-  def sendSimpleMail(to: String, subject: String, content: String) = {
+  def sendSimpleMail(to: String, subject: String, content: String): Unit = {
     val message = new SimpleMailMessage
     message.setFrom(username)
     message.setTo(to)

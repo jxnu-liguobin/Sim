@@ -54,8 +54,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   ): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     val result = userService.leaveOutGroup(groupId, user.id)
-    if (result)
-      ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.SUCCESS_MESSAGE)
+    if (result) ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.SUCCESS_MESSAGE)
     else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.LEAVEOUT_GROUP_ERROR)
   }
 
@@ -107,8 +106,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       @RequestParam("messageBoxId") messageBoxId: Integer,
       request: HttpServletRequest
   ): ResultSet = {
-    val result = userService.updateAddMessage(messageBoxId, 2)
-    ResultSet(result)
+    ResultSet(userService.updateAddMessage(messageBoxId, 2))
   }
 
   /** 同意添加好友
@@ -130,8 +128,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   ): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     val result = userService.addFriend(user.id, group, uid, fromGroup, messageBoxId)
-    if (!result)
-      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.ERROR_ADD_REPETITION)
+    if (!result) ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.ERROR_ADD_REPETITION)
     else ResultSet(result)
   }
 
@@ -251,8 +248,8 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     PageHelper.startPage(page, SystemConstant.SYSTEM_PAGE)
     //查找聊天记录
-    val historys: util.List[ChatHistory] = userService.findHistoryMessage(user, id, `type`)
-    ResultSet(historys)
+    val histories: util.List[ChatHistory] = userService.findHistoryMessage(user, id, `type`)
+    ResultSet(histories)
   }
 
   /** 弹出聊天记录页面
@@ -404,9 +401,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       @RequestParam("file") file: MultipartFile,
       request: HttpServletRequest
   ): ResultSet = {
-    if (file.isEmpty)
+    if (file.isEmpty) {
       ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPLOAD_FAIL)
-    else {
+    } else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.IMAGE_PATH, path, file)
       val result = new util.HashMap[String, String]
@@ -455,9 +452,10 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       return ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
     }
     if (userService.addGroupMember(ret, groupList.createId)) {
-      return ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_GROUP_SUCCCESS)
+      ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_GROUP_SUCCCESS)
+    } else {
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
     }
-    ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
   }
 
   /** 用户创建好友分组
@@ -470,9 +468,10 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def createUserGroup(@RequestBody friendGroup: FriendGroup): ResultSet = {
     val ret = userService.createFriendGroup(friendGroup.groupname, friendGroup.uid)
     if (!ret) {
-      return ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_USER_GROUP_ERROR)
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_USER_GROUP_ERROR)
+    } else {
+      ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_USER_GROUP_SUCCCESS)
     }
-    ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_USER_GROUP_SUCCCESS)
   }
 
   /** 客户端上传文件
@@ -487,9 +486,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       @RequestParam("file") file: MultipartFile,
       request: HttpServletRequest
   ): ResultSet = {
-    if (file.isEmpty)
+    if (file.isEmpty) {
       ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPLOAD_FAIL)
-    else {
+    } else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.FILE_PATH, path, file)
       val result = new util.HashMap[String, String]
@@ -529,9 +528,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   @ResponseBody
   @PostMapping(Array("/updateInfo"))
   def updateAvatar(@RequestBody user: UserVo): ResultSet = {
-    if (user == null)
+    if (user == null) {
       ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPDATE_INFO_FAIL)
-    else {
+    } else {
       val u = userService.findUserById(user.id)
       val sex = if (user.sex.equals("nan")) 1 else 0
       //前台明文传输，有安全问题

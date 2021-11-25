@@ -417,9 +417,9 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     * @return User
     */
   def matchUser(user: User): User = {
-    if (user == null || user.email == null)
+    if (user == null || user.email == null) {
       null
-    else {
+    } else {
       val u: User = userRepository.matchUser(user.email)
       //密码不匹配
       if (u == null || !SecurityUtil.matchs(user.password, u.password)) {
@@ -461,9 +461,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     * @return User
     */
   @Cacheable(value = Array("findUserById"), keyGenerator = "wiselyKeyGenerator")
-  def findUserById(id: Int): User = {
-    userRepository.findUserById(id)
-  }
+  def findUserById(id: Int): User = userRepository.findUserById(id)
 
   /** 根据用户ID查询用户的群组列表
     *
@@ -471,9 +469,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     * @return List[GroupList]
     */
   @Cacheable(value = Array("findGroupsById"), keyGenerator = "wiselyKeyGenerator")
-  def findGroupsById(id: Int): util.List[GroupList] = {
-    userRepository.findGroupsById(id)
-  }
+  def findGroupsById(id: Int): util.List[GroupList] = userRepository.findGroupsById(id)
 
   /** 保存用户信息
     *
@@ -488,8 +484,9 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
   )
   @Transactional
   def saveUser(user: User, request: HttpServletRequest): Boolean = {
-    if (user == null || user.username == null || user.password == null || user.email == null) false
-    else {
+    if (user == null || user.username == null || user.password == null || user.email == null) {
+      false
+    } else {
       //激活码
       val activeCode = UUIDUtil.getUUID64String()
       val userCopy = user.copy(

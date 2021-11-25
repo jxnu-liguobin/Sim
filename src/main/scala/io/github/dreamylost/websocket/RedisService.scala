@@ -7,7 +7,6 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 
 import java.util
-import java.util.Set
 import java.util.concurrent.TimeUnit
 
 /** redis操作
@@ -113,7 +112,7 @@ class RedisService @Autowired() (redisTemplate: RedisTemplate[String, String]) {
     * @param keyParttern
     */
   def removePattern(keyParttern: String): Unit = {
-    val keys: Set[String] = redisTemplate.keys(keyParttern)
+    val keys = redisTemplate.keys(keyParttern)
     if (keys.size() > 0) redisTemplate.delete(keys)
   }
 }

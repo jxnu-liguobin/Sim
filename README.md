@@ -1,119 +1,67 @@
-### 主要技术 
+### 技术栈
 
-* Scala
-* Akka
-* Spring Boot
-* Redis
-* Alibaba Druid
-* Java Mail
-* WebSocket
-* Mybatis And PageHelper
-* Swagger
-* LayIM
+- 开发语言：Scala
+- 平台：JVM
+- 前端：LayIM 3.0
+- MVC：Spring Boot
+- 数据库：Redis、MySQL
+- DAO：Mybatis
+- 分页：PageHelper
+- 连接池：Druid
+- WebSocket：Akka Actor、Akka HTTP
+- 邮件：Java Mail
+- API文档：Swagger
+- 构建工具：Gradle
 
-### 环境 
+### 项目结构
 
-* Scala 2.13.x
-* JDK 1.8
-* Gradle
-* Mysql
-* Redis 
+```
+LayIM
+├─ .gitattributes                                         - Git仓库显示语言的配置
+├─ .gitignore                                             - Git忽略文件的配置
+├─ .scalafmt.conf                                         - Scala代码格式化的配置
+├─ README.md
+├─ build.gradle
+├─ deploy.sh                                              - 部署脚本
+├─ settings.gradle
+└─ src
+       ├─ main
+       │    ├─ resources
+       │    │    ├─ application.conf                      - Websocket配置：基于Akka实现
+       │    │    ├─ application.properties                - Springboot程序配置
+       │    │    ├─ data.sql                              - 初始化数据
+       │    │    ├─ favicon.ico
+       │    │    ├─ layim.png
+       │    │    ├─ mapper                                - mybatis mapper文件
+       │    │    └─ schema.sql                            - 初始化表结构
+       │    ├─ scala
+       │    │    └─ io.github.dreamylost                  - 代码实现   
+       │    └─ webapp
+       │           ├─ WEB-INF                             - 聊天记录和背景页
+       │           ├─ index.html                          - 首页  
+       │           └─ static                              - 静态资源文件
+       └─ test
+```
 
-### 使用 
+### 本地调试 
 
 配置Mysql数据库，Redis以及邮件服务器，如果不需要邮件相关服务，可以在UserService.scala中注释掉相关的代码
 
 1. 创建MySQL库 `websocket`
 2. `schema.sql` 和 `data.sql` 初始化表结构和数据，如需要自己mock数据，参考 `RandomData.scala` 构造
-3. 查看 `application.conf` 默认可不修改
+3. 查看 `application.conf` WebSocket配置
 4. 启动 `Application.scala`
 5. 访问 `http://localhost`
 6. 登录 
-```
-选取t_user表中的任意一条数据，如：
-邮箱 15906184943@sina.com
-密码 123456（所有mock数据都是一个密码）
-激活 将status状态改为 nonactivated（需要激活才能登录，要配置JavaMail）
 
-随机的5个测试账号 密码
-15803194907@yeah.net 123456
-13501161119@263.net 123456
-15104496675@3721.net 123456
-13603931551@gmail.com 123456
-15507700151@hotmail.com 123456
-```
+选取t_user表中的任意一条数据，如：
+邮箱 `15906184943@sina.com`
+密码 `123456`（所有mock数据都是一个密码）
+激活 将`status`状态改为`nonactivated`（需要激活才能登录，要配置JavaMail）
 
 ### 部署
 
-预览 http://im.dreamylost.cn
-
-邮箱：13706055022@googlemail.com
-密码：123456
-
-1. cd LayIM
-2. gradle bootRepackage
-3. java -jar dist/LayIM-1.2.1.jar
-
-### 示例
-
-![基于Akka HTTP的LayIM](https://github.com/jxnu-liguobin/LayIM/blob/v1.2/src/main/resources/layim.png)
-
-### v1.3.0 版本
-
-* 函数式重构
-
-### v1.2.1 版本
-
-* 增加scalafmt格式化
-* 打包并发布
-* 修复建群后不刷新看不到群
-* 修复同一个人的多个加群的消息被覆盖
-* 修复个人资料和查看资料性别显示不同问题
-* 新增修改个人信息时可选择是否修改密码
-* 修复收到消息时没有声音
-* 支持获取离线消息和提醒「打开会话框时将对方发给我的所有消息置为已读」
-* 支持持久化状态，打开会话框时检测对方状态「刷新会导致自己状态被置为在线，因为旧连接被关闭新连接又被打开了」
-* 新增创建好友分组
-* 修复创建群组的表单tips不准问题、支持重置表单
-
-### v1.2 版本
-
-* 简单使用Base64编码支持cookie
-* 实时输出在线用户数量
-* 使用Akka HTTP重构WebSocket通信
-* 升级Scala版本至2.12.8
-
-
-### TODO
-
-1. 使用Playframework、play-ws重构LayIM后端
-2. 使用Akka HTTP重构LayIM后端
-3. 升级LayIM到3.x
-
-### V1.1 版本
-
-* 查询我创建的群接口 
-* 退群接口完善 
-* 创建群组接口 
-* 更新个人信息接口 
-* 加入群组接口 
-* 删除群组接口 
-* 修复分页查询bug 
-* 修复Redis缓存bug 
-* 管理群组接口 【重命名群、修改群信息】 
-* 管理好友列表接口【重命名、删除、新增】
-* 若干前端问题或bug
-* 代码优化
-
-创建新的群，默认将创建者加入群中。退群的操作可能有以下情况：
-
-1. 不允许创建者退群。  √
-2. 允许创建者退群，但在退出时默认删除群。需要重置回话并发送所有提醒给群内人。感觉不太好。
-3. 创建者退群时，将群中创建者【群主】，更改为最早加入者，不影响会话，只需要发送系统提示【群主已变更】。
-4. 群组列表的删除和增加只能通过刷新才能显示最新数据
-
-参考[scalad](https://github.com/scalad/LayIM)，并二次开发，是为1.1版本，还存在许多bug！！
-
-原项目命令式风格很重，改动很多，本次没有进行重构。
-
-包括但不限增加、修改、删除、完善代码等
+```shell
+# 里面的jar包版本号需要改
+bash deploy.sh
+```

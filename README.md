@@ -60,6 +60,8 @@ LayIM
 密码 `123456`（所有mock数据都是一个密码）
 激活 将`status`状态改为`nonactivated`（需要激活才能登录，要配置JavaMail）
 
+> 使用环境参数spring.profiles.active=dev，密码放在application-dev.properties
+
 ### 部署
 
 ```shell

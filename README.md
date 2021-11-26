@@ -17,7 +17,7 @@
 ### 项目结构
 
 ```
-LayIM
+Sim
 ├─ .gitattributes                                         - Git仓库显示语言的配置
 ├─ .gitignore                                             - Git忽略文件的配置
 ├─ .scalafmt.conf                                         - Scala代码格式化的配置
@@ -66,7 +66,7 @@ LayIM
 ### 部署
 
 ```shell
-# 在LayIM目录执行
+# 在Sim目录执行
 # 里面的jar包版本号需要改
 bash deploy.sh
 ```

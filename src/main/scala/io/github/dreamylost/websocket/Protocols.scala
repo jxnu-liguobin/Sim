@@ -1,7 +1,7 @@
 package io.github.dreamylost.websocket
 
 import akka.actor.ActorRef
-import io.github.dreamylost.model.entity.Message
+import io.github.dreamylost.model.entities.Message
 import io.github.dreamylost.util.Jackson
 
 /** @author li.guobin@immomo.com

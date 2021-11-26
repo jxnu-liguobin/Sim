@@ -1,8 +1,8 @@
 package io.github.dreamylost.service
 
 import io.github.dreamylost.constant.SystemConstant
-import io.github.dreamylost.model.domain._
-import io.github.dreamylost.model.entity._
+import io.github.dreamylost.model.domains._
+import io.github.dreamylost.model.entities._
 import io.github.dreamylost.repository.UserRepository
 import io.github.dreamylost.util.DateUtil
 import io.github.dreamylost.util.SecurityUtil

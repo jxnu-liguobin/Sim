@@ -1,43 +1,13 @@
 package io.github.dreamylost.model
 
-import io.github.dreamylost.model.entity.GroupList
-import io.github.dreamylost.model.entity.User
-
-import scala.beans.BeanProperty
+import io.github.dreamylost.model.entities.User
+import io.github.dreamylost.JavaCompatible
 
 /** @author 梦境迷离
   * @since 2021/11/21
   * @version 1.0
   */
-object domain {
-
-  /** 我发送的消息和我的信息
-    *
-    * @param id       我的id
-    * @param username 我的昵称
-    * @param mine     是否我发的消息
-    * @param avatar   我的头像
-    * @param content  消息内容
-    */
-  case class Mine(id: Int, username: String, mine: Boolean, avatar: String, content: String)
-
-  /** 发送给...的信息
-    *
-    * @param id       对方的id
-    * @param username 名字
-    * @param sign     签名
-    * @param avatar   头像
-    * @param status   状态
-    * @param `type`   聊天类型，一般分friend和group两种，group即群聊
-    */
-  case class To(
-      id: Int,
-      username: String,
-      sign: String,
-      avatar: String,
-      status: String,
-      `type`: String
-  )
+object domains {
 
   /** 聊天记录
     *
@@ -47,24 +17,12 @@ object domain {
     * @param content   消息内容
     * @param timestamp 时间
     */
-  case class ChatHistory(
-      @BeanProperty id: Int,
-      @BeanProperty username: String,
-      @BeanProperty avatar: String,
-      @BeanProperty content: String,
-      @BeanProperty timestamp: Long
-  )
-
-  /** 好友和群组整个信息集
-    *
-    * @param mine   我的信息
-    * @param friend 好友列表
-    * @param group  群组信息列表
-    */
-  case class FriendAndGroupInfo(
-      @BeanProperty mine: User,
-      @BeanProperty friend: List[FriendList],
-      @BeanProperty group: List[GroupList]
+  @JavaCompatible case class ChatHistory(
+      id: Int,
+      username: String,
+      avatar: String,
+      content: String,
+      timestamp: Long
   )
 
   /** 好友列表
@@ -77,15 +35,11 @@ object domain {
     * @param groupname 列表名称
     * @param list      用户列表
     */
-  case class FriendList(
-      @BeanProperty override val id: Int,
-      @BeanProperty override val groupname: String,
-      @BeanProperty list: java.util.List[User]
-  ) extends Group(id, groupname) {
-    def this() = {
-      this(0, null, null)
-    }
-  }
+  @JavaCompatible case class FriendList(
+      override val id: Int,
+      override val groupname: String,
+      list: java.util.List[User] // 使用@JavaCompatible注解时，嵌套对象User不能定义在同一个object中
+  ) extends Group(id, groupname)
 
   /** 返回个人信息更新
     *
@@ -136,24 +90,19 @@ object domain {
     * @param time       时间
     * @param user       消息发送者
     */
-  case class AddInfo(
-      @BeanProperty id: Int,
-      @BeanProperty uid: Int,
-      @BeanProperty content: String,
-      @BeanProperty from: Int,
-      @BeanProperty from_group: Int,
-      @BeanProperty `type`: Int,
-      @BeanProperty remark: String,
-      @BeanProperty href: String,
-      @BeanProperty read: Int,
-      @BeanProperty time: String,
-      @BeanProperty user: User
-  ) {
-    // TODO mybatis用的类都需要无参构造
-    def this() {
-      this(0, 0, null, 0, 0, 0, null, null, 0, null, null)
-    }
-  }
+  @JavaCompatible case class AddInfo(
+      id: Int,
+      uid: Int,
+      content: String,
+      from: Int,
+      from_group: Int,
+      `type`: Int,
+      remark: String,
+      href: String,
+      read: Int,
+      time: String,
+      user: User
+  )
 
   /** 收到的消息
     *

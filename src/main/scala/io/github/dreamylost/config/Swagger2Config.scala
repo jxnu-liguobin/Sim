@@ -33,7 +33,7 @@ class Swagger2Config {
   private lazy val apiInfo: () => ApiInfo = () =>
     new ApiInfoBuilder()
       // 页面标题
-      .title("LayIM")
+      .title("Sim")
       // 创建人
       .description("梦境迷离：https://github.com/jxnu-liguobin")
       .termsOfServiceUrl("https://github.com/jxnu-liguobin")

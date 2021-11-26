@@ -104,6 +104,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-scala_2.13:2.13.0'
     runtimeOnly 'com.fasterxml.jackson.module:jackson-modules-java8:2.13.0'
 
+    //  自己写的的工具
+    implementation 'io.github.jxnu-liguobin:scala-macro-tools_2.13:0.3.2'
+
     //test
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("junit:junit:4.12")
@@ -119,3 +122,8 @@ spotless {
 bootRepackage.enabled = true
 mainClassName = "io.github.dreamylost.Application"
 [compileScala, compileTestScala]*.options*.encoding = 'UTF-8'
+
+// 宏工具必须要配置编译参数
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.additionalParameters = ["-Ymacro-annotations"]
+}

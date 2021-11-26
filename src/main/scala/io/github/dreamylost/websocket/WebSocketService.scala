@@ -4,11 +4,11 @@ import akka.actor.ActorRef
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.ScalaObjectMapper
 import io.github.dreamylost.constant.SystemConstant
-import io.github.dreamylost.model.domain.Add
-import io.github.dreamylost.model.domain.Receive
-import io.github.dreamylost.model.entity.AddMessage
-import io.github.dreamylost.model.entity.Message
-import io.github.dreamylost.model.entity.User
+import io.github.dreamylost.model.domains.Add
+import io.github.dreamylost.model.domains.Receive
+import io.github.dreamylost.model.entities.AddMessage
+import io.github.dreamylost.model.entities.Message
+import io.github.dreamylost.model.entities.User
 import io.github.dreamylost.service.UserService
 import io.github.dreamylost.util.DateUtil
 import org.slf4j.Logger

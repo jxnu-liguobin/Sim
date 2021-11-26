@@ -1,14 +1,14 @@
 package io.github.dreamylost.repository
 
-import io.github.dreamylost.model.domain.AddFriends
-import io.github.dreamylost.model.domain.AddInfo
-import io.github.dreamylost.model.domain.FriendList
-import io.github.dreamylost.model.domain.Receive
-import io.github.dreamylost.model.entity.AddMessage
-import io.github.dreamylost.model.entity.FriendGroup
-import io.github.dreamylost.model.entity.GroupList
-import io.github.dreamylost.model.entity.GroupMember
-import io.github.dreamylost.model.entity.User
+import io.github.dreamylost.model.domains.AddFriends
+import io.github.dreamylost.model.domains.AddInfo
+import io.github.dreamylost.model.domains.FriendList
+import io.github.dreamylost.model.domains.Receive
+import io.github.dreamylost.model.entities.AddMessage
+import io.github.dreamylost.model.entities.FriendGroup
+import io.github.dreamylost.model.entities.GroupList
+import io.github.dreamylost.model.entities.GroupMember
+import io.github.dreamylost.model.entities.User
 import org.apache.ibatis.annotations._
 
 import java.util

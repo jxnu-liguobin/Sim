@@ -4,11 +4,11 @@ import com.github.pagehelper.PageHelper
 import io.github.dreamylost.ResultPageSet
 import io.github.dreamylost.ResultSet
 import io.github.dreamylost.constant.SystemConstant
-import io.github.dreamylost.model.domain.UserVo
-import io.github.dreamylost.model.domain._
-import io.github.dreamylost.model.entity.FriendGroup
-import io.github.dreamylost.model.entity.GroupList
-import io.github.dreamylost.model.entity.User
+import io.github.dreamylost.model.domains.UserVo
+import io.github.dreamylost.model.domains._
+import io.github.dreamylost.model.entities.FriendGroup
+import io.github.dreamylost.model.entities.GroupList
+import io.github.dreamylost.model.entities.User
 import io.github.dreamylost.service.CookieService
 import io.github.dreamylost.service.UserService
 import io.github.dreamylost.util.FileUtil
@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation._
 import org.springframework.web.multipart.MultipartFile
+import io.github.dreamylost.model._
 
 import java.util
 import javax.servlet.http.HttpServletRequest

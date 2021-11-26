@@ -12,6 +12,7 @@
 - 邮件：Java Mail
 - API文档：Swagger
 - 构建工具：Gradle
+- 代码生成：scala-macro-tools
 
 ### 项目结构
 

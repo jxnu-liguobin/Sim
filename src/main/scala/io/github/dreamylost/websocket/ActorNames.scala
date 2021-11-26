@@ -1,6 +1,6 @@
 package io.github.dreamylost.websocket
 
-/** @author li.guobin@immomo.com
+/** @author 梦境迷离
   * @version 1.0,2021/11/25
   */
 object ActorNames {

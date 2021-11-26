@@ -4,7 +4,7 @@ import akka.actor.ActorRef
 import io.github.dreamylost.model.entities.Message
 import io.github.dreamylost.util.Jackson
 
-/** @author li.guobin@immomo.com
+/** @author 梦境迷离
   * @version 1.0,2021/11/25
   */
 object Protocols {

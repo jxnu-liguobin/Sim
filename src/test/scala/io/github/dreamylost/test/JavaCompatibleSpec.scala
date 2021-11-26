@@ -2,7 +2,7 @@ package io.github.dreamylost.test
 
 import io.github.dreamylost.model.domains.AddInfo
 
-/** @author li.guobin@immomo.com
+/** @author 梦境迷离
   * @version 1.0,2021/11/26
   */
 object JavaCompatibleSpec extends App {

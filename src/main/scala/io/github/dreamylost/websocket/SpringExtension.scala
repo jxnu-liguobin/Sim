@@ -18,7 +18,7 @@ import com.typesafe.config.Config
 
 /** springboot集成akka actor
   *
-  * @author li.guobin@immomo.com
+  * @author 梦境迷离
   * @version 1.0,2021/11/25
   */
 class SpringExtension extends AbstractExtensionId[SpringExtension.SpringExt] {

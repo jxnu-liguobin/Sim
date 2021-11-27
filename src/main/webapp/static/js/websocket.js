@@ -14,7 +14,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
         var ele;
         friends.forEach(function (e) {
             e.list.forEach(function (element) {
-                if (id === element.id) {
+                if (id == element.id) {
                     ele = element;
                 }
             });
@@ -80,14 +80,14 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 //处理好友和群消息
                 case "friend":
                 case "group": {
-                    layim.getMessage(JSON.parse(data));
+                    layim.getMessage(json);
                     break;
                 }
                     ;
                 //监测好友在线状态
                 case "checkOnline": {
                     var style;
-                    if (json.status === "在线") {
+                    if (json.status == "在线") {
                         style = "color:#00EE00;";
                     } else {
                         style = "color:#FF5722;";
@@ -272,7 +272,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
             mine: mine,
             to: To
         }));
-        if (To.type === 'friend') {
+        if (To.type == 'friend') {
             layim.setChatStatus('<span style="color:#FF5722;">对方正在输入。。。</span>');
         }
     });
@@ -286,7 +286,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
     layim.on('chatChange', function (res) {
         var type = res.data.type;
         //如果打开的是好友窗口则监测好友的状态
-        if ("friend" === type) {
+        if ("friend" == type) {
             socket.send(JSON.stringify({
                 type: "checkOnline",
                 mine: null,
@@ -294,14 +294,16 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
             }));
             var data = '{"type":"readOfflineMessage","to":{"id":'+parent.layui.layim.cache().mine.id+'},"mine":{"id":'+res.data.id+'}}'
             socket.send(data);
-        } else if (type === 'group') {
+        } else if (type == 'group') {
             //模拟系统消息
-            /*layim.getMessage({
+            layim.getMessage({
                 system: true
                 ,id: res.data.id
                 ,type: "group"
-                ,content: '模拟群员'+(Math.random()*100|0) + '加入群聊'
-              });*/
+                ,content: '群员'+parent.layui.layim.cache().mine.username + '加入群聊'
+              });
+            var data = '{"type":"readOfflineMessage","to":{"id":'+parent.layui.layim.cache().mine.id+',"type":"group"},"mine":{"id":'+res.data.id+'}}'
+            socket.send(data);
         }
     });
 
@@ -333,7 +335,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
 
             var friend_id = othis.parent().attr('data-id');
             $.getJSON('/user/findUser?id=' + friend_id.substring(12), function (res) {
-                if (0 === res.code) {
+                if (0 == res.code) {
                     var index = layer.open({
                         type: 1,
                         skin: 'layui-layer-rim', //加上边框
@@ -354,7 +356,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                             var group_id = groupElem.val(); //群组id
                             $.post('/user/changeGroup', {'groupId': group_id, 'userId': res.data.id},
                                 function (data) {
-                                    if (0 === data.code) {
+                                    if (0 == data.code) {
                                         layer.msg(data.msg, {time: 1500});
                                         //先从旧组移除，然后加入新组
                                         layim.removeList({
@@ -393,7 +395,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 icon: 3
             }, function () {
                 $.post('/user/removeFriend', {'friendId': friend_id}, function (res) {
-                    if (0 === res.code) {
+                    if (0 == res.code) {
                         layer.msg('删除成功!', {icon: 1, time: 1500});
                         layim.removeList({
                             type: 'friend'
@@ -436,7 +438,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 $.post('/user/leaveOutGroup', {
                     groupId: groupId
                 }, function (res) {
-                    if (res.code === 0) {
+                    if (res.code == 0) {
                         layim.removeList({type: 'group', id: groupId});
                     }
                     layer.msg(res.msg);

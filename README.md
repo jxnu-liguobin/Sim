@@ -61,7 +61,10 @@ Sim
 密码 `123456`（所有mock数据都是一个密码）
 激活 将`status`状态改为`nonactivated`（需要激活才能登录，要配置JavaMail）
 
-> 使用环境参数spring.profiles.active=dev，密码放在application-dev.properties
+> 注意：
+1. 使用环境参数`spring.profiles.active=dev`，拷贝一份配置命名为`application-dev.properties`，修改数据库信息
+2. 修改model类后需要清理build目录的class文件
+3. 数据库每次启动自动格式化，不需要格式化就删掉resources下的`schema.sql`和`data.sql`
 
 ### 部署
 

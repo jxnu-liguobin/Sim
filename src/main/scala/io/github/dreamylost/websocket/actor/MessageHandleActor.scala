@@ -34,8 +34,7 @@ class MessageHandleActor extends Actor with ActorLogging {
       case ImProtocol.message =>
         wsService.sendMessage(tm.getMessage)
       case ImProtocol.checkOnline =>
-        val result: util.HashMap[String, String] =
-          wsService.checkOnline(tm.getMessage, tm.originActorRef)
+        val result: util.HashMap[String, String] = wsService.checkOnline(tm.getMessage)
         wsService.sendMessage(Jackson.mapper.writeValueAsString(result), tm.originActorRef)
       case ImProtocol.addGroup =>
         wsService.addGroup(tm.uId, tm.getMessage)

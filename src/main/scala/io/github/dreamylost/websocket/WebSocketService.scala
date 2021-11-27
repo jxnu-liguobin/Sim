@@ -11,6 +11,7 @@ import io.github.dreamylost.model.entities.Message
 import io.github.dreamylost.model.entities.User
 import io.github.dreamylost.service.UserService
 import io.github.dreamylost.util.DateUtil
+import io.github.dreamylost.util.Jackson
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +21,9 @@ import java.util
 import java.util.concurrent.ConcurrentHashMap
 import scala.jdk.CollectionConverters._
 
-/** WebSocket 单例
+/** WebSocket
+  *
+  * 锁对象的使用有待优化
   *
   * @since 2020年01月23日
   * @author 梦境迷离
@@ -41,48 +44,46 @@ class WebSocketService @Autowired() (
     * @param message
     */
   def sendMessage(message: Message): Unit =
-    synchronized {
+    message.synchronized {
       LOGGER.debug(s"好友消息或群消息 => [msg = $message]")
       //封装返回消息格式
       val gid = message.to.id
       val receive = getReceive(message)
-      val key = message.to.id
-      val strMsg = () => {
-        objectMapper.writeValueAsString(receive)
-      }
       //聊天类型，可能来自朋友或群组
       if ("friend" == message.to.`type`) {
-        //是否在线
-        val receiveMsg = if (actorRefSessions.containsKey(key)) {
-          val actorRef = actorRefSessions.get(key)
-          sendMessage(strMsg(), actorRef)
-          receive.copy(status = 1)
+        val msg = if (actorRefSessions.containsKey(gid)) {
+          val actorRef = actorRefSessions.get(gid)
+          val tmpReceiveArchive = receive.copy(status = 1)
+          sendMessage(receiveStr(tmpReceiveArchive), actorRef)
+          tmpReceiveArchive
         } else receive
-        //保存为离线消息,默认为离线消息
-        userService.saveMessage(receiveMsg)
+        userService.saveMessage(msg)
       } else {
-        val receiveMsg = receive.copy(id = gid)
-        //找到群组id里面的所有用户
-        val users: util.List[User] = userService.findUserByGroupId(gid)
-        //过滤掉本身的uid
-        users.asScala
-          .filter(_.id != message.mine.id)
-          .foreach { user =>
-            {
-              //是否在线
-              val receiveMsgCopy = if (actorRefSessions.containsKey(user.id)) {
-                val actorRef = actorRefSessions.get(user.id)
-                sendMessage(strMsg(), actorRef)
-                receiveMsg.copy(status = 1)
-              } else {
-                receiveMsg.copy(id = key)
-              }
-              //TODO 全部保存为离线消息?
-              userService.saveMessage(receiveMsgCopy)
-            }
-          }
+        buildGroupMessage(message, receive, gid)
       }
     }
+
+  private def receiveStr(r: Receive): String = {
+    objectMapper.writeValueAsString(r)
+  }
+
+  private def buildGroupMessage(message: Message, receive: Receive, gid: Int): Unit = {
+    var receiveArchive: Receive = receive.copy(id = gid)
+    //找到群组id里面的所有用户
+    val users: util.List[User] = userService.findUserByGroupId(gid)
+    //过滤掉本身的uid
+    users.asScala
+      .filter(_.id != message.mine.id)
+      .foreach { user =>
+        //是否在线
+        if (actorRefSessions.containsKey(user.id)) {
+          val actorRef = actorRefSessions.get(user.id)
+          receiveArchive = receiveArchive.copy(status = 1)
+          sendMessage(receiveStr(receiveArchive), actorRef)
+        }
+      }
+    userService.saveMessage(receiveArchive)
+  }
 
   /** 同意添加成员
     *
@@ -91,7 +92,9 @@ class WebSocketService @Autowired() (
   def agreeAddGroup(msg: Message): Unit = {
     LOGGER.debug(s"同意入群消息 => [msg = $msg]")
     val agree = objectMapper.readValue[Protocols.AgreeAddGroup](msg.msg)
-    userService.addGroupMember(agree.groupId, agree.toUid, agree.messageBoxId)
+    agree.messageBoxId.synchronized {
+      userService.addGroupMember(agree.groupId, agree.toUid, agree.messageBoxId)
+    }
   }
 
   /** 拒绝添加群
@@ -101,7 +104,9 @@ class WebSocketService @Autowired() (
   def refuseAddGroup(msg: Message): Unit = {
     LOGGER.debug(s"拒绝入群消息 => [msg = $msg]")
     val refuse = objectMapper.readValue[Protocols.AgreeAddGroup](msg.msg)
-    userService.updateAddMessage(refuse.messageBoxId, 2)
+    refuse.messageBoxId.synchronized {
+      userService.updateAddMessage(refuse.messageBoxId, 2)
+    }
   }
 
   /** 通知对方删除好友
@@ -109,8 +114,8 @@ class WebSocketService @Autowired() (
     * @param uId      我的id
     * @param friendId 对方Id
     */
-  def removeFriend(uId: Integer, friendId: Integer): Unit =
-    synchronized {
+  def removeFriend(uId: Int, friendId: Int): Unit =
+    uId.synchronized {
       LOGGER.debug(s"删除好友通知消息 => [uId = $uId, friendId = $friendId ]")
       //对方是否在线，在线则处理，不在线则不处理
       val result = new util.HashMap[String, String]
@@ -126,8 +131,8 @@ class WebSocketService @Autowired() (
     * @param uId
     * @param message
     */
-  def addGroup(uId: Integer, message: Message): Unit =
-    synchronized {
+  def addGroup(uId: Int, message: Message): Unit =
+    uId.synchronized {
       LOGGER.debug(s"加群消息 => [uId = $uId, msg = $message ]")
       val mine = message.mine
       val to = message.to
@@ -155,7 +160,7 @@ class WebSocketService @Autowired() (
     * @param message
     */
   def addFriend(uId: Int, message: Message): Unit =
-    synchronized {
+    uId.synchronized {
       LOGGER.debug(s"加好友消息 => [uId = $uId, msg = $message ]")
       val mine = message.mine
       val add = objectMapper.readValue[Add](message.msg)
@@ -185,7 +190,7 @@ class WebSocketService @Autowired() (
     * @return HashMap[String, String]
     */
   def countUnHandMessage(uId: Int): util.HashMap[String, String] =
-    synchronized {
+    uId.synchronized {
       LOGGER.debug(s"离线消息统计 => [uId = $uId]")
       val count = userService.countUnHandMessage(uId, 0)
       LOGGER.info("count = " + count)
@@ -200,8 +205,8 @@ class WebSocketService @Autowired() (
     * @param message
     * @return HashMap[String, String]
     */
-  def checkOnline(message: Message, actorRef: ActorRef): util.HashMap[String, String] =
-    synchronized {
+  def checkOnline(message: Message): util.HashMap[String, String] =
+    message.to.id.synchronized {
       LOGGER.debug(s"检测在线状态 => [msg = ${message.to.toString}]")
       val uids = redisService.getSets(SystemConstant.ONLINE_USER)
       val result = new util.HashMap[String, String]
@@ -249,21 +254,42 @@ class WebSocketService @Autowired() (
     * @param uId    用户id
     * @param status 状态
     */
-  def changeOnline(uId: Integer, status: String): Boolean =
-    synchronized {
+  def changeOnline(uId: Int, status: String): Boolean =
+    uId.synchronized {
+      val isOnline = "online".equals(status)
       LOGGER.debug(s"检测在线状态 => [uId = $uId, status = $status]")
-      if ("online".equals(status)) redisService.setSet(SystemConstant.ONLINE_USER, uId + "")
+      if (isOnline) redisService.setSet(SystemConstant.ONLINE_USER, uId + "")
       else redisService.removeSetValue(SystemConstant.ONLINE_USER, uId + "")
+      // 向我的所有在线好友发送广播消息，告知我的状态变更，否则只能再次打聊天开窗口时变更,todo 异步发送
+      userService
+        .findFriendGroupsById(uId)
+        .asScala
+        .foreach(fl => {
+          fl.list.asScala.foreach(u => {
+            val fu = redisService.getSets(SystemConstant.ONLINE_USER).contains(u.id.toString)
+            val actorRef = actorRefSessions.get(u.id)
+            if (fu && actorRef != null) {
+              val msg = Jackson.mapper.writeValueAsString(
+                Map("type" -> "checkOnline", "status" -> (if (isOnline) "在线" else "离线"))
+              )
+              sendMessage(msg, actorRef)
+            }
+          })
+        })
       userService.updateUserStatus(User(uId, status))
     }
 
-  /** 已读，先简单实现，打开对话框时，与该好友的所有信息置为已读
+  /** 已读，先简单实现，打开对话框时，与该好友和群的所有信息置为已读
     *
     * @param message
     */
   def readOfflineMessage(message: Message): Unit = {
-    synchronized {
-      userService.readFriendMessage(message.mine.id, message.to.id)
+    message.mine.id.synchronized {
+      if (message.to.`type` == "group") {
+        userService.readGroupMessage(message.mine.id, message.mine.id)
+      } else {
+        userService.readFriendMessage(message.mine.id, message.to.id)
+      }
     }
   }
 

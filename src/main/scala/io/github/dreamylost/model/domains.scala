@@ -118,7 +118,7 @@ object domains {
     * @param timestamp 服务端动态时间戳
     * @param status    消息的状态
     */
-  case class Receive(
+  @JavaCompatible case class Receive(
       toid: Int,
       id: Int,
       username: String,

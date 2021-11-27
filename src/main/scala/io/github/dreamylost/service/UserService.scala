@@ -65,7 +65,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
       updateAddMessage(messageBoxId, 1)
       true
     } else {
-      userRepository.addGroupMember(new GroupMember(gid, uid)) == 1
+      userRepository.addGroupMember(GroupMember(gid, uid)) == 1
       updateAddMessage(messageBoxId, 1)
     }
   }
@@ -151,7 +151,10 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
   )
   @Transactional
   def changeGroup(groupId: Int, uId: Int, mId: Int): Boolean = {
-    userRepository.changeGroup(groupId, uId, mId) == 1
+    val originRecordId = userRepository.findUserGroup(uId, mId)
+    if (originRecordId != null) {
+      userRepository.changeGroup(groupId, originRecordId) == 1
+    } else false
   }
 
   /** 添加好友操作
@@ -257,6 +260,16 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     userRepository.readMessage(mine, to, "friend") == 1
   }
 
+  /** 将本群中的所有消息对我标记为已读
+    * @param gId
+    * @param to 群离线消息的接收人to就是群的ID
+    * @return
+    */
+  @Transactional
+  def readGroupMessage(gId: Int, to: Int): Boolean = {
+    userRepository.readMessage(gId, to, "group") == 1
+  }
+
   /** 添加好友、群组信息请求
     *
     * @param addMessage 添加好友、群组信息对象
@@ -264,7 +277,9 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     * @return Int
     */
   @Transactional
-  def saveAddMessage(addMessage: AddMessage): Int = userRepository.saveAddMessage(addMessage)
+  def saveAddMessage(addMessage: AddMessage): Int = {
+    userRepository.saveAddMessage(addMessage)
+  }
 
   /** 根据群名模糊统计
     *
@@ -462,7 +477,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
 
   /** 根据用户ID查询用户的群组列表
     *
-    * @param id 群组id
+    * @param id 用户id
     * @return List[GroupList]
     */
   @Cacheable(value = Array("findGroupsById"), keyGenerator = "wiselyKeyGenerator")

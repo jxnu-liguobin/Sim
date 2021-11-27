@@ -285,11 +285,14 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def getOffLineMessage(request: HttpServletRequest): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     LOGGER.info(s"find offline msg [uid = ${user.id}]")
-    val users = userService.findOffLineMessage(user.id, 0).asScala.map { receive =>
-      val user = userService.findUserById(receive.id)
-      user.copy(username = user.username, avatar = user.avatar)
+    val groups = userService.findGroupsById(user.id).asScala.map(_.id).toList
+    val groupMsg = groups.flatMap(gId => userService.findOffLineMessage(gId, 0).asScala)
+    val useMsg = userService.findOffLineMessage(user.id, 0).asScala.toList
+    val receives = (useMsg ++ groupMsg).map { receive =>
+      val user = userService.findUserById(receive.fromid)
+      receive.copy(username = user.username, avatar = user.avatar)
     }
-    ResultSet(users)
+    ResultSet(receives)
   }
 
   /** 更新签名

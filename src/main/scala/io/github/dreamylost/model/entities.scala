@@ -97,7 +97,7 @@ object entities {
         `type`: Int,
         time: Date
     ): AddMessage =
-      AddMessage(0, fromUid, toUid, groupId, remark, `type`, 0, time)
+      AddMessage(0, fromUid, toUid, groupId, remark, 0, `type`, time)
   }
 
   /** 用户创建的好友列表

@@ -90,20 +90,30 @@ trait UserRepository {
   /** 移动好友分组
     *
     * @param groupId 新的分组id
-    * @param uId     被移动的好友id
-    * @param mId     我的id
+    * @param originRecordId  原记录t_friend_group_friends的ID
     * @return Int
     */
   @Update(
     Array(
-      "update t_friend_group_friends set fgid = #{groupId} where id =(select t.id from ((select id from t_friend_group_friends where fgid in (select id from t_friend_group where uid = #{mId}) and uid = #{uId}) t))"
+      "update t_friend_group_friends set fgid = #{groupId} where id = #{originRecordId}"
     )
   )
   def changeGroup(
       @Param("groupId") groupId: Int,
-      @Param("uId") uId: Int,
-      @Param("mId") mId: Int
+      @Param("originRecordId") originRecordId: Int
   ): Int
+
+  /** 查询我的好友的分组
+    * @param uId
+    * @param mId
+    * @return
+    */
+  @Select(
+    Array(
+      "select t.id from (select id from t_friend_group_friends where fgid in (select id from t_friend_group where uid = #{mId}) and uid = #{uId}) t"
+    )
+  )
+  def findUserGroup(@Param("uId") uId: Int, @Param("mId") mId: Int): Integer
 
   /** 添加好友操作
     *
@@ -156,13 +166,15 @@ trait UserRepository {
 
   /** 置为已读
     *
-    * @param mine 我的id
+    * @param mine 我的id（群组id）
     * @param to   对方的id
-    * @param typ  对方的id
+    * @param typ  消息类型
     * @return Int
     */
   @Update(
-    Array("update t_message set status = 1 where mid = #{mine} and toid =#{to} and type = #{typ}")
+    Array(
+      "update t_message set status = 1 where status = 0 and mid = #{mine} and toid =#{to} and type = #{typ}"
+    )
   )
   def readMessage(@Param("mine") mine: Int, @Param("to") to: Int, @Param("typ") typ: String): Int
 

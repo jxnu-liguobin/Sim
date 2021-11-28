@@ -30,7 +30,7 @@ class SystemHandlerInterceptor extends HandlerInterceptor {
   ): Boolean = {
     log.debug("前置处理器，在请求处理之前调用")
     if (request.getSession.getAttribute("user") == null) {
-      response.sendRedirect("/")
+      response.sendRedirect("/index.html")
       false
     } else true
   }

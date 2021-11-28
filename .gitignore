@@ -7,8 +7,6 @@ target/
 .gradle/
 gradle/
 out/
-gradlew
-gradlew.bat
 log/
 dist/
 src/main/resources/application-dev.properties

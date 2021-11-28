@@ -1,4 +1,7 @@
 [![Scala CI with Gradle](https://github.com/jxnu-liguobin/Sim/actions/workflows/gradle.yml/badge.svg)](https://github.com/jxnu-liguobin/Sim/actions/workflows/gradle.yml)
+
+[在线测试地址 https://im.dreamylost.cn](https://im.dreamylost.cn)
+
 ### 技术栈
 
 - 开发语言：Scala
@@ -52,8 +55,8 @@ Sim
 配置Mysql数据库，Redis以及邮件服务器，如果不需要邮件相关服务，可以在UserService.scala中注释掉相关的代码
 
 1. 创建MySQL库 `websocket`
-2. `schema.sql` 和 `data.sql` 初始化表结构和数据，如需要自己mock数据，参考 `RandomData.scala` 构造
-3. 查看 `application.conf` WebSocket配置
+2. 将`schema.sql` 和 `data.sql`文件从`resources/sql/`目录移动到`resources/`，初始化表结构和数据，如需要自己mock数据，参考 `RandomData.scala` 构造
+3. 查看`application.conf`和`application.properties`配置
 4. 启动 `Application.scala`
 5. 访问 `http://localhost:8080`
 6. 登录 
@@ -67,6 +70,8 @@ Sim
 1. 使用环境参数`spring.profiles.active=dev`，拷贝一份配置命名为`application-dev.properties`，修改数据库信息
 2. 修改model类后需要清理build目录的class文件
 3. 数据库每次启动自动格式化，不需要格式化就删掉resources下的`schema.sql`和`data.sql`
+
+> 觉得OK点个赞即可，有问题可以创建issue。
 
 ### 部署
 

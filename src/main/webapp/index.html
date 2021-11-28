@@ -221,9 +221,6 @@
                         $("#password").val("");
                     } else if (data.code == 0) {
                         var host = window.location.host;
-                        if (window.location.port != "") {
-                            host = host + ":" + window.location.host;
-                        }
                         window.location.href = "http://" + host + "/user/index";
                     }
                 },

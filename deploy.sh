@@ -7,6 +7,6 @@ git pull origin master
 
 gradle bootRepackage
 
-nohup java -jar dist/Sim-$version.jar >sim.log 2>&1 &
+nohup java -jar dist/Sim-$version.jar > sim.log 2>&1 &
 
 tail -f sim.log

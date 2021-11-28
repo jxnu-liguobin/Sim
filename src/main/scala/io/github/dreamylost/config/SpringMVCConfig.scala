@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
@@ -28,7 +29,7 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
     * @param registry
     */
   override def addViewControllers(registry: ViewControllerRegistry): Unit = {
-    registry.addViewController("/").setViewName("forward:/index.html")
+    registry.addViewController("/").setViewName("forward: /index.html")
     registry.setOrder(org.springframework.core.Ordered.HIGHEST_PRECEDENCE)
   }
 
@@ -41,6 +42,8 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
     registry
       .addInterceptor(new SystemHandlerInterceptor)
       .excludePathPatterns("/")
+      .excludePathPatterns("/index")
+      .excludePathPatterns("/index.html")
       .excludePathPatterns("/*.html")
       .excludePathPatterns("/user/active/*") //别拦截激活URL
       .excludePathPatterns("/user/login")

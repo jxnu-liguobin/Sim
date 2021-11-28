@@ -55,7 +55,7 @@ Sim
 2. `schema.sql` 和 `data.sql` 初始化表结构和数据，如需要自己mock数据，参考 `RandomData.scala` 构造
 3. 查看 `application.conf` WebSocket配置
 4. 启动 `Application.scala`
-5. 访问 `http://localhost`
+5. 访问 `http://localhost:8080`
 6. 登录 
 
 选取t_user表中的任意一条数据，如：

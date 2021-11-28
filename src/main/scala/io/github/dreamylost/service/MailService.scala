@@ -1,7 +1,7 @@
 package io.github.dreamylost.service
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import io.github.dreamylost.log
+import io.github.dreamylost.logs.LogType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.FileSystemResource
@@ -19,9 +19,8 @@ import javax.mail.MessagingException
   * @author 梦境迷离
   */
 @Service
+@log(logType = LogType.Slf4j)
 class MailService @Autowired() (sender: JavaMailSender) {
-
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[MailService])
 
   @Value("${spring.mail.username}")
   private var username: String = _
@@ -40,10 +39,10 @@ class MailService @Autowired() (sender: JavaMailSender) {
     message.setText(content)
     try {
       sender.send(message)
-      LOGGER.info("发送给  " + to + " 邮件发送成功")
+      log.info("发送给  " + to + " 邮件发送成功")
     } catch {
       case ex: Exception => {
-        LOGGER.info("发送给 " + to + " 邮件发送失败！" + ex.getMessage)
+        log.info("发送给 " + to + " 邮件发送失败！" + ex.getMessage)
       }
     }
   }
@@ -63,10 +62,10 @@ class MailService @Autowired() (sender: JavaMailSender) {
     helper.setText(content, true)
     try {
       sender.send(message)
-      LOGGER.info("发送给  " + to + " html格式的邮件发送成功")
+      log.info("发送给  " + to + " html格式的邮件发送成功")
     } catch {
       case ex: MessagingException => {
-        LOGGER.info("发送给  " + to + " html格式的邮件发送失败！" + ex.getMessage)
+        log.info("发送给  " + to + " html格式的邮件发送失败！" + ex.getMessage)
       }
     }
   }
@@ -90,10 +89,10 @@ class MailService @Autowired() (sender: JavaMailSender) {
     helper.addAttachment(fileName, file)
     try {
       sender.send(message)
-      LOGGER.info("发送给  " + to + " 带附件邮件发送成功")
+      log.info("发送给  " + to + " 带附件邮件发送成功")
     } catch {
       case ex: MessagingException => {
-        LOGGER.info("发送给   " + to + " 带附件邮件发送失败！" + ex.getMessage)
+        log.info("发送给   " + to + " 带附件邮件发送失败！" + ex.getMessage)
       }
     }
   }
@@ -123,10 +122,10 @@ class MailService @Autowired() (sender: JavaMailSender) {
     helper.addInline(rscId, res)
     try {
       sender.send(message)
-      LOGGER.info("发送给  " + to + " 嵌入静态资源的邮件发送成功")
+      log.info("发送给  " + to + " 嵌入静态资源的邮件发送成功")
     } catch {
       case ex: MessagingException => {
-        LOGGER.info("发送给  " + to + " 嵌入静态资源的邮件发送失败！" + ex.getMessage)
+        log.info("发送给  " + to + " 嵌入静态资源的邮件发送失败！" + ex.getMessage)
       }
     }
   }

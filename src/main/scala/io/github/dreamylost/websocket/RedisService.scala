@@ -1,7 +1,7 @@
 package io.github.dreamylost.websocket
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import io.github.dreamylost.log
+import io.github.dreamylost.logs.LogType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
@@ -15,9 +15,8 @@ import java.util.concurrent.TimeUnit
   * @author 梦境迷离
   */
 @Service
+@log(logType = LogType.Slf4j)
 class RedisService @Autowired() (redisTemplate: RedisTemplate[String, String]) {
-
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[RedisService])
 
   /** 获取Set集合数据
     *
@@ -67,7 +66,7 @@ class RedisService @Autowired() (redisTemplate: RedisTemplate[String, String]) {
     */
   def setTime(key: String, value: String, timeOut: Long, unit: TimeUnit): Unit = {
     if (value == null) {
-      LOGGER.info("redis存储的value的值为空")
+      log.info("redis存储的value的值为空")
       throw new IllegalArgumentException("redis存储的value的值为空")
     }
     if (timeOut > 0) redisTemplate.opsForValue().set(key, value, timeOut, unit)
@@ -81,7 +80,7 @@ class RedisService @Autowired() (redisTemplate: RedisTemplate[String, String]) {
     */
   def set(key: String, value: String): Unit = {
     if (value == null) {
-      LOGGER.info("redis存储的value的值为空")
+      log.info("redis存储的value的值为空")
       throw new IllegalArgumentException("redis存储的value的值为空")
     }
     redisTemplate.opsForValue().set(key, value)

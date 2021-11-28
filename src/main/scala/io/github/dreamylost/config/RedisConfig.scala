@@ -1,7 +1,7 @@
 package io.github.dreamylost.config
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import io.github.dreamylost.log
+import io.github.dreamylost.logs.LogType
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,9 +14,9 @@ import redis.clients.jedis.JedisPoolConfig
   * @author 梦境迷离
   */
 @Configuration
+@log(logType = LogType.Slf4j)
 class RedisConfig {
 
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[RedisConfig])
   //主机地址
   @Value("${spring.redis.host}")
   private var host: String = _
@@ -55,7 +55,7 @@ class RedisConfig {
     jedisPoolConfig.setMaxIdle(maxIdle)
     jedisPoolConfig.setMinIdle(minIdle)
     jedisPoolConfig.setMaxWaitMillis(maxWait)
-    LOGGER.info("Init the RedisPoolConfig Finished")
+    log.info("Init the RedisPoolConfig Finished")
     jedisPoolConfig
   }
 
@@ -72,7 +72,7 @@ class RedisConfig {
     factory.setPassword(password)
     factory.setDatabase(database)
     factory.setPoolConfig(poolConfig)
-    LOGGER.info("Init the Redis instance Finished")
+    log.info("Init the Redis instance Finished")
     factory
   }
 

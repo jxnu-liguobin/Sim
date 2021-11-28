@@ -66,4 +66,14 @@ object SystemConstant {
 
   final val ADD_MESSAGE_PAGE = 4
 
+  final val GROUP_TYPE = "group"
+
+  final val FRIEND_TYPE = "friend"
+
+  object status {
+    val ONLINE = "online"
+    val ONLINE_DESC = "在线"
+    val HIDE_DESC = "离线"
+  }
+
 }

@@ -1,6 +1,8 @@
 package io.github.dreamylost.service
 
 import io.github.dreamylost.constant.SystemConstant
+import io.github.dreamylost.log
+import io.github.dreamylost.logs.LogType
 import io.github.dreamylost.model.domains._
 import io.github.dreamylost.model.entities._
 import io.github.dreamylost.repository.UserRepository
@@ -8,17 +10,15 @@ import io.github.dreamylost.util.DateUtil
 import io.github.dreamylost.util.SecurityUtil
 import io.github.dreamylost.util.UUIDUtil
 import io.github.dreamylost.util.WebUtil
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-
+import java.util.logging.{ Logger => _ }
 import java.util
 import javax.servlet.http.HttpServletRequest
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** 用户信息相关操作
   *
@@ -26,9 +26,8 @@ import scala.collection.JavaConverters._
   * @author 梦境迷离
   */
 @Service
+@log(logType = LogType.Slf4j)
 class UserService @Autowired() (userRepository: UserRepository, mailService: MailService) {
-
-  private final val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserService])
 
   /** 退出群
     *
@@ -177,10 +176,9 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
       if (userRepository.addFriend(add) != 0) updateAddMessage(messageBoxId, 1)
       else false
     } catch {
-      case ex: Exception => {
-        LOGGER.error("重复添好友", ex)
+      case ex: Exception =>
+        log.error("重复添好友", ex)
         false
-      }
     }
   }
 
@@ -238,7 +236,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
           info.copy(content = "申请加入 '" + group.groupname + "' 群聊中!")
         } else info
       }
-      LOGGER.info(infoCopy.toString)
+      log.info(infoCopy.toString)
       ret.add(infoCopy.copy(href = null, user = findUserById(infoCopy.from)))
     }
     ret
@@ -257,7 +255,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
 
   @Transactional
   def readFriendMessage(mine: Int, to: Int): Boolean = {
-    userRepository.readMessage(mine, to, "friend") == 1
+    userRepository.readMessage(mine, to, SystemConstant.FRIEND_TYPE) == 1
   }
 
   /** 将本群中的所有消息对我标记为已读
@@ -267,7 +265,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     */
   @Transactional
   def readGroupMessage(gId: Int, to: Int): Boolean = {
-    userRepository.readMessage(gId, to, "group") == 1
+    userRepository.readMessage(gId, to, SystemConstant.GROUP_TYPE) == 1
   }
 
   /** 添加好友、群组信息请求
@@ -321,8 +319,8 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     */
   def countHistoryMessage(uid: Int, mid: Int, `type`: String): Int = {
     `type` match {
-      case "friend" => userRepository.countHistoryMessage(uid, mid, `type`)
-      case "group" => userRepository.countHistoryMessage(null, mid, `type`)
+      case SystemConstant.FRIEND_TYPE => userRepository.countHistoryMessage(uid, mid, `type`)
+      case SystemConstant.GROUP_TYPE => userRepository.countHistoryMessage(null, mid, `type`)
     }
   }
 
@@ -336,7 +334,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     */
   def findHistoryMessage(user: User, mid: Int, `type`: String): util.List[ChatHistory] = {
     //单人聊天记录
-    val list = if ("friend".equals(`type`)) {
+    val list = if (SystemConstant.FRIEND_TYPE.equals(`type`)) {
       //查找聊天记录
       val historys: util.List[Receive] = userRepository.findHistoryMessage(user.id, mid, `type`)
       val toUser = findUserById(mid)
@@ -353,7 +351,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
           ChatHistory(history.id, user.username, user.avatar, history.content, history.timestamp)
         }
       }
-    } else if ("group".equals(`type`)) {
+    } else if (SystemConstant.GROUP_TYPE.equals(`type`)) {
       //群聊天记录
       //查找聊天记录
       val historys = userRepository.findHistoryMessage(null, mid, `type`)
@@ -507,7 +505,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
         password = SecurityUtil.encrypt(user.password)
       )
       userRepository.saveUser(userCopy)
-      LOGGER.info("userid = " + userCopy.id)
+      log.info("userid = " + userCopy.id)
       //创建默认的好友分组
       createFriendGroup(SystemConstant.DEFAULT_GROUP_NAME, userCopy.id)
       //发送激活电子邮件

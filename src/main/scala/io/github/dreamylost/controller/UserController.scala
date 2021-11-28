@@ -1,9 +1,9 @@
 package io.github.dreamylost.controller
 
 import com.github.pagehelper.PageHelper
-import io.github.dreamylost.ResultPageSet
-import io.github.dreamylost.ResultSet
 import io.github.dreamylost.constant.SystemConstant
+import io.github.dreamylost.logs.LogType
+import io.github.dreamylost.model._
 import io.github.dreamylost.model.domains.UserVo
 import io.github.dreamylost.model.domains._
 import io.github.dreamylost.model.entities.FriendGroup
@@ -13,21 +13,21 @@ import io.github.dreamylost.service.CookieService
 import io.github.dreamylost.service.UserService
 import io.github.dreamylost.util.FileUtil
 import io.github.dreamylost.util.SecurityUtil
+import io.github.dreamylost.ResultPageSet
+import io.github.dreamylost.ResultSet
+import io.github.dreamylost.log
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation._
 import org.springframework.web.multipart.MultipartFile
-import io.github.dreamylost.model._
 
 import java.util
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /** 用户接口
   *
@@ -37,9 +37,8 @@ import scala.collection.JavaConverters._
 @Controller
 @Api(value = "用户相关操作")
 @RequestMapping(value = Array("/user"))
+@log(logType = LogType.Slf4j)
 class UserController @Autowired() (userService: UserService, cookieService: CookieService) {
-
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[UserController])
 
   /** 退出群
     *
@@ -166,7 +165,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       @RequestParam(value = "sex", required = false) sex: Integer
   ): ResultPageSet = {
     val count = userService.countUsers(name, sex)
-    LOGGER.info(s"find users => [total = $count]")
+    log.info(s"find users => [total = $count]")
     val pages =
       if (count < SystemConstant.USER_PAGE) 1
       else {
@@ -284,7 +283,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   @PostMapping(Array("/getOffLineMessage"))
   def getOffLineMessage(request: HttpServletRequest): ResultSet = {
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
-    LOGGER.info(s"find offline msg [uid = ${user.id}]")
+    log.info(s"find offline msg [uid = ${user.id}]")
     val groups = userService.findGroupsById(user.id).asScala.map(_.id).toList
     val groupMsg = groups.flatMap(gId => userService.findOffLineMessage(gId, 0).asScala)
     val useMsg = userService.findOffLineMessage(user.id, 0).asScala.toList
@@ -351,7 +350,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     if (u != null && "nonactivated".equals(u.status)) {
       ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.NONACTIVED)
     } else if (u != null && !"nonactivated".equals(u.status)) {
-      LOGGER.info(s"user login success => [user = $user, u = $u]")
+      log.info(s"user login success => [user = $user, u = $u]")
       request.getSession.setAttribute("user", u)
       cookieService.addCookie(user, request, response)
       ResultSet(u)
@@ -373,7 +372,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     //用户信息
     val user = userService.findUserById(userId)
     val data = FriendAndGroupInfo(
-      mine = user.copy(status = "online"), // 怎么区分主动刷新？这样如果主动刷新会将隐式重置为在线
+      mine = user.copy(status = SystemConstant.status.ONLINE), // 怎么区分主动刷新？这样如果主动刷新会将隐式重置为在线
       friend = userService.findFriendGroupsById(userId).asScala.toList,
       group = userService.findGroupsById(userId).asScala.toList
     )
@@ -413,7 +412,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       val result = new util.HashMap[String, String]
       //图片的相对路径地址
       result.put("src", src)
-      LOGGER.info("图片" + file.getOriginalFilename + "上传成功")
+      log.info("图片" + file.getOriginalFilename + "上传成功")
       ResultSet(result)
     }
   }
@@ -438,7 +437,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       val result = new util.HashMap[String, String]
       //图片的相对路径地址
       result.put("src", src)
-      LOGGER.info("图片" + file.getOriginalFilename + "上传成功")
+      log.info("图片" + file.getOriginalFilename + "上传成功")
       ResultSet(result)
     }
   }
@@ -499,7 +498,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       //文件的相对路径地址
       result.put("src", src)
       result.put("name", file.getOriginalFilename)
-      LOGGER.info("文件" + file.getOriginalFilename + "上传成功")
+      log.info("文件" + file.getOriginalFilename + "上传成功")
       ResultSet(result)
     }
   }
@@ -570,7 +569,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def index(model: Model, request: HttpServletRequest): String = {
     val user = request.getSession.getAttribute("user")
     model.addAttribute("user", user)
-    LOGGER.info(s"user access server => [user = $user]")
+    log.info(s"user access server => [user = $user]")
     "index"
   }
 

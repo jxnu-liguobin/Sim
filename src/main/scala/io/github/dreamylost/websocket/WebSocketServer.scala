@@ -7,15 +7,15 @@ import akka.http.scaladsl.settings.ServerSettings
 import akka.util.ByteString
 import com.typesafe.config.ConfigFactory
 import io.github.dreamylost.constant.SystemConstant
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import io.github.dreamylost.log
+import io.github.dreamylost.logs.LogType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 import java.util.concurrent.atomic.AtomicInteger
+import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.Future
 import scala.io.StdIn
-import scala.concurrent.ExecutionContextExecutor
 
 /** akka-http websocket server
   *
@@ -25,6 +25,7 @@ import scala.concurrent.ExecutionContextExecutor
   * @version 1.0,2020/1/22
   */
 @Component
+@log(logType = LogType.Slf4j)
 class WebSocketServer @Autowired() (redisService: RedisService, akkaService: WebSocketProvider)(
     implicit system: ActorSystem
 ) {
@@ -33,7 +34,6 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
 
   implicit val ec: ExecutionContextExecutor = system.dispatcher
 
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[WebSocketServer])
   private val host = ConfigFactory.load("application.conf").getString("akka-http-server.host")
   private val port = ConfigFactory.load("application.conf").getInt("akka-http-server.port")
 
@@ -51,7 +51,7 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
     path("websocket") {
       get {
         parameters("uid".as[Int]) { uid =>
-          LOGGER.info(s"新连接加入 => [userId = $uid]")
+          log.info(s"新连接加入 => [userId = $uid]")
           redisService.setSet(SystemConstant.ONLINE_USER, uid + "")
           //          akkaService.userStatusChangeByServer(uid, "online")
           handleWebSocketMessages(akkaService.openConnection(uid))
@@ -63,9 +63,9 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
   def startUp(): Unit = {
     val bindingFuture = Http().bindAndHandle(imRoute, host, port, settings = imServerSettings)
     bindingFuture.failed.foreach { ex =>
-      LOGGER.error(s"Failed to bind to $host:$port!", ex)
+      log.error(s"Failed to bind to $host:$port!", ex)
     }
-    LOGGER.info(
+    log.info(
       """
         | __      __      ___.     _________              __           __      _________
         |/  \    /  \ ____\_ |__  /   _____/ ____   ____ |  | __ _____/  |_   /   _____/ ______________  __ ___________
@@ -75,7 +75,7 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
         |       \/       \/    \/        \/            \/     \/    \/               \/     \/                 \/
         |""".stripMargin
     )
-    LOGGER.info(s"Websocket listening on [$host:$port]")
+    log.info(s"Websocket listening on [$host:$port]")
     StdIn.readLine()
     bindingFuture.flatMap(_.unbind()).onComplete(_ => system.terminate())
   }

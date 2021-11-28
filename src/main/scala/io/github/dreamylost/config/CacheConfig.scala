@@ -1,9 +1,16 @@
 package io.github.dreamylost.config
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.PropertyAccessor
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import com.fasterxml.jackson.module.scala.ScalaObjectMapper
+import io.github.dreamylost.log
+import io.github.dreamylost.logs.LogType
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.CachingConfigurerSupport
@@ -17,14 +24,6 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
-
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.fasterxml.jackson.module.scala.ScalaObjectMapper
 
 import java.lang.reflect.Method
 
@@ -35,9 +34,8 @@ import java.lang.reflect.Method
   */
 @EnableCaching
 @Configuration
+@log(logType = LogType.Slf4j)
 class CacheConfig extends CachingConfigurerSupport {
-
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[CacheConfig])
 
   //允许超时
   @Value("${spring.redis.timeout}")
@@ -48,7 +46,7 @@ class CacheConfig extends CachingConfigurerSupport {
     val cacheManager = new RedisCacheManager(redisTemplate)
     //设置key-value过期时间
     cacheManager.setDefaultExpiration(timeout)
-    LOGGER.info("Init the CacheManager Finished")
+    log.info("Init the CacheManager Finished")
     cacheManager
   }
 

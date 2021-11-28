@@ -1,8 +1,8 @@
 package io.github.dreamylost.config
 
 import com.github.pagehelper.PageHelper
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import io.github.dreamylost.log
+import io.github.dreamylost.logs.LogType
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -14,13 +14,12 @@ import java.util.Properties
   * @author 梦境迷离
   */
 @Configuration
+@log(logType = LogType.Slf4j)
 class MybatisConfig {
-
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[MybatisConfig])
 
   @Bean
   def pageHelper(): PageHelper = {
-    LOGGER.info("注册MyBatis分页插件PageHelper")
+    log.info("注册MyBatis分页插件PageHelper")
     val pageHelper = new PageHelper()
     val properties = new Properties()
     properties.setProperty(

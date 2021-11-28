@@ -1,7 +1,7 @@
 package io.github.dreamylost.config
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import io.github.dreamylost.log
+import io.github.dreamylost.logs.LogType
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.servlet.ModelAndView
 
@@ -13,9 +13,8 @@ import javax.servlet.http.HttpServletResponse
   * @since 2018年9月8日
   * @author 梦境迷离
   */
+@log(logType = LogType.Slf4j)
 class SystemHandlerInterceptor extends HandlerInterceptor {
-
-  private final lazy val LOGGER: Logger = LoggerFactory.getLogger(classOf[SystemHandlerInterceptor])
 
   /** 前置处理器，在请求处理之前调用
     *
@@ -29,7 +28,7 @@ class SystemHandlerInterceptor extends HandlerInterceptor {
       response: HttpServletResponse,
       handler: Object
   ): Boolean = {
-    LOGGER.debug("前置处理器，在请求处理之前调用")
+    log.debug("前置处理器，在请求处理之前调用")
     if (request.getSession.getAttribute("user") == null) {
       response.sendRedirect("/")
       false
@@ -49,7 +48,7 @@ class SystemHandlerInterceptor extends HandlerInterceptor {
       handler: Object,
       modelAndView: ModelAndView
   ): Unit = {
-    LOGGER.debug("请求处理之后，视图渲染之前调用")
+    log.debug("请求处理之后，视图渲染之前调用")
   }
 
   /** 后置处理器，渲染视图完成
@@ -65,6 +64,6 @@ class SystemHandlerInterceptor extends HandlerInterceptor {
       handler: Object,
       ex: Exception
   ): Unit = {
-    LOGGER.debug("后置处理器，在请求处理之后调用")
+    log.debug("后置处理器，在请求处理之后调用")
   }
 }

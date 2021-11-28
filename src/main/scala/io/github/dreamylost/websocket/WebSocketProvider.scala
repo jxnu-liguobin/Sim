@@ -1,25 +1,25 @@
 package io.github.dreamylost.websocket
 
+import akka.Done
+import akka.NotUsed
 import akka.actor.ActorRef
 import akka.actor.ActorSystem
 import akka.actor.Status
 import akka.http.scaladsl.model.ws.Message
 import akka.http.scaladsl.model.ws.TextMessage
+import akka.stream.ActorMaterializer
+import akka.stream.Materializer
 import akka.stream.OverflowStrategy
 import akka.stream.scaladsl.Flow
 import akka.stream.scaladsl.Keep
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
-import akka.Done
-import akka.NotUsed
 import io.github.dreamylost.constant.SystemConstant
-import akka.stream.ActorMaterializer
-import akka.stream.Materializer
+import io.github.dreamylost.log
+import io.github.dreamylost.logs.LogType
 import io.github.dreamylost.websocket.Protocols._
 import io.github.dreamylost.websocket.SpringExtension.SpringExtProvider
 import org.reactivestreams.Publisher
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.DependsOn
 import org.springframework.stereotype.Component
@@ -37,6 +37,7 @@ import scala.language.postfixOps
   */
 @Component
 @DependsOn(Array("redisService"))
+@log(logType = LogType.Slf4j)
 class WebSocketProvider @Autowired() (redisService: RedisService, wsService: WebSocketService)(
     implicit system: ActorSystem
 ) {
@@ -44,7 +45,6 @@ class WebSocketProvider @Autowired() (redisService: RedisService, wsService: Web
   implicit val ec: ExecutionContextExecutor = system.dispatcher
   implicit val mat: Materializer = ActorMaterializer()
 
-  private final lazy val log: Logger = LoggerFactory.getLogger(classOf[WebSocketProvider])
   private final lazy val wsConnections = wsService.actorRefSessions
   private lazy val msgActor =
     system.actorOf(SpringExtProvider.get(system).props(ActorNames.MESSAGE_HANDLE_ACTOR))

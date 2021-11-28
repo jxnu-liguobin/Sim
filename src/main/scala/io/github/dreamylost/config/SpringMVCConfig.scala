@@ -30,7 +30,6 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
   override def addViewControllers(registry: ViewControllerRegistry): Unit = {
     registry.addViewController("/").setViewName("forward:/index.html")
     registry.setOrder(org.springframework.core.Ordered.HIGHEST_PRECEDENCE)
-    super.addViewControllers(registry)
   }
 
   /** 注册拦截器
@@ -49,8 +48,6 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
       .excludePathPatterns("/user/existEmail")
       .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**")
       .addPathPatterns("/**")
-
-    super.addInterceptors(registry)
   }
 
   /** addResourceLocations是必须的，否则swagger被拦截
@@ -64,8 +61,6 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
     registry
       .addResourceHandler("/webjars/**")
       .addResourceLocations("classpath:/META-INF/resources/webjars/")
-    super.addResourceHandlers(registry)
-
   }
 
   @Bean

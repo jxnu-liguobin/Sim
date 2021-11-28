@@ -5,7 +5,6 @@ target/
 .project
 .cache-main
 .gradle/
-gradle/
 out/
 log/
 dist/

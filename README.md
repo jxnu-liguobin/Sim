@@ -19,6 +19,7 @@
 
 ```
 Sim
+├─ gradle                                                 - 本项目gradle使用6.5.1，高版本有bug，编译不了
 ├─ .gitattributes                                         - Git仓库显示语言的配置
 ├─ .gitignore                                             - Git忽略文件的配置
 ├─ .scalafmt.conf                                         - Scala代码格式化的配置

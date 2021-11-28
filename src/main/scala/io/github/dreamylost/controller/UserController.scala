@@ -409,9 +409,8 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     } else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.IMAGE_PATH, path, file)
-      val result = new util.HashMap[String, String]
       //图片的相对路径地址
-      result.put("src", src)
+      val result = Map("src" -> src)
       log.info("图片" + file.getOriginalFilename + "上传成功")
       ResultSet(result)
     }
@@ -434,9 +433,8 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.GROUP_AVATAR_PATH, path, file)
-      val result = new util.HashMap[String, String]
       //图片的相对路径地址
-      result.put("src", src)
+      val result = Map("src" -> src)
       log.info("图片" + file.getOriginalFilename + "上传成功")
       ResultSet(result)
     }
@@ -494,10 +492,8 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     } else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.FILE_PATH, path, file)
-      val result = new util.HashMap[String, String]
       //文件的相对路径地址
-      result.put("src", src)
-      result.put("name", file.getOriginalFilename)
+      val result = Map("src" -> src, "name" -> file.getOriginalFilename)
       log.info("文件" + file.getOriginalFilename + "上传成功")
       ResultSet(result)
     }
@@ -518,8 +514,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     val path = request.getServletContext.getRealPath(SystemConstant.AVATAR_PATH)
     val src = FileUtil.upload(path, avatar)
     userService.updateAvatar(user.id, src)
-    val result = new util.HashMap[String, String]
-    result.put("src", src)
+    val result = Map("src" -> src)
     ResultSet(result)
   }
 

@@ -292,10 +292,13 @@ class WebSocketService @Autowired() (
     */
   def readOfflineMessage(message: Message): Unit = {
     message.mine.id.synchronized {
-      if (message.to.`type` == SystemConstant.GROUP_TYPE) {
-        userService.readGroupMessage(message.mine.id, message.mine.id)
-      } else {
-        userService.readFriendMessage(message.mine.id, message.to.id)
+      if (userService.findOffLineMessage(message.mine.id, 0).asScala.toList.nonEmpty) {
+        if (message.to.`type` == SystemConstant.GROUP_TYPE) {
+          // 我所有的群中有未读的消息吗
+          userService.readGroupMessage(message.mine.id, message.mine.id)
+        } else {
+          userService.readFriendMessage(message.mine.id, message.to.id)
+        }
       }
     }
   }

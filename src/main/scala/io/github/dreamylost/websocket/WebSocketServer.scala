@@ -6,7 +6,6 @@ import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.settings.ServerSettings
 import akka.util.ByteString
 import com.typesafe.config.ConfigFactory
-import io.github.dreamylost.constant.SystemConstant
 import io.github.dreamylost.log
 import io.github.dreamylost.logs.LogType
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,18 +25,20 @@ import scala.io.StdIn
   */
 @Component
 @log(logType = LogType.Slf4j)
-class WebSocketServer @Autowired() (redisService: RedisService, akkaService: WebSocketProvider)(
-    implicit system: ActorSystem
+class WebSocketServer @Autowired() (provider: WebSocketProvider)(implicit
+    system: ActorSystem
 ) {
 
   import Directives._
+  import akka.http.scaladsl.server.Route
 
   implicit val ec: ExecutionContextExecutor = system.dispatcher
 
-  private val host = ConfigFactory.load("application.conf").getString("akka-http-server.host")
-  private val port = ConfigFactory.load("application.conf").getInt("akka-http-server.port")
+  private val host: String =
+    ConfigFactory.load("application.conf").getString("akka-http-server.host")
+  private val port: Int = ConfigFactory.load("application.conf").getInt("akka-http-server.port")
 
-  private val imServerSettings = {
+  private val imServerSettings: ServerSettings = {
     //自定义保持活动数据有效负载
     val defaultSettings = ServerSettings(system)
     val pingCounter = new AtomicInteger()
@@ -47,14 +48,13 @@ class WebSocketServer @Autowired() (redisService: RedisService, akkaService: Web
     defaultSettings.withWebsocketSettings(imWebsocketSettings)
   }
 
-  private val imRoute = {
+  private val imRoute: Route = {
     path("websocket") {
       get {
         parameters("uid".as[Int]) { uid =>
           log.info(s"新连接加入 => [userId = $uid]")
-          redisService.setSet(SystemConstant.ONLINE_USER, uid + "")
           //          akkaService.userStatusChangeByServer(uid, "online")
-          handleWebSocketMessages(akkaService.openConnection(uid))
+          handleWebSocketMessages(provider.openConnection(uid))
         }
       }
     }

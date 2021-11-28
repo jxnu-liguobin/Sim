@@ -46,11 +46,11 @@ class WebSocketProvider @Autowired() (redisService: RedisService, wsService: Web
   implicit val mat: Materializer = ActorMaterializer()
 
   private final lazy val wsConnections = wsService.actorRefSessions
-  private lazy val msgActor =
+  private lazy val msgActor: ActorRef =
     system.actorOf(SpringExtProvider.get(system).props(ActorNames.MESSAGE_HANDLE_ACTOR))
-  private lazy val jobActor =
+  private lazy val jobActor: ActorRef =
     system.actorOf(SpringExtProvider.get(system).props(ActorNames.SCHEDULE_JOB_ACTOR))
-  private lazy val userStatusActor =
+  private lazy val userStatusActor: ActorRef =
     system.actorOf(SpringExtProvider.get(system).props(ActorNames.USER_STATUS_CHANGE_ACTOR))
 
   //重连是3秒
@@ -61,7 +61,9 @@ class WebSocketProvider @Autowired() (redisService: RedisService, wsService: Web
     * @param uId
     * @return
     */
-  def openConnection(uId: Integer): Flow[Message, Message, NotUsed] = {
+  def openConnection(uId: Int): Flow[Message, Message, NotUsed] = {
+    redisService.setSet(SystemConstant.ONLINE_USER, uId + "")
+
     //刷新重连
     //closeConnection(uId)
     val (actorRef: ActorRef, publisher: Publisher[TextMessage.Strict]) = {

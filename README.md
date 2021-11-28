@@ -1,3 +1,4 @@
+[![Scala CI with Gradle](https://github.com/jxnu-liguobin/Sim/actions/workflows/gradle.yml/badge.svg)](https://github.com/jxnu-liguobin/Sim/actions/workflows/gradle.yml)
 ### 技术栈
 
 - 开发语言：Scala

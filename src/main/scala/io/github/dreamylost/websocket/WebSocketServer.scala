@@ -9,13 +9,10 @@ import com.typesafe.config.ConfigFactory
 import io.github.dreamylost.log
 import io.github.dreamylost.logs.LogType
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Component
 
 import java.util.concurrent.atomic.AtomicInteger
 import scala.concurrent.ExecutionContextExecutor
-import scala.concurrent.Future
-import scala.io.StdIn
 
 /** akka-http websocket server
   *
@@ -25,7 +22,6 @@ import scala.io.StdIn
   * @version 1.0,2020/1/22
   */
 @Component
-@Lazy // 必须在spring之后
 @log(logType = LogType.Slf4j)
 class WebSocketServer @Autowired() (provider: WebSocketProvider)(implicit
     system: ActorSystem
@@ -36,11 +32,11 @@ class WebSocketServer @Autowired() (provider: WebSocketProvider)(implicit
 
   implicit val ec: ExecutionContextExecutor = system.dispatcher
 
-  private val host: String =
+  private lazy val host: String =
     ConfigFactory.load("application.conf").getString("akka-http-server.host")
-  private val port: Int = ConfigFactory.load("application.conf").getInt("akka-http-server.port")
+  private lazy val port: Int = ConfigFactory.load("application.conf").getInt("akka-http-server.port")
 
-  private val imServerSettings: ServerSettings = {
+  private lazy val imServerSettings: ServerSettings = {
     //自定义保持活动数据有效负载
     val defaultSettings = ServerSettings(system)
     val pingCounter = new AtomicInteger()
@@ -50,7 +46,7 @@ class WebSocketServer @Autowired() (provider: WebSocketProvider)(implicit
     defaultSettings.withWebsocketSettings(imWebsocketSettings)
   }
 
-  private val imRoute: Route = {
+  private lazy val imRoute: Route = {
     path("websocket") {
       get {
         parameters("uid".as[Int]) { uid =>
@@ -78,11 +74,5 @@ class WebSocketServer @Autowired() (provider: WebSocketProvider)(implicit
         |""".stripMargin
     )
     log.info(s"Websocket listening on [$host:$port]")
-    StdIn.readLine()
-    bindingFuture.flatMap(_.unbind()).onComplete(_ => system.terminate())
-  }
-
-  Future {
-    startUp()
   }
 }

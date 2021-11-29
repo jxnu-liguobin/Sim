@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "if exists process, it will shut down"
-ps -ef | grep -w mongod | grep -v grep | awk '{print $2}' | xargs kill -9
+ps -ef | grep -w java | grep -v grep | awk '{print $2}' | xargs kill -9
 sleep 2
 
 version=$1

@@ -17,14 +17,13 @@ import scala.beans.BeanProperty
 @MapperScan(Array("io.github.dreamylost.repository"))
 class ApplicationConfig
 
-
 object Application extends SpringBootServletInitializer {
 
   @BeanProperty
   var applicationContext: ApplicationContext = _
 
   def main(args: Array[String]): Unit =
-    applicationContext = SpringApplication.run(classOf[ApplicationConfig], args:_*)
+    applicationContext = SpringApplication.run(classOf[ApplicationConfig], args: _*)
 
   override protected def configure(builder: SpringApplicationBuilder): SpringApplicationBuilder =
     builder.sources(Application)

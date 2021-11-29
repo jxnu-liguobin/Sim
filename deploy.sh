@@ -7,7 +7,8 @@ git pull origin master
 
 ./gradlew bootRepackage
 
-nohup java -jar -Dspring.mail.username=568845948@qq.com \
+nohup java -jar \
+ -Dserver.port=8989 -Dspring.mail.username=568845948@qq.com \
  -Dspring.mail.password=aklbpawjeosybdfb \
  -Dspring.datasource.username=root \
  -Dspring.datasource.password=  \

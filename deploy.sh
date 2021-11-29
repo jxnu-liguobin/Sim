@@ -3,9 +3,9 @@
 version=$1
 git pull origin master
 
-# gradle build
+# ./gradlew build
 
-gradle bootRepackage
+./gradlew bootRepackage
 
 nohup java -jar dist/Sim-$version.jar > sim.log 2>&1 &
 

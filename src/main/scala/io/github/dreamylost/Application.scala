@@ -24,7 +24,7 @@ object Application extends SpringBootServletInitializer {
   var applicationContext: ApplicationContext = _
 
   def main(args: Array[String]): Unit =
-    applicationContext = SpringApplication.run(classOf[ApplicationConfig])
+    applicationContext = SpringApplication.run(classOf[ApplicationConfig], args:_*)
 
   override protected def configure(builder: SpringApplicationBuilder): SpringApplicationBuilder =
     builder.sources(Application)

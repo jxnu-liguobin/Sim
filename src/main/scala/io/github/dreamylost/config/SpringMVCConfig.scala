@@ -3,14 +3,9 @@ package io.github.dreamylost.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.dreamylost.util.Jackson
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
-import org.springframework.web.servlet.config.annotation.EnableWebMvc
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+import org.springframework.context.annotation.{ Bean, Configuration, Primary }
+import org.springframework.web.servlet.config.annotation.{ InterceptorRegistry, ResourceHandlerRegistry, ViewControllerRegistry, WebMvcConfigurerAdapter }
+import org.springframework.web.servlet.config.annotation.CorsRegistry
 
 /** SpringMVC配置
   *
@@ -29,7 +24,7 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
     * @param registry
     */
   override def addViewControllers(registry: ViewControllerRegistry): Unit = {
-    registry.addViewController("/").setViewName("forward: /index.html")
+    registry.addViewController("/").setViewName("forward:/index.html")
     registry.setOrder(org.springframework.core.Ordered.HIGHEST_PRECEDENCE)
   }
 
@@ -42,8 +37,6 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
     registry
       .addInterceptor(new SystemHandlerInterceptor)
       .excludePathPatterns("/")
-      .excludePathPatterns("/index")
-      .excludePathPatterns("/index.html")
       .excludePathPatterns("/*.html")
       .excludePathPatterns("/user/active/*") //别拦截激活URL
       .excludePathPatterns("/user/login")
@@ -72,4 +65,14 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
   def jacksonObjectMapper(): ObjectMapper = {
     Jackson.mapper
   }
+  
+  /**
+    * 允许跨域
+    */
+  override def addCorsMappings(registry: CorsRegistry): Unit = {
+    registry.addMapping("/**").allowedOrigins("*")
+      .allowedMethods("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH")
+      .allowCredentials(true).maxAge(3600)
+  }
+
 }

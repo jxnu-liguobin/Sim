@@ -9,6 +9,7 @@ import com.typesafe.config.ConfigFactory
 import io.github.dreamylost.log
 import io.github.dreamylost.logs.LogType
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Component
 
 import java.util.concurrent.atomic.AtomicInteger
@@ -24,6 +25,7 @@ import scala.io.StdIn
   * @version 1.0,2020/1/22
   */
 @Component
+@Lazy // 必须在spring之后
 @log(logType = LogType.Slf4j)
 class WebSocketServer @Autowired() (provider: WebSocketProvider)(implicit
     system: ActorSystem

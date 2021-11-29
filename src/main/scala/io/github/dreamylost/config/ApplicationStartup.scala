@@ -8,17 +8,15 @@ import org.springframework.stereotype.Component
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-/**
-  *
-  * @author 梦境迷离
+/** @author 梦境迷离
   * @version 1.0,2021/11/29
   */
 @Component
-class ApplicationStartup @Autowired()(webSocketServer: WebSocketServer)
-  extends ApplicationListener[ApplicationReadyEvent] {
-  
+class ApplicationStartup @Autowired() (webSocketServer: WebSocketServer)
+    extends ApplicationListener[ApplicationReadyEvent] {
+
   override def onApplicationEvent(event: ApplicationReadyEvent): Unit = {
     Future.apply(webSocketServer.startUp())
   }
-  
+
 }

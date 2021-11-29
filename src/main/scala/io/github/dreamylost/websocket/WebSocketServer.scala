@@ -34,7 +34,8 @@ class WebSocketServer @Autowired() (provider: WebSocketProvider)(implicit
 
   private lazy val host: String =
     ConfigFactory.load("application.conf").getString("akka-http-server.host")
-  private lazy val port: Int = ConfigFactory.load("application.conf").getInt("akka-http-server.port")
+  private lazy val port: Int =
+    ConfigFactory.load("application.conf").getInt("akka-http-server.port")
 
   private lazy val imServerSettings: ServerSettings = {
     //自定义保持活动数据有效负载

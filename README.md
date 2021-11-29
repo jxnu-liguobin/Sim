@@ -1,6 +1,6 @@
 [![Scala CI with Gradle](https://github.com/jxnu-liguobin/Sim/actions/workflows/gradle.yml/badge.svg)](https://github.com/jxnu-liguobin/Sim/actions/workflows/gradle.yml)
 
-[在线测试地址 https://im.dreamylost.cn](https://im.dreamylost.cn)
+[在线测试地址 http://im.dreamylost.cn](http://im.dreamylost.cn:8989)
 
 ### 技术栈
 

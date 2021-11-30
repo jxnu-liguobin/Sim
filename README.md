@@ -62,9 +62,9 @@ Sim
 6. 登录 
 
 选取t_user表中的任意一条数据，如：
-邮箱 `15906184943@sina.com`
-密码 `123456`（所有mock数据都是一个密码）
-激活 将`status`状态改为`nonactivated`（需要激活才能登录，要配置JavaMail）
+- 邮箱 `15906184943@sina.com`
+- 密码 `123456`（所有mock数据都是一个密码）
+- 激活 将`status`状态改为`nonactivated`（需要激活才能登录，要配置JavaMail）
 
 > 注意：
 1. 使用环境参数`spring.profiles.active=dev`，拷贝一份配置命名为`application-dev.properties`，修改数据库信息
@@ -77,6 +77,5 @@ Sim
 
 ```shell
 # 在Sim目录执行
-# 里面的jar包版本号需要改
-bash deploy.sh
+bash deploy.sh 1.3.0 # 1.3.0表示最新版本号
 ```

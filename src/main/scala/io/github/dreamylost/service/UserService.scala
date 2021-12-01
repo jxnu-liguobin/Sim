@@ -432,7 +432,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     } else {
       val u: User = userRepository.matchUser(user.email)
       //密码不匹配
-      if (u == null || !SecurityUtil.matchs(user.password, u.password)) {
+      if (u == null || !SecurityUtil.matched(user.password, u.password)) {
         null
       } else u
     }

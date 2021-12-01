@@ -87,11 +87,16 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 //监测好友在线状态
                 case "checkOnline": {
                     var style;
-                    if (json.status == "在线") {
+                    var str;
+                    if (json.status === "在线") {
                         style = "color:#00EE00;";
-                    } else {
-                        style = "color:#FF5722;";
+                        str = "online";
                     }
+                    if (json.status === "离线") {
+                        style = "color:#FF5722;";
+                        str = "hide";
+                    }
+                    layim.setFriendStatus(json.id, str)
                     layim.setChatStatus('<span style="' + style + '">' + json.status + '</span>');
                     break;
                 }

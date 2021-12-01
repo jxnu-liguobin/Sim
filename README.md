@@ -2,6 +2,8 @@
 
 [在线测试地址 http://im.dreamylost.cn](http://im.dreamylost.cn:8989)
 
+[在线API文档 swagger-ui](http://im.dreamylost.cn:8989/swagger-ui.html)
+
 ### 技术栈
 
 - 开发语言：Scala

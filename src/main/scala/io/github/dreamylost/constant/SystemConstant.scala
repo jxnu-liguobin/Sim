@@ -72,6 +72,7 @@ object SystemConstant {
 
   object status {
     val ONLINE = "online"
+    val HIDE = "hide"
     val ONLINE_DESC = "在线"
     val HIDE_DESC = "离线"
   }

@@ -215,9 +215,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   ): ResultPageSet = {
     val groups: util.List[GroupList] = userService.findGroupsById(createId)
     var result: ResultPageSet = null
-    if (groups == null) {
-      return result
-    }
+    if (groups == null) return result
     val groupNews = groups.toArray.filter(x => x.asInstanceOf[GroupList].createId.equals(createId))
     result = ResultPageSet(groupNews, 0)
     val count = groupNews.length
@@ -355,8 +353,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       cookieService.addCookie(user, request, response)
       ResultSet(u)
     } else {
-      val result = ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.LOGGIN_FAIL)
-      result
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.LOGGIN_FAIL)
     }
   }
 
@@ -428,9 +425,9 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       @RequestParam("avatar") file: MultipartFile,
       request: HttpServletRequest
   ): ResultSet = {
-    if (file.isEmpty)
+    if (file.isEmpty) {
       ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPLOAD_FAIL)
-    else {
+    } else {
       val path = request.getServletContext.getRealPath("/")
       val src = FileUtil.upload(SystemConstant.GROUP_AVATAR_PATH, path, file)
       //图片的相对路径地址
@@ -538,7 +535,7 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
       ) {
         userService.updateUserInfo(u.copy(sex = sex, sign = user.sign, username = user.username))
         ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.UPDATE_INFO_SUCCESS)
-      } else if (!SecurityUtil.matchs(user.oldpwd, u.password)) {
+      } else if (!SecurityUtil.matched(user.oldpwd, u.password)) {
         ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.UPDATE_INFO_PASSWORD_FAIL)
       } else {
         userService.updateUserInfo(

@@ -259,7 +259,7 @@ class WebSocketService @Autowired() (
   def changeOnline(uId: Int, status: String): Boolean =
     uId.synchronized {
       val isOnline = SystemConstant.status.ONLINE.equals(status)
-      log.debug(s"检测在线状态 => [uId = $uId, status = $status]")
+      log.debug(s"更改在线状态 => [uId = $uId, status = $status]")
       if (isOnline) redisService.setSet(SystemConstant.ONLINE_USER, uId + "")
       else redisService.removeSetValue(SystemConstant.ONLINE_USER, uId + "")
       // 向我的所有在线好友发送广播消息，告知我的状态变更，否则只能再次打聊天开窗口时变更,todo 异步发送
@@ -274,6 +274,7 @@ class WebSocketService @Autowired() (
             if (fu && actorRef != null) {
               val msg = Jackson.mapper.writeValueAsString(
                 Map(
+                  "id" -> (uId + ""), //对好友而已，好友的好友就是我
                   "type" -> Protocols.ImProtocol.checkOnline.stringify,
                   "status" -> (if (isOnline) SystemConstant.status.ONLINE_DESC
                                else SystemConstant.status.HIDE_DESC)

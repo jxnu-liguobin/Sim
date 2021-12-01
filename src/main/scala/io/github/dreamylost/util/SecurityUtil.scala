@@ -28,7 +28,7 @@ object SecurityUtil {
     * @param password    加密后的密码
     * @return Boolean
     */
-  def matchs(rawPassword: String, password: String): Boolean = {
+  def matched(rawPassword: String, password: String): Boolean = {
     if (rawPassword == null && password == null)
       true
     else encoder.matches(rawPassword, password)

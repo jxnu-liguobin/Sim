@@ -17,6 +17,8 @@ import akka.stream.scaladsl.Source
 import io.github.dreamylost.constant.SystemConstant
 import io.github.dreamylost.log
 import io.github.dreamylost.logs.LogType
+import io.github.dreamylost.model.entities.{ Message => IMMessage }
+import io.github.dreamylost.util.Jackson
 import io.github.dreamylost.websocket.Protocols._
 import io.github.dreamylost.websocket.SpringExtension.SpringExtProvider
 import org.reactivestreams.Publisher
@@ -56,14 +58,36 @@ class WebSocketProvider @Autowired() (redisService: RedisService, wsService: Web
   //重连是3秒
   system.scheduler.schedule(5000 milliseconds, 10000 milliseconds, jobActor, OnlineUserMessage)
 
+  /** 链接时，写入在线缓存和异步更新用户在线状态
+    * @param uId
+    */
+  private def changeStatus(uId: Int, status: String): Unit = {
+    if (status == SystemConstant.status.ONLINE) {
+      redisService.setSet(SystemConstant.ONLINE_USER, uId + "")
+    } else {
+      redisService.removeSetValue(SystemConstant.ONLINE_USER, uId + "")
+    }
+    redisService.setSet(SystemConstant.ONLINE_USER, uId + "")
+    val msg = Jackson.mapper.writeValueAsString(
+      IMMessage(
+        `type` = Protocols.ImProtocol.changOnline.stringify,
+        mine = null,
+        to = null,
+        msg =
+          if (status == SystemConstant.status.ONLINE) SystemConstant.status.ONLINE
+          else SystemConstant.status.HIDE
+      )
+    )
+    msgActor ! TransmitMessage(uId, msg, null)
+  }
+
   /** 处理连接与消息处理
     *
     * @param uId
     * @return
     */
   def openConnection(uId: Int): Flow[Message, Message, NotUsed] = {
-    redisService.setSet(SystemConstant.ONLINE_USER, uId + "")
-
+    changeStatus(uId, SystemConstant.status.ONLINE)
     //刷新重连
     //closeConnection(uId)
     val (actorRef: ActorRef, publisher: Publisher[TextMessage.Strict]) = {
@@ -99,7 +123,7 @@ class WebSocketProvider @Autowired() (redisService: RedisService, wsService: Web
     wsConnections.asScala.get(id).foreach { ar =>
       log.info(s"Closing websocket connection => [id = $id]")
       wsConnections.remove(id)
-      redisService.removeSetValue(SystemConstant.ONLINE_USER, id + "")
+      changeStatus(id, SystemConstant.status.ONLINE)
       //      userStatusChangeByServer(id, "hide")
       ar ! Status.Success(Done)
     }

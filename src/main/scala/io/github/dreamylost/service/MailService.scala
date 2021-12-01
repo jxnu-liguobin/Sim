@@ -41,9 +41,8 @@ class MailService @Autowired() (sender: JavaMailSender) {
       sender.send(message)
       log.info("发送给  " + to + " 邮件发送成功")
     } catch {
-      case ex: Exception => {
+      case ex: Exception =>
         log.info("发送给 " + to + " 邮件发送失败！" + ex.getMessage)
-      }
     }
   }
 
@@ -64,9 +63,8 @@ class MailService @Autowired() (sender: JavaMailSender) {
       sender.send(message)
       log.info("发送给  " + to + " html格式的邮件发送成功")
     } catch {
-      case ex: MessagingException => {
+      case ex: MessagingException =>
         log.info("发送给  " + to + " html格式的邮件发送失败！" + ex.getMessage)
-      }
     }
   }
 
@@ -91,9 +89,8 @@ class MailService @Autowired() (sender: JavaMailSender) {
       sender.send(message)
       log.info("发送给  " + to + " 带附件邮件发送成功")
     } catch {
-      case ex: MessagingException => {
+      case ex: MessagingException =>
         log.info("发送给   " + to + " 带附件邮件发送失败！" + ex.getMessage)
-      }
     }
   }
 
@@ -124,9 +121,8 @@ class MailService @Autowired() (sender: JavaMailSender) {
       sender.send(message)
       log.info("发送给  " + to + " 嵌入静态资源的邮件发送成功")
     } catch {
-      case ex: MessagingException => {
+      case ex: MessagingException =>
         log.info("发送给  " + to + " 嵌入静态资源的邮件发送失败！" + ex.getMessage)
-      }
     }
   }
 }

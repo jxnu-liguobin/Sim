@@ -30,15 +30,15 @@ object WebUtil {
       ""
     } else {
       val ip: String = request.getHeader("x-forwarded-for")
-      val ipRes = if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+      val ipRes = if (ip == null || ip.isEmpty || "unknown".equalsIgnoreCase(ip)) {
         request.getHeader("Proxy-Client-IP")
-      } else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+      } else if (ip == null || ip.isEmpty || "unknown".equalsIgnoreCase(ip)) {
         request.getHeader("WL-Proxy-Client-IP")
-      } else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-        request.getRemoteAddr()
-      } else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+      } else if (ip == null || ip.isEmpty || "unknown".equalsIgnoreCase(ip)) {
+        request.getRemoteAddr
+      } else if (ip == null || ip.isEmpty || "unknown".equalsIgnoreCase(ip)) {
         request.getHeader("http_client_ip")
-      } else if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+      } else if (ip == null || ip.isEmpty || "unknown".equalsIgnoreCase(ip)) {
         request.getHeader("HTTP_X_FORWARDED_FOR")
       }
       // 如果是多级代理，那么取第一个ip为客户ip

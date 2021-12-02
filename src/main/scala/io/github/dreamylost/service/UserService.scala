@@ -190,8 +190,8 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     */
   @CacheEvict(value = Array("findFriendGroupsById"), allEntries = true)
   @Transactional
-  def createFriendGroup(groupname: String, uid: Int): Boolean = {
-    userRepository.createFriendGroup(FriendGroup(uid, groupname)) == 1
+  def createFriendGroup(groupname: String, uid: Int): Int = {
+    userRepository.createFriendGroup(FriendGroup(0, uid, groupname))
   }
 
   /** 创建群组

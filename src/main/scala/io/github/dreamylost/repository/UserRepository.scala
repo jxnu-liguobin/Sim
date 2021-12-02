@@ -446,6 +446,13 @@ trait UserRepository {
     * @return Int
     */
   @Insert(Array("insert into t_friend_group(group_name,uid) values(#{groupname},#{uid})"))
+  @SelectKey(
+    before = false,
+    statement = Array(" SELECT LAST_INSERT_ID() AS id "),
+    resultType = classOf[Integer],
+    keyProperty = "id",
+    keyColumn = "id"
+  )
   def createFriendGroup(friendGroup: FriendGroup): Int
 
 }

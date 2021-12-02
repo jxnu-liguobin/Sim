@@ -62,7 +62,7 @@ object entities {
     * @param groupId 如果是添加好友则为from_id的分组id，如果为群组则为群组id
     * @param remark  附言
     * @param agree   0未处理，1同意，2拒绝
-    * @param `type`    类型，可能是添加好友或群组
+    * @param `type`  类型，可能是添加好友或群组
     * @param time    申请时间
     */
   @JavaCompatible case class AddMessage(
@@ -103,10 +103,11 @@ object entities {
   /** 用户创建的好友列表
     *
     * @see table:t_friend_group
+    * @param id        分组ID
     * @param uid       用户id，该分组所属的用户ID
     * @param groupname 群组名称
     */
-  @JavaCompatible case class FriendGroup(uid: Int, groupname: String)
+  @JavaCompatible case class FriendGroup(id: Int, uid: Int, groupname: String)
 
   /** 群组信息
     *
@@ -135,9 +136,9 @@ object entities {
     *
     * @see table:t_message
     * @param `type` 随便定义，用于在服务端区分消息类型
-    * @param mine 我的信息
-    * @param to   对方信息
-    * @param msg  额外的信息
+    * @param mine   我的信息
+    * @param to     对方信息
+    * @param msg    额外的信息
     */
   @JavaCompatible case class Message(`type`: String, mine: Mine, to: To, msg: String)
 

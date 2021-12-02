@@ -447,12 +447,12 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   def createGroup(@RequestBody groupList: GroupList): ResultSet = {
     val ret = userService.createGroup(groupList)
     if (ret == -1) {
-      return ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
+      return ResultSet(-1, code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
     }
     if (userService.addGroupMember(ret, groupList.createId)) {
-      ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_GROUP_SUCCCESS)
+      ResultSet(ret, code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_GROUP_SUCCCESS)
     } else {
-      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
+      ResultSet(-1, code = SystemConstant.ERROR, msg = SystemConstant.CREATE_GROUP_ERROR)
     }
   }
 
@@ -465,10 +465,10 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   @ResponseBody
   def createUserGroup(@RequestBody friendGroup: FriendGroup): ResultSet = {
     val ret = userService.createFriendGroup(friendGroup.groupname, friendGroup.uid)
-    if (!ret) {
-      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_USER_GROUP_ERROR)
+    if (ret > 0) {
+      ResultSet(ret, code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_USER_GROUP_SUCCCESS)
     } else {
-      ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.CREATE_USER_GROUP_SUCCCESS)
+      ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.CREATE_USER_GROUP_ERROR)
     }
   }
 

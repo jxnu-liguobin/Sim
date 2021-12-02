@@ -40,6 +40,9 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                     dataType:"JSON",
                     type:"POST",
                     success:function(data) {
+                        if (data.data == null) {
+                            return;
+                        }
                         for(var i = 0; i < data.data.length; i ++){
                             layim.getMessage(data.data[i]);
                             console.log("离线消息："+ JSON.stringify(data.data[i]));
@@ -460,7 +463,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 type: 2
                 , maxmin: true
                 , title: '与 ' + friend.username + ' 的聊天记录'
-                , area: ['45%', '100%']
+                , area: ['100%', '45%']
                 , shade: false
                 , offset: 'rb'
                 , skin: 'layui-box'

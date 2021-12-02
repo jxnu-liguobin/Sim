@@ -33,7 +33,6 @@ class SystemHandlerInterceptor extends HandlerInterceptor {
       response.sendRedirect("/")
       false
     } else true
-    true
   }
 
   /** 请求处理之后进行调用，但是在视图被渲染之前(Controller方法调用之后)

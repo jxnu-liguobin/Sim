@@ -1,6 +1,6 @@
 layui.use(['jquery', 'layer', 'form', 'upload'], function () {
     var $ = layui.jquery, form = layui.form(), layer = layui.layer, upload = layui.upload;
-    var layim = parent.layim;
+    var layim = parent.parent.layim;
     layui.upload({
         url: '/user/upload/groupAvatar',
         methos: 'post'
@@ -59,16 +59,10 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
                 contentType: "application/json",
                 type: "POST",
                 data: JSON.stringify(d),
-                success: function (data) {
-                    if (data.code == 1) {
-                        layer.msg(data.msg, {time: 2000}, function () {
-                            window.parent.location.reload();//刷新父页面
-                        });
-                    } else if (data.code == 0) {
-                        layer.msg(data.msg, {time: 2000}, function () {
-                            window.parent.parent.location.reload();//刷新主页面,简单粗暴的方法,否则应该操作表单元素太麻烦
-                        });
-                    }
+                success: function (res) {
+                    layer.msg(res.msg, {time: 2000}, function () {
+                        window.parent.parent.location.reload();//刷新主页面,简单粗暴的方法,否则应该操作表单元素太麻烦
+                    });
                 },
                 error: function (data) {
                     layer.msg("服务器错误,请稍后再试！");
@@ -98,16 +92,18 @@ layui.use(['jquery', 'layer', 'form', 'upload'], function () {
                 contentType: "application/json",
                 type: "POST",
                 data: JSON.stringify(d),
-                success: function (data) {
-                    if (data.code == 1) {
-                        layer.msg(data.msg, {time: 2000}, function () {
-                            window.parent.location.reload();//刷新父页面
-                        });
-                    } else if (data.code == 0) {
-                        layer.msg(data.msg, {time: 2000}, function () {
-                            window.parent.parent.location.reload();//刷新主页面
+                success: function (res) {
+                    if (res.code == 0 && res.data != -1) {
+                        layim.addList({
+                            type: 'group'
+                            , avatar: window.location.protocol + '//' + window.location.host + group_avatar
+                            , groupname: groupname
+                            , id: res.data + ''
                         });
                     }
+                    layer.msg(res.msg, {time: 2000}, function () {
+                        window.parent.location.reload()
+                    });
                 },
                 error: function (data) {
                     layer.msg("服务器错误,请稍后再试！");

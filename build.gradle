@@ -39,7 +39,7 @@ jar {
         attributes 'Main-Class': 'io.github.dreamylost.Application'
     }
     archiveBaseName.set('Sim')
-    archiveVersion.set('1.3.0')
+    archiveVersion.set('1.3.1')
     destinationDirectory.set(file("$rootDir/dist"))
 }
 

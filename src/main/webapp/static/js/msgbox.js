@@ -47,7 +47,12 @@ layui.use(['layim', 'flow'], function(){
             layer.confirm("确定拒绝?",{icon:2,title:"提示"},function(index){
                 socket.send(JSON.stringify({
                     type:"refuseAddGroup",
-                    msg: JSON.stringify({toUid:uid,messageBoxId:messageBoxId})
+                    msg: JSON.stringify({
+                            toUid: uid,
+                            messageBoxId: messageBoxId,
+                            mine: layim.cache().mine
+                        }
+                    )
                 }));
                 layer.close(index);
                 othis.parent().html('<em>已拒绝</em>');
@@ -63,7 +68,13 @@ layui.use(['layim', 'flow'], function(){
             //同意该用户添加群
             socket.send(JSON.stringify({
                 type:"agreeAddGroup",
-                msg: JSON.stringify({toUid:uid,groupId:from_group,messageBoxId:messageBoxId})
+                msg: JSON.stringify({
+                        toUid: uid,
+                        groupId: from_group,
+                        messageBoxId: messageBoxId,
+                        mine:layim.cache().mine
+                    }
+                )
             }));
             othis.parent().html('已同意');
         },
@@ -119,11 +130,12 @@ layui.use(['layim', 'flow'], function(){
         //拒绝添加好友
         ,refuseAddFriend: function(othis){
             var li = othis.parents('li')
-                ,messageBoxId = li.data('messageboxid');
-
+                ,messageBoxId = li.data('messageboxid')
+                , uid = li.data('uid')
             layer.confirm('确定拒绝吗？', function(index){
                 $.post('/user/refuseFriend', {
-                    messageBoxId: messageBoxId
+                    messageBoxId: messageBoxId,
+                    to: uid
                 }, function(res){
                     if(res.code !== 0){
                         return layer.msg(res.msg);

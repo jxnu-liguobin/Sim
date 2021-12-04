@@ -13,6 +13,9 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
     function getFriend(friends, id) {
         var ele;
         friends.forEach(function (e) {
+            if(e.list == null) {
+                return;
+            }
             e.list.forEach(function (element) {
                 if (id == element.id) {
                     ele = element;
@@ -86,7 +89,6 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                     layim.getMessage(json);
                     break;
                 }
-                    ;
                 //监测好友在线状态
                 case "checkOnline": {
                     var style;
@@ -103,14 +105,12 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                     layim.setChatStatus('<span style="' + style + '">' + json.status + '</span>');
                     break;
                 }
-                    ;
                 //消息盒子
                 case "unHandMessage": {
                     //消息盒子未处理的消息
                     layim.msgbox(json.count);
                     break;
                 }
-                    ;
                 //删除好友消息，
                 case "delFriend": {
                     var friends = layim.cache().friend;
@@ -122,14 +122,12 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                     });
                     break;
                 }
-                    ;
                 //添加好友请求
                 case "addFriend": {
                     layer.alert("有新的用户添加你为好友,请查看消息盒子!", {icon: 0, time: 0, title: "添加信息"});
                     layim.msgbox(1);
                     break;
                 }
-                    ;
                 //同意添加好友时添加到好友列表中
                 case "agreeAddFriend": {
                     var group = eval("(" + json.msg + ")");
@@ -144,7 +142,37 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                     layer.alert("用户'" + json.mine.username + "'已同意添加你为好友!", {icon: 0, time: 0, title: "添加信息"});
                     break;
                 }
-                    ;
+                case "deleteGroup": {
+                    layim.removeList({
+                        type: 'group'
+                        , id: json.gid
+                    });
+                    layer.alert("用户'" + json.username + "'已解散群'" + json.groupname + "'!", {
+                        icon: 0,
+                        time: 0,
+                        title: "删除信息"
+                    });
+                    break;
+                }
+                case "agreeAddGroup": {
+                    var groupList = eval("(" + json.msg + ")");
+                    layim.addList({
+                        type: 'group'
+                        , avatar: groupList.avatar
+                        , groupname: groupList.groupname
+                        , id: groupList.id + ''
+                    });
+                    layer.alert("用户'" + json.mine.username + "'已同意你加入群！", {icon: 0, time: 0, title: "添加信息"});
+                    break;
+                }
+                case "refuseAddGroup": {
+                    layer.alert("用户'" + json.username + "'拒绝了你的加群申请！", {icon: 0, time: 0, title: "拒绝信息"});
+                    break;
+                }
+                case "refuseAddFriend": {
+                    layer.alert("用户'" + json.username + "'拒绝了你的好友申请！", {icon: 0, time: 0, title: "拒绝信息"});
+                    break;
+                }
                 //请求加群
                 case "addGroup": {
                     layer.alert("有新的用户申请加群,请查看消息盒子!", {icon: 0, time: 0, title: "添加信息"});
@@ -444,12 +472,15 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 icon: 3
             }, function () {
                 $.post('/user/leaveOutGroup', {
-                    groupId: groupId
+                    groupId: groupId,
+                    uid: layim.cache().mine.id
                 }, function (res) {
                     if (res.code == 0) {
                         layim.removeList({type: 'group', id: groupId});
+                        if (res.data == layim.cache().mine.id) {
+                            layer.alert("你已解散该群!", {icon: 0, time: 0, title: "删除信息"});
+                        }
                     }
-                    layer.msg(res.msg);
                     layer.close(index);
                 }, "json");
             });
@@ -463,7 +494,7 @@ layui.use(['layim', 'jquery', 'laytpl'], function (layim) {
                 type: 2
                 , maxmin: true
                 , title: '与 ' + friend.username + ' 的聊天记录'
-                , area: ['100%', '45%']
+                , area: ['40%', '80%']
                 , shade: false
                 , offset: 'rb'
                 , skin: 'layui-box'

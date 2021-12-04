@@ -20,6 +20,8 @@ import java.util
   */
 trait UserRepository {
 
+  import scala.annotation.meta.setter
+
   /** 创建群
     *
     * @param groupList 群组对象
@@ -55,6 +57,16 @@ trait UserRepository {
     */
   @Delete(Array("delete from t_group_members where gid=#{gid} and uid=#{uid}"))
   def leaveOutGroup(groupMember: GroupMember): Int
+
+  /** 退出群
+    *
+    * @param gid 群id
+    * @see GroupMember.scala
+    * @return Int
+    */
+  @Results(value = Array(new Result(column = "uid", javaType = classOf[Integer])))
+  @Select(Array("select uid from t_group_members where gid=#{gid}"))
+  def findGroupMembers(gid: Int): util.List[Integer]
 
   /** 添加群成员
     *
@@ -273,7 +285,7 @@ trait UserRepository {
     *
     * @param uid  消息所属用户
     * @param mid  来自哪个用户
-    * @param Type 消息类型，可能来自friend或者group
+    * @param type 消息类型，可能来自friend或者group
     * @return List[Receive]
     */
   @Results(value = Array(new Result(property = "id", column = "mid")))

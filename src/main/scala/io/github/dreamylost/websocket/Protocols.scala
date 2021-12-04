@@ -9,6 +9,8 @@ import io.github.dreamylost.util.Jackson
   */
 object Protocols {
 
+  import io.github.dreamylost.model.Mine
+
   sealed trait ImProtocol {
     self =>
     @inline final def stringify: String = self match {
@@ -74,9 +76,9 @@ object Protocols {
     */
   case class Group(groupId: Int, remark: String)
 
-  /** 同意添加好友
+  /** 同意添加群
     */
-  case class AgreeAddGroup(toUid: Int, groupId: Int, messageBoxId: Int)
+  case class AddRefuseMessage(toUid: Int, groupId: Int, messageBoxId: Int, mine: Mine)
 
   case class TransmitMessage(uId: Int, msg: String, originActorRef: ActorRef) {
     def getMessage: Message = Jackson.mapper.readValue[Message](msg)

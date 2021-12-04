@@ -49,13 +49,16 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
   @ResponseBody
   @PostMapping(Array("/leaveOutGroup"))
   def leaveOutGroup(
-      @RequestParam("groupId") groupId: Integer,
+      @RequestParam("groupId") groupId: Int,
+      @RequestParam("uid") uid: Int,
       request: HttpServletRequest
   ): ResultSet = {
-    val user = request.getSession.getAttribute("user").asInstanceOf[User]
-    val result = userService.leaveOutGroup(groupId, user.id)
-    if (result) ResultSet(code = SystemConstant.SUCCESS, msg = SystemConstant.SUCCESS_MESSAGE)
-    else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.LEAVEOUT_GROUP_ERROR)
+    val masterId = userService.findGroupById(groupId).createId
+    val result = userService.leaveOutGroup(groupId, uid)
+    if (result) {
+      // 返回创建者用于弹窗
+      ResultSet(masterId, code = SystemConstant.SUCCESS, msg = SystemConstant.SUCCESS_MESSAGE)
+    } else ResultSet(code = SystemConstant.ERROR, msg = SystemConstant.ERROR_MESSAGE)
   }
 
   /** 删除好友
@@ -98,15 +101,18 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     *
     * @param request
     * @param messageBoxId 消息盒子的消息id
+    * @param to 拒绝谁
     * @return String
     */
   @ResponseBody
   @PostMapping(Array("/refuseFriend"))
   def refuseFriend(
-      @RequestParam("messageBoxId") messageBoxId: Integer,
+      @RequestParam("messageBoxId") messageBoxId: Int,
+      @RequestParam("to") to: Int,
       request: HttpServletRequest
   ): ResultSet = {
-    ResultSet(userService.updateAddMessage(messageBoxId, 2))
+    val user = request.getSession.getAttribute("user").asInstanceOf[User]
+    ResultSet(userService.refuseAddFriend(messageBoxId, user, to))
   }
 
   /** 同意添加好友
@@ -283,7 +289,10 @@ class UserController @Autowired() (userService: UserService, cookieService: Cook
     val user = request.getSession.getAttribute("user").asInstanceOf[User]
     log.info(s"find offline msg [uid = ${user.id}]")
     val groups = userService.findGroupsById(user.id).asScala.map(_.id).toList
-    val groupMsg = groups.flatMap(gId => userService.findOffLineMessage(gId, 0).asScala)
+    // 排除我发的
+    val groupMsg = groups.flatMap(gId =>
+      userService.findOffLineMessage(gId, 0).asScala.filter(m => m.fromid == user.id)
+    )
     val useMsg = userService.findOffLineMessage(user.id, 0).asScala.toList
     val receives = (useMsg ++ groupMsg).map { receive =>
       val user = userService.findUserById(receive.fromid)

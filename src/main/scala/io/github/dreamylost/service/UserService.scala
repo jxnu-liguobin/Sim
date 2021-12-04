@@ -10,13 +10,15 @@ import io.github.dreamylost.util.DateUtil
 import io.github.dreamylost.util.SecurityUtil
 import io.github.dreamylost.util.UUIDUtil
 import io.github.dreamylost.util.WebUtil
+import io.github.dreamylost.websocket.WebSocketService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.logging.{ Logger => _ }
+
 import java.util
+import java.util.logging.{ Logger => _ }
 import javax.servlet.http.HttpServletRequest
 import scala.jdk.CollectionConverters._
 
@@ -29,6 +31,9 @@ import scala.jdk.CollectionConverters._
 @log(logType = LogType.Slf4j)
 class UserService @Autowired() (userRepository: UserRepository, mailService: MailService) {
 
+  @Autowired
+  private var wsService: WebSocketService = _
+
   /** 退出群
     *
     * @param gid 群组id
@@ -36,7 +41,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     * @return Boolean
     */
   @CacheEvict(
-    value = Array("findUserById", "findGroupsById", "findUserByGroupId"),
+    value = Array("findUserById", "findGroupsById", "findUserByGroupId", "findGroupById"),
     allEntries = true
   )
   @Transactional
@@ -44,8 +49,28 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
     //创建者退群，直接解散群,此处逻辑可自行调整
     val group = userRepository.findGroupById(gid)
     if (group == null) return false
-    if (group.createId.equals(uid)) false
-    else userRepository.leaveOutGroup(GroupMember(gid, uid)) == 1
+    if (group.createId.equals(uid)) {
+      // 群主退出
+      val users = userRepository.findGroupMembers(gid)
+      val master = findUserById(group.createId)
+      users.asScala.foreach { uid =>
+        wsService.deleteGroup(master, group.groupname, gid, uid)
+        userRepository.leaveOutGroup(GroupMember(gid, uid))
+      }
+      userRepository.deleteGroup(gid) == 1
+    } else {
+      userRepository.leaveOutGroup(GroupMember(gid, uid)) == 1
+    }
+  }
+
+  /** 根据ID查找群
+    *
+    * @param gid
+    * @return
+    */
+  @Cacheable(value = Array("findGroupById"), keyGenerator = "wiselyKeyGenerator")
+  def findGroupById(gid: Int): GroupList = {
+    userRepository.findGroupById(gid)
   }
 
   /** 添加群成员
@@ -59,6 +84,7 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
   @CacheEvict(value = Array("findUserByGroupId", "findGroupsById"), allEntries = true)
   def addGroupMember(gid: Int, uid: Int, messageBoxId: Int): Boolean = {
     val group = userRepository.findGroupById(gid)
+    if (group == null) return false
     if (group != null && group.createId.equals(uid)) {
       //自己加自己的群，默认同意
       updateAddMessage(messageBoxId, 1)
@@ -254,11 +280,23 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
   }
 
   @Transactional
+  def refuseAddFriend(messageBoxId: Int, user: User, to: Int): Boolean = {
+    wsService.refuseAddFriend(messageBoxId, user, to)
+  }
+
+  /** 好友消息已读
+    *
+    * @param mine
+    * @param to
+    * @return
+    */
+  @Transactional
   def readFriendMessage(mine: Int, to: Int): Boolean = {
     userRepository.readMessage(mine, to, SystemConstant.FRIEND_TYPE) == 1
   }
 
   /** 将本群中的所有消息对我标记为已读
+    *
     * @param gId
     * @param to 群离线消息的接收人to就是群的ID
     * @return
@@ -312,8 +350,8 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
 
   /** 统计查询消息
     *
-    * @param uid  消息所属用户id、用户个人id
-    * @param mid  来自哪个用户
+    * @param uid    消息所属用户id、用户个人id
+    * @param mid    来自哪个用户
     * @param `type` 消息类型，可能来自friend或者group
     * @return Int
     */
@@ -326,8 +364,8 @@ class UserService @Autowired() (userRepository: UserRepository, mailService: Mai
 
   /** 查询历史消息
     *
-    * @param user 所属用户、用户个人
-    * @param mid  来自哪个用户
+    * @param user   所属用户、用户个人
+    * @param mid    来自哪个用户
     * @param `type` 消息类型，可能来自friend或者group
     * @see User.scala
     * @return List[ChatHistory]

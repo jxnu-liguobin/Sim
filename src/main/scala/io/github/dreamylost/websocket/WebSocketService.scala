@@ -14,6 +14,7 @@ import io.github.dreamylost.model.entities.User
 import io.github.dreamylost.service.UserService
 import io.github.dreamylost.util.DateUtil
 import io.github.dreamylost.util.Jackson
+import io.github.dreamylost.websocket.Protocols.ImProtocol
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -32,10 +33,11 @@ import scala.jdk.CollectionConverters._
 @Service
 @log(logType = LogType.Slf4j)
 class WebSocketService @Autowired() (
-    userService: UserService,
     redisService: RedisService,
     objectMapper: ObjectMapper with ScalaObjectMapper
 ) {
+  @Autowired
+  private var userService: UserService = _
 
   final lazy val actorRefSessions: ConcurrentHashMap[Integer, ActorRef] =
     new ConcurrentHashMap[Integer, ActorRef]
@@ -52,6 +54,8 @@ class WebSocketService @Autowired() (
       val receive = getReceive(message)
       //聊天类型，可能来自朋友或群组
       if (SystemConstant.FRIEND_TYPE == message.to.`type`) {
+        val us = userService.findUserById(gid)
+        if (us == null) return
         val msg = if (actorRefSessions.containsKey(gid)) {
           val actorRef = actorRefSessions.get(gid)
           val tmpReceiveArchive = receive.copy(status = 1)
@@ -70,6 +74,8 @@ class WebSocketService @Autowired() (
 
   private def buildGroupMessage(message: Message, receive: Receive, gid: Int): Unit = {
     var receiveArchive: Receive = receive.copy(id = gid)
+    val group = userService.findGroupById(gid)
+    if (group == null) return
     //找到群组id里面的所有用户
     val users: util.List[User] = userService.findUserByGroupId(gid)
     //过滤掉本身的uid
@@ -87,14 +93,28 @@ class WebSocketService @Autowired() (
   }
 
   /** 同意添加成员
+    * 群解散后，申请和拒绝已经修改等都需要处理，这里暂时没有考虑
     *
     * @param msg
     */
   def agreeAddGroup(msg: Message): Unit = {
     log.debug(s"同意入群消息 => [msg = $msg]")
-    val agree = objectMapper.readValue[Protocols.AgreeAddGroup](msg.msg)
+    val agree = objectMapper.readValue[Protocols.AddRefuseMessage](msg.msg)
     agree.messageBoxId.synchronized {
-      userService.addGroupMember(agree.groupId, agree.toUid, agree.messageBoxId)
+      val ret = userService.addGroupMember(agree.groupId, agree.toUid, agree.messageBoxId)
+      if (!ret) return
+      val groupList = userService.findGroupById(agree.groupId)
+      // 通知加群成功
+      val actor = actorRefSessions.get(agree.toUid)
+      if (actor != null) {
+        val message = Message(
+          `type` = ImProtocol.agreeAddGroup.stringify,
+          mine = agree.mine,
+          to = null,
+          msg = Jackson.mapper.writeValueAsString(groupList)
+        )
+        sendMessage(objectMapper.writeValueAsString(message), actor)
+      }
     }
   }
 
@@ -104,9 +124,56 @@ class WebSocketService @Autowired() (
     */
   def refuseAddGroup(msg: Message): Unit = {
     log.debug(s"拒绝入群消息 => [msg = $msg]")
-    val refuse = objectMapper.readValue[Protocols.AgreeAddGroup](msg.msg)
+    val refuse = objectMapper.readValue[Protocols.AddRefuseMessage](msg.msg)
     refuse.messageBoxId.synchronized {
       userService.updateAddMessage(refuse.messageBoxId, 2)
+      val actor = actorRefSessions.get(refuse.toUid)
+      if (actor != null) {
+        val result = new util.HashMap[String, String]()
+        result.put("type", "refuseAddGroup")
+        result.put("username", refuse.mine.username)
+        sendMessage(objectMapper.writeValueAsString(result), actor)
+      }
+    }
+  }
+
+  /** 拒绝加群
+    *
+    * @param messageBoxId
+    * @param user
+    * @param to
+    */
+  def refuseAddFriend(messageBoxId: Int, user: User, to: Int): Boolean = {
+    messageBoxId.synchronized {
+      val actor = actorRefSessions.get(to)
+      if (actor != null) {
+        val result = new util.HashMap[String, String]()
+        result.put("type", "refuseAddFriend")
+        result.put("username", user.username)
+        sendMessage(objectMapper.writeValueAsString(result), actor)
+      }
+      userService.updateAddMessage(messageBoxId, 2)
+    }
+  }
+
+  /** 群主删除群，在线用户收到群解散消息
+    *
+    * @param master
+    * @param gid
+    * @param uid
+    */
+  def deleteGroup(master: User, groupname: String, gid: Int, uid: Int): Unit = {
+    gid.synchronized {
+      val result = new util.HashMap[String, String]
+      val actor = actorRefSessions.get(uid)
+      if (actor != null && uid != master.id) {
+        result.put("type", "deleteGroup")
+        result.put("username", master.username)
+        result.put("uid", master.id + "")
+        result.put("groupname", groupname)
+        result.put("gid", gid + "")
+        sendMessage(objectMapper.writeValueAsString(result), actor)
+      }
     }
   }
 
@@ -120,10 +187,11 @@ class WebSocketService @Autowired() (
       log.debug(s"删除好友通知消息 => [uId = $uId, friendId = $friendId ]")
       //对方是否在线，在线则处理，不在线则不处理
       val result = new util.HashMap[String, String]
-      if (actorRefSessions.get(friendId) != null) {
+      val actor = actorRefSessions.get(friendId)
+      if (actor != null) {
         result.put("type", Protocols.ImProtocol.delFriend.stringify)
         result.put("uId", uId + "")
-        sendMessage(objectMapper.writeValueAsString(result), actorRefSessions.get(friendId))
+        sendMessage(objectMapper.writeValueAsString(result), actor)
       }
     }
 
@@ -149,9 +217,10 @@ class WebSocketService @Autowired() (
         )
       )
       val result = new util.HashMap[String, String]
-      if (actorRefSessions.get(to.id) != null) {
+      val actorRef = actorRefSessions.get(to.id)
+      if (actorRef != null) {
         result.put("type", Protocols.ImProtocol.addGroup.stringify)
-        sendMessage(objectMapper.writeValueAsString(result), actorRefSessions.get(to.id))
+        sendMessage(objectMapper.writeValueAsString(result), actorRef)
       }
     }
 
@@ -176,11 +245,12 @@ class WebSocketService @Autowired() (
       userService.saveAddMessage(addMessageCopy)
       val result = new util.HashMap[String, String]
       //如果对方在线，则推送给对方
-      if (actorRefSessions.get(message.to.id) != null) {
+      val actorRef = actorRefSessions.get(message.to.id)
+      if (actorRef != null) {
         result.put("type", Protocols.ImProtocol.addFriend.stringify)
         sendMessage(
           objectMapper.writeValueAsString(result),
-          actorRef = actorRefSessions.get(message.to.id)
+          actorRef = actorRef
         )
       }
     }

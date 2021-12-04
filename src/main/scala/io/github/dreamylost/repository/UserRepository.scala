@@ -20,8 +20,6 @@ import java.util
   */
 trait UserRepository {
 
-  import scala.annotation.meta.setter
-
   /** 创建群
     *
     * @param groupList 群组对象

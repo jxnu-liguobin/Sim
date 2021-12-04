@@ -3,13 +3,12 @@ package io.github.dreamylost.websocket
 import akka.actor.ActorRef
 import io.github.dreamylost.model.entities.Message
 import io.github.dreamylost.util.Jackson
+import io.github.dreamylost.model.Mine
 
 /** @author 梦境迷离
   * @version 1.0,2021/11/25
   */
 object Protocols {
-
-  import io.github.dreamylost.model.Mine
 
   sealed trait ImProtocol {
     self =>

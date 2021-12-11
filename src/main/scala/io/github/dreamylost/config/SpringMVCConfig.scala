@@ -55,7 +55,7 @@ class SpringMVCConfig extends WebMvcConfigurerAdapter {
     *
     * @param registry
     */
-  override def addResourceHandlers(registry: ResourceHandlerRegistry) {
+  override def addResourceHandlers(registry: ResourceHandlerRegistry): Unit = {
     registry
       .addResourceHandler("swagger-ui.html")
       .addResourceLocations("classpath:/META-INF/resources/")

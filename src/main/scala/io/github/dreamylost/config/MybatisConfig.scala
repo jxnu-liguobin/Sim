@@ -1,8 +1,8 @@
 package io.github.dreamylost.config
 
 import com.github.pagehelper.PageHelper
-import io.github.dreamylost.log
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.log
+import org.bitlap.tools.logs.LogType
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

@@ -1,7 +1,7 @@
 package io.github.dreamylost.model
 
 import io.github.dreamylost.model.entities.User
-import io.github.dreamylost.JavaCompatible
+import org.bitlap.tools.JavaCompatible
 
 /** @author 梦境迷离
   * @since 2021/11/21

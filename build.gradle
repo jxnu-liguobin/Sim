@@ -86,16 +86,16 @@ dependencies {
     compile("org.apache.taglibs:taglibs-standard-impl:1.2.5")
 
     //akka http
-    compile group: 'com.typesafe.akka', name: 'akka-actor_2.13', version: '2.5.32'
-    compile group: 'com.typesafe.akka', name: 'akka-http_2.13', version: '10.1.10'
-    compile group: 'com.typesafe.akka', name: 'akka-slf4j_2.13', version: '2.5.32'
-    compile group: 'com.typesafe.akka', name: 'akka-stream_2.13', version: '2.5.32'
+    compile 'com.typesafe.akka:akka-actor_2.13:2.5.32'
+    compile 'com.typesafe.akka:akka-http_2.13:10.1.10'
+    compile 'com.typesafe.akka:akka-slf4j_2.13:2.5.32'
+    compile 'com.typesafe.akka:akka-stream_2.13:2.5.32'
 
     //publish
-    compile group: 'org.reactivestreams', name: 'reactive-streams', version: '1.0.0'
+    compile 'org.reactivestreams:reactive-streams:1.0.0'
 
     //config
-    compile group: 'com.typesafe', name: 'config', version: '1.2.1'
+    compile 'com.typesafe:config:1.2.1'
 
     // scala 序列化
     compile 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
@@ -105,7 +105,7 @@ dependencies {
     compile 'com.fasterxml.jackson.module:jackson-modules-java8:2.13.0'
 
     //  自己写的的工具
-    compile 'io.github.jxnu-liguobin:scala-macro-tools_2.13:0.3.2'
+    compile 'org.bitlap:scala-macro-tools_2.13:0.3.4'
 
     //test
     testCompile("org.springframework.boot:spring-boot-starter-test")

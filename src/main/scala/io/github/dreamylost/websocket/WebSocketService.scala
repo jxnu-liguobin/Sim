@@ -4,8 +4,8 @@ import akka.actor.ActorRef
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.ScalaObjectMapper
 import io.github.dreamylost.constant.SystemConstant
-import io.github.dreamylost.log
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.log
+import org.bitlap.tools.logs.LogType
 import io.github.dreamylost.model.domains.Add
 import io.github.dreamylost.model.domains.Receive
 import io.github.dreamylost.model.entities.AddMessage

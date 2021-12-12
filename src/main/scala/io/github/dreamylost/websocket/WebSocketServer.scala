@@ -6,8 +6,8 @@ import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.settings.ServerSettings
 import akka.util.ByteString
 import com.typesafe.config.ConfigFactory
-import io.github.dreamylost.log
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.log
+import org.bitlap.tools.logs.LogType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

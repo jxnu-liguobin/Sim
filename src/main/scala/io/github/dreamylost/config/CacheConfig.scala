@@ -9,8 +9,8 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.ScalaObjectMapper
-import io.github.dreamylost.log
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.log
+import org.bitlap.tools.logs.LogType
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.CachingConfigurerSupport

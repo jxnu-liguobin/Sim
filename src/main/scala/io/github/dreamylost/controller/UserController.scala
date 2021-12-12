@@ -2,7 +2,7 @@ package io.github.dreamylost.controller
 
 import com.github.pagehelper.PageHelper
 import io.github.dreamylost.constant.SystemConstant
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.logs.LogType
 import io.github.dreamylost.model._
 import io.github.dreamylost.model.domains.UserVo
 import io.github.dreamylost.model.domains._
@@ -15,7 +15,7 @@ import io.github.dreamylost.util.FileUtil
 import io.github.dreamylost.util.SecurityUtil
 import io.github.dreamylost.ResultPageSet
 import io.github.dreamylost.ResultSet
-import io.github.dreamylost.log
+import org.bitlap.tools.log
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired

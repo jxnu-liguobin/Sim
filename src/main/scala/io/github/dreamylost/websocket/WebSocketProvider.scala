@@ -15,8 +15,8 @@ import akka.stream.scaladsl.Keep
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
 import io.github.dreamylost.constant.SystemConstant
-import io.github.dreamylost.log
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.log
+import org.bitlap.tools.logs.LogType
 import io.github.dreamylost.model.entities.{ Message => IMMessage }
 import io.github.dreamylost.util.Jackson
 import io.github.dreamylost.websocket.Protocols._

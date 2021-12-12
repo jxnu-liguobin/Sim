@@ -1,7 +1,7 @@
 package io.github.dreamylost.service
 
-import io.github.dreamylost.log
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.log
+import org.bitlap.tools.logs.LogType
 import io.github.dreamylost.model.entities.User
 import org.springframework.stereotype.Service
 
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse
 @log(logType = LogType.Slf4j)
 class CookieService {
 
-  def addCookie(user: User, request: HttpServletRequest, response: HttpServletResponse) {
+  def addCookie(user: User, request: HttpServletRequest, response: HttpServletResponse): Unit = {
     val baseE: Base64.Encoder = Base64.getEncoder
     val baseD: Base64.Decoder = Base64.getDecoder
     //记住用户名、密码功能(注意：cookie存放密码会存在安全隐患)

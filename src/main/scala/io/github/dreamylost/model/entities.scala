@@ -1,6 +1,6 @@
 package io.github.dreamylost.model
 
-import io.github.dreamylost.JavaCompatible
+import org.bitlap.tools.JavaCompatible
 
 import java.util.Date
 

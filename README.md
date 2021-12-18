@@ -81,3 +81,17 @@ Sim
 # 在Sim目录执行
 bash deploy.sh 1.3.0 # 1.3.0表示最新版本号
 ```
+
+## TODO
+
+- 使用`scalikejdbc`替代`mybatis`
+- 使用纯`HTML`替代余下的`jsp`
+- 使用`akka-http`替代`springmvc`
+- 使用`zio`替代`springboot`
+- 使用`zio-ftp`存储图片和文件，移除`scala.util.Using`
+- 使用`zio-json`替代`Jackson`
+- 使用`zio-crypto`替代`spring-security`
+- 使用`zio-redis`替代`jedis`
+- 使用`sbt`替代`gradle`
+- 考虑使用`zio-logging`、`zio-actors`
+- 达成目标：完全基于ZIO生态的安全、异步、函数式风格的Scala IM系统。（仅用于学习）

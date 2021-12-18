@@ -1,6 +1,6 @@
 package io.github.dreamylost.model
 
-import io.github.dreamylost.JavaCompatible
+import org.bitlap.tools.JavaCompatible
 import io.github.dreamylost.model.domains.FriendList
 import io.github.dreamylost.model.entities.GroupList
 import io.github.dreamylost.model.entities.User

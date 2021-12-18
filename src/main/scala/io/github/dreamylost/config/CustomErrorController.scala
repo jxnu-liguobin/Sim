@@ -1,7 +1,7 @@
 package io.github.dreamylost.config
 
-import io.github.dreamylost.log
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.log
+import org.bitlap.tools.logs.LogType
 import org.springframework.boot.autoconfigure.web.ErrorController
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping

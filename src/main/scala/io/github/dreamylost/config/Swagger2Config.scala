@@ -30,17 +30,16 @@ class Swagger2Config {
       .paths(PathSelectors.any())
       .build()
 
-  private lazy val apiInfo: () => ApiInfo = () =>
+  private lazy val apiInfo: () => ApiInfo = () => {
     new ApiInfoBuilder()
       // 页面标题
       .title("Sim")
       // 创建人
-      .description("梦境迷离：https://github.com/jxnu-liguobin")
-      .termsOfServiceUrl("https://github.com/jxnu-liguobin")
-      // 创建人
-      .contact("梦境迷离")
+      .description("Scala即时通讯系统")
+      .termsOfServiceUrl("https://github.com/jxnu-liguobin/Sim")
+      .contact("dreamylost@outlook.com")
       // 版本号
-      .version("1.3")
+      .version("1.3.1")
       .build()
-
+  }
 }

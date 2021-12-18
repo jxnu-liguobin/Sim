@@ -1,8 +1,8 @@
 package io.github.dreamylost.service
 
 import io.github.dreamylost.constant.SystemConstant
-import io.github.dreamylost.log
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.log
+import org.bitlap.tools.logs.LogType
 import io.github.dreamylost.model.domains._
 import io.github.dreamylost.model.entities._
 import io.github.dreamylost.repository.UserRepository

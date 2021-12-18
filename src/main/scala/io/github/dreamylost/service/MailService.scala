@@ -1,7 +1,7 @@
 package io.github.dreamylost.service
 
-import io.github.dreamylost.log
-import io.github.dreamylost.logs.LogType
+import org.bitlap.tools.log
+import org.bitlap.tools.logs.LogType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.FileSystemResource

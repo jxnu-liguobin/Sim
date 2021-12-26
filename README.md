@@ -4,6 +4,9 @@
 
 [在线API文档 swagger-ui](http://im.dreamylost.cn:8989/swagger-ui.html)
 
+敬请关注进阶版：https://github.com/bitlap/zim 基于scala、zio、tapir、circe、akka-http、scalikejdbc、redis实现的纯异步、函数式、流式API的LayIM。
+
+
 ### 技术栈
 
 - 开发语言：Scala

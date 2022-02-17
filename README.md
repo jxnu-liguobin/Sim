@@ -85,7 +85,7 @@ Sim
 bash deploy.sh 1.3.0 # 1.3.0表示最新版本号
 ```
 
-## TODO
+## TODO zim将完成下面工作
 
 - [x] 使用`scalikejdbc`替代`mybatis`
 - [x] 使用纯`HTML`替代余下的`jsp`
